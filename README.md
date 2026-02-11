@@ -1,4 +1,35 @@
-# E-comerce musica
+# 🎵 Tienda de Música — E-commerce con Django
+
+Sistema web de comercio electrónico para la venta de música en formato **digital y físico**, desarrollado con **Django y PostgreSQL**.
+
+---
+
+## 🚀 Características principales
+
+- Catálogo de productos (álbumes, singles, vinilos, etc.)
+- Imágenes de portada para cada producto  
+- Administración con Django Admin  
+- Base de datos PostgreSQL  
+- Frontend con React y Bootstrap
+- Arquitectura MVC (MTV) de Django  
+- Preparado para futura integración de carrito de compras y pagos
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+- **Python 3.11+**
+- **Django 4.x**
+- **PostgreSQL**
+- **Git & GitHub**
+- **React & Bootstrap**
+- (Opcional a futuro) HTML, CSS
+
+---
+
+## 📁 Estructura del proyecto (resumen)
+
+
 E-comerce de venta de musica
 
 MARTES 10 DE FEBRERO 2026
@@ -47,6 +78,16 @@ python manage.py migrate
 7. Para finalizar el dia, se crea un archivo .gitignore para que cuando se haga el commit al main no tenga errores.
 
 
+## Miercoles 11 de Febrero: estructura del frontend ## 
+
+Se instala react para empezar el frontend, en este se instala bootstrap para que la pagina se vea bonita. Se crea una carpeta llamada **Components** donde se va a almzazenar todos los componentes reutilizables de la pagina, ahi se crea el **HomePage** de la tienda y se declara en **App.js** que es el archivo encargado de que se vean las cosas, como se muestra en el sigueinte grafico 
+
+| Archivo / Carpeta | Qué es                  |
+| ----------------- | ----------------------- |
+| **index.js**      | Arranca React           |
+| **App.js**        | Controla qué se muestra |
+| **components/**   | Guarda piezas visuales  |
+| **HomePage.js**   | Tu página de inicio     |
 
 
 
