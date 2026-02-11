@@ -44,6 +44,7 @@ python manage.py migrate
 
 6.Ahora se crea una pagina de inicio en tienda_app, para eso se crea un archivo llamado urls.py donde se crea la pagina de home. Y esta se tiene que declarar en el settings.py
 
+7. Para finalizar el dia, se crea un archivo .gitignore para que cuando se haga el commit al main no tenga errores.
 
 
 
