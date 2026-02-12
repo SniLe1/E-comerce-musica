@@ -160,6 +160,14 @@ Se creo en **components** el archivo **HomePage.css** donde se hizo mas bonita l
 
 Se arreglo el problema de que no se veian los productos
 
+cuando de error de node-module se escribe la siguiente linea de comando para que se reinstale el archivo 
+
+Remove-Item -Recurse -Force node_modules
+Remove-Item package-lock.json
+npm install
+npm start
+
+
 
 
 
