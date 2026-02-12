@@ -89,6 +89,78 @@ Se instala react para empezar el frontend, en este se instala bootstrap para que
 | **components/**   | Guarda piezas visuales  |
 | **HomePage.js**   | Tu página de inicio     |
 
+Ahora vamos a conectar el frontend con el backend
+
+|                                                             |
+|React (frontend)   <--HTTP-->   Django (backend + PostgreSQL)|
+|      3000                           8000                    |
+|                                                             |
+
+**Antes**: Django servía páginas por sí solo.
+
+**Ahora**: Django = servidor de datos (API + PostgreSQL)
+
+**React** = interfaz visual (cliente que pide datos)
+
+Lo que se hizo con la instalacion de **djangorestframework** fue convertirlo en una API
+declarandolo en **settings.py** como **restframework** 
+
+👉 Django dejó de ser solo un “generador de páginas web” y pasó a ser un servidor de datos en formato JSON.
+
+| Antes                    | Ahora                              |
+| ------------------------ | ---------------------------------- |
+| Django devolvía HTML     | Django devuelve **JSON (datos)**   |
+|                          |                                    |
+| Pensado para navegadores | Pensado para React, apps y móviles |
+
+## Creamos un traductor de modelos → JSON (Serializer) ##
+
+class ProductoSerializer(serializers.ModelSerializer):
+
+Toma tu modelo de PostgreSQL y lo convierte en algo que React puede entender.
+
+## React dejó de ser estático → pasó a ser dinámico ##
+
+Antes tu HomePage solo mostraba texto fijo. Ahora React vaya a buscar datos a Django automáticamente cuando carga la página.
+
+|useEffect(() => {                              |
+|  fetch("http://127.0.0.1:8000/api/productos/")|
+|    .then(response => response.json())         |   
+|    .then(data => setProductos(data));         |
+|}, []);                                        |
+
+Esto significa:
+
+“Cuando la página se abra, ve a Django y tráeme los productos”.
+
+## Creamos un “estado” en React ## 
+
+Con esto: **const [productos, setProductos] = useState([]);** 👉 “Guarda aquí los productos que vengan del backend”.
+
+## Dibujamos tarjetas automáticamente ##
+
+Este código: {productos.map(prod => (
+  <div key={prod.id} className="col-md-4 mb-4">
+
+Ahora la estructura quedo asi: 
+
+PostgreSQL
+     ↓
+Django Models (Producto)
+     ↓
+Django REST API (/api/productos/)
+     ↓
+React (fetch)
+     ↓
+Pantalla con tarjetas Bootstrap
+
+## Añadir css a la pagina ## 
+
+Se creo en **components** el archivo **HomePage.css** donde se hizo mas bonita la pagina
+
+Se arreglo el problema de que no se veian los productos
+
+
 
 
 

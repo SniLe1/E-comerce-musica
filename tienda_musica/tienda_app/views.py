@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .models import Producto
+from .serializers import ProductoSerializer
 
-from django.http import HttpResponse
-
-def home(request):
-    return HttpResponse("Bienvenido a la Tienda de Música 🎵")
-
+@api_view(['GET'])
+def lista_productos(request):
+    productos = Producto.objects.all()
+    serializer = ProductoSerializer(productos, many=True)
+    return Response(serializer.data)
