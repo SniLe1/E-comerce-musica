@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('tienda_app.urls')),
     path('api/', include('tienda_app.urls')),
+    path('api/users/', include('users.urls')), #--- Agrega las URLs de la aplicación de usuarios   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

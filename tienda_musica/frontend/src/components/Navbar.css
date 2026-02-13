@@ -1,0 +1,113 @@
+.navbar-vintage {
+  background-color: #3e2c23;
+  padding: 0; /* quitamos padding vertical */
+  height: 90px; /* altura fija elegante */
+  display: flex;
+  justify-content: center;
+  border-top: 4px double #d2b48c;
+  border-bottom: 4px double #d2b48c;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+
+.nav-container {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* ESTE es el importante */
+  height: 100%;
+}
+
+
+/* LOGO EFECTO GRABADO */
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  letter-spacing: 3px;
+  color: #f5e6c8;
+  padding: 0.5rem 1.2rem;
+  border: 2px solid #d2b48c;
+  text-transform: uppercase;
+
+  /* efecto grabado */
+  text-shadow:
+    1px 1px 0 #2a1d17,
+    -1px -1px 0 #5a4032;
+}
+
+/* LINKS */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center; /* esto los baja al centro real */
+  gap: 2rem;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+.nav-links li {
+  font-family: 'Playfair Display', serif;
+  color: #f5e6c8;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  line-height: 1; /* evita que el texto empuje hacia arriba */
+  display: flex;
+  align-items: center;
+}
+
+
+.nav-links li:hover {
+  border: 1px solid #d2b48c;
+  background-color: rgba(210, 180, 140, 0.1);
+  color: #d2b48c;
+}
+
+/* MENU HAMBURGUESA */
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  color: #f5e6c8;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    background-color: #3e2c23;
+    width: 220px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* importante */
+    gap: 0;
+    padding: 0.8rem 0;
+    border: 2px solid #d2b48c;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    display: none;
+    border-radius: 6px;
+  }
+
+  .nav-links li {
+    width: 100%;
+    display: flex;
+    justify-content: center;  /* centra horizontal */
+    align-items: center;      /* centra vertical */
+    padding: 0.9rem 0;
+    text-align: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+}
+

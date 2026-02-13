@@ -167,6 +167,62 @@ Remove-Item package-lock.json
 npm install
 npm start
 
+## Jueves 12 de febrero: Corregir home page y agregar navbar ##
+
+Se corrige con css las tarjetas de catalogo haciendolas vintage y con un boton de **ver detalle**
+
+## Navbar ## 
+
+Se crea un archivo nuevo en **components** llamado **navbar.js y navbar.css** donde se va a crear el header de la pagina y donde estarian todos los links y el logo de la pagina, ademas se hace responsive para que la gente que ve la pagina en celulares pueda verla sin problemas 
+
+## Creacion de usuarios ## 
+
+Se craa una nueva app en la raiz del programa llamada user con el siguiente comando 
+
+-> python manage.py startapp users
+
+Despues se declara la creacion de una nueva app en el setting.py
+
+En la carpeta de user se crea el archivo de **serializers.py** donde.....y vamos a explicar el codigo linea por linea:
+
+--> **from django.contrib.auth.models import User** --> Importa el modelo de usuario de django que ya viene preparado con usuario, email y contraseña encriptada 
+
+--> **from rest_framework import serializers** --> Se importan los serializer que son el puente entre tu frontend y tu base de datos
+                
+                  |  Convertir datos JSON a Python   |
+                  |         Validar datos            |
+                  |  Convertir objetos Python A Json |
+
+--> **class RegisterSerializer(serializers.ModelSerializer)** --> Estamos creando un serializer basado en un modelo. Es como decir: "Hazme un formulario basado en el modelo User"
+
+--> **class Meta:**
+    **model = User**
+    **fields = ['username', 'email', 'password']** --> Usa el modelo User y Solo incluye estos campos
+
+--> **extra_kwargs =**
+    **'password': {'write_only': True}** --> El campo password se puede enviar (POST) Pero nunca se devuelve en la respuesta JSON
+
+--> **def create(self, validated_data):**
+    **user = User.objects.create_user(**validated_data)
+    **return user** --> El serializer valida los datos. Si todo está bien, llama a create(). Aquí es donde realmente se guarda el usuario.
+
+
+                    from django.contrib.auth.models import User
+                    from rest_framework import serializers
+
+                    class RegisterSerializer(serializers.ModelSerializer):
+                    class Meta:
+                         model = User
+                         fields = ['username', 'email', 'password']
+                         extra_kwargs = {
+                              'password': {'write_only': True}
+                         }
+
+                    def create(self, validated_data):
+                         user = User.objects.create_user(**validated_data)
+                         return user
+
+
 
 
 
