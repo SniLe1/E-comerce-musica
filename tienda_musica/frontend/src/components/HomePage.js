@@ -60,10 +60,10 @@ function HomePage() {
       <div className="container pb-5">
         <h2 className="mb-4 text-center">Productos destacados</h2>
 
-      <div className="row">
+      <div className="row g-4">
         {productos.map(prod => (
-          <div key={prod.id} className="col-md-4 mb-4">
-            <div className="card product-card">
+          <div key={prod.id} className="col-12 col-sm-6 col-lg-4 d-flex">
+            <div className="product-card w-100">
             <img 
               src={`http://127.0.0.1:8000${prod.imagen}`} 
               className="card-img-top"
@@ -75,6 +75,9 @@ function HomePage() {
                 <p><strong>Formato:</strong> {prod.formato}</p>
                 <p><strong>Precio:</strong> ${prod.precio}</p>
               </div>
+              <button className="btn-vintage">
+                Ver detalle
+              </button>
             </div>
           </div>
         ))}

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tienda_app', #--- Agrega tu aplicación aquí
     'rest_framework', #--- Agrega Django REST Framework conecta con el frontend React
+    'users', #--- Agrega la aplicación de usuarios para manejar autenticación y perfiles  
 
 ]
 
