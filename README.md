@@ -222,9 +222,33 @@ En la carpeta de user se crea el archivo de **serializers.py** donde.....y vamos
                          user = User.objects.create_user(**validated_data)
                          return user
 
+## CODIGO EN VIEWS.PY ##
 
+                    class RegisterView(generics.CreateAPIView):
+                         queryset = User.objects.all()
+                    serializer_class = RegisterSerializer
 
+--> **¿Qué es generics.CreateAPIView?*
 
+Es una vista genérica que ya viene programada para:
 
+             °  Aceptar requests POST
 
+             ° Validar datos con un serializer
+
+             °  Crear un objeto en la base de datos
+
+             ° Devolver una respuesta JSON
+
+--> **queryset = User.objects.all()**
+
+     “Voy a trabajar con el modelo User”
+
+--> **serializer_class = RegisterSerializer**
+
+     “Cuando recibas datos, usa este serializer para validarlos y guardarlos.”
+
+## Viernes 13 de febrero: mejorar el registro y hacer el login ##
+
+Se corrige error del navbar que aparecen como si fueran links
 

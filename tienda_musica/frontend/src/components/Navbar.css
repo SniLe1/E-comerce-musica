@@ -48,7 +48,7 @@
 }
 
 
-.nav-links li {
+.nav-links a{
   font-family: 'Playfair Display', serif;
   color: #f5e6c8;
   cursor: pointer;
@@ -56,13 +56,15 @@
   line-height: 1; /* evita que el texto empuje hacia arriba */
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 
-.nav-links li:hover {
-  border: 1px solid #d2b48c;
+.nav-links a:hover {
+  border: 1px solid trasparent;
   background-color: rgba(210, 180, 140, 0.1);
   color: #d2b48c;
+  transition: all 0.2s ease;
 }
 
 /* MENU HAMBURGUESA */
