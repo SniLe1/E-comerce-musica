@@ -248,7 +248,135 @@ Es una vista genérica que ya viene programada para:
 
      “Cuando recibas datos, usa este serializer para validarlos y guardarlos.”
 
-## Viernes 13 de febrero: mejorar el registro y hacer el login ##
+## Viernes 13 de febrero: arreglar el navbar ##
 
 Se corrige error del navbar que aparecen como si fueran links
+
+## Sabado 14 de febrero: Mejorar el registro de usuario y el login ##
+
+Se añade css a la pagina del registro de usuario.
+
+Se crea una validacion de contraseña que obliga al usuario a ponerle seguridad a la contraseña. Esta se crea en el serializer con el siguiente condigo:
+
+--> **Validacion de contraseña** 
+
+     def validate_password(self, value):
+          if len(value) < 8:
+               raise serializers.ValidationError("La contraseña debe tener al menos 8 caracteres.")
+          if not re.search(r'[A-Z]', value):
+               raise serializers.ValidationError("Debe contener al menos una mayúscula.")
+          if not re.search(r'[0-9]', value):
+               raise serializers.ValidationError("Debe contener al menos un número.")
+          if not re.search(r'[!@#$%^&*(),.?":{}|<>_-]', value):
+               raise serializers.ValidationError("Debe contener al menos un símbolo.")
+          return value
+
+Aqui se hace un **if** con cada una de las validaciones que debe tener la contraseña 
+
+-->**Setting.py**
+
+En esta carpeta tambien se tiene que hacer un cabmio, en el codigo de **AUTH_PASSWORD_VALIDATORS**
+se tiene que añadir en **django.contrib.auth.password_validation.MinimumLengthValidato** el largo minimo de la contraseña: **min_length': 8**
+
+-->**Register.js**
+
+Ahora para que el mensaje se muestre se tiene que ajustar un poco el **register.js** con el siguiente codigo: 
+
+-->**Extraccionde mensaje del backend**
+
+
+  const [message, setMessage] = useState("");
+  const [notification, setNotification] = useState(null);
+
+         if (response.ok) {
+      setNotification({
+        type: "success",
+        text: "Usuario creado correctamente 🎉"
+      });
+
+      setUsername("");
+      setEmail("");
+      setPassword("");
+
+    } else {
+
+      // 👇 Extraer mensaje real del backend
+      const firstKey = Object.keys(data)[0];
+      const backendMessage = data[firstKey][0];
+
+      setNotification({
+        type: "validation",
+        text: backendMessage
+      });
+    }
+
+
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+
+  } catch (error) {
+    setNotification({ type: "connection", text: "Error de conexión con el servidor ❌" });
+
+Aqui se crean dos constantes, una para la **notificacion** y otra para el **mensaje**:
+
+     const [message, setMessage] = useState("");
+     const [notification, setNotification] = useState(null);
+
+Despues se hacen **if else** para determinar que mensaje sale en cada caso. Si el usuario registra conrrectamente su usuario, sale el mensaje correcto, Si no este se dirije al else donde sale una de los 4 distintos mensajes de error. Si el servidor esta caido sale un mensaje de error de servidor
+
+Ademas se agrego una animacion con css para corroborar que el usuario a sido creado
+
+Cuando un usuario es creado, a este se le genera un token, que es el que lo identifica pero no es unico y se va actualizando cada vez que inicia sesion como lo muestra los sigueintes **end point**
+
+-->**Obteiene el token**   path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    
+-->**Actualiza el token**    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+Para esto se esta usando una app llamada **rest_framework_simplejwt'** que genera estos tokens
+
+## Obtener el token ## 
+
+Para obtener el token hay que crea un serializer que lo obtenga, el sigueiente codigo:
+
+     class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+     @classmethod
+     def get_token(cls, user):
+          token = super().get_token(user)
+          token['username'] = user.username
+          return token
+
+Al obtener el token es que podemos identificar al usuario y despues mostralo. 
+
+
+## Creacion del Login ##
+
+Se creo en **Pages** un nuevo archivo llamado **login.js** y **login.css**, usando el mismo css de **register.css**, En este login se usa la misma formula de mensajes de inicio de sesion exitoso y error en la contraseña. ademas cuando un usuario se loguea, la pagina lo redirige al home donde hay un mensaje en el navbar de bienvenido con sun nombre de usuario. Para lograr lo anterior se usa el siguiente codigo:
+
+     <li><Link to="/register">Registro</Link></li>
+          {!username ? (
+              <li >
+                <Link to="/login">
+                  Iniciar sesión
+                </Link>
+              </li>
+            ) : (
+              <>
+                <li >
+                  <span >
+                    ¡Hola, {username}! 👋
+                  </span>
+                </li>
+
+                <li >
+                  <button  onClick={handleLogout}>
+                    Cerrar sesión
+                  </button>
+                </li>
+              </>
+            )}     
+
+Asi podemos mostrar el usuario logueado en la pagina. Ademas se corrigieron errores de padding del navbar
+
 

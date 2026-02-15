@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
-function Register() {
+function Login() {
+
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState(null);
 
@@ -13,21 +15,20 @@ function Register() {
 
     setTimeout(() => {
       setNotification(null);
-    }, 300); // duración del fadeOut
+    }, 300);
   };
 
-  const handleRegister = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/register/", {
+      const response = await fetch("http://localhost:8000/api/token/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username,
-          email,
           password,
         }),
       });
@@ -35,23 +36,25 @@ function Register() {
       const data = await response.json();
 
       if (response.ok) {
+
+        // 🔐 Guardar tokens
+        localStorage.setItem("accessToken", data.access);
+        localStorage.setItem("refreshToken", data.refresh);
+
         setNotification({
           type: "success",
-          text: "Usuario creado correctamente 🎉",
+          text: "Inicio de sesión exitoso 🎉",
           visible: true
         });
 
-        setUsername("");
-        setEmail("");
-        setPassword("");
+        setTimeout(() => {
+          window.location.href = "/";;
+        }, 1500);
 
       } else {
-        const firstKey = Object.keys(data)[0];
-        const backendMessage = data[firstKey][0];
-
         setNotification({
           type: "validation",
-          text: backendMessage,
+          text: "Usuario o contraseña incorrectos",
           visible: true
         });
       }
@@ -64,7 +67,6 @@ function Register() {
       });
     }
 
-    // Cerrar después de 3 segundos (con animación)
     setTimeout(() => {
       closeNotification();
     }, 3000);
@@ -72,22 +74,14 @@ function Register() {
 
   return (
     <div className="register-container">
-      <form className="register-form" onSubmit={handleRegister}>
-        <h2>Crear Cuenta</h2>
+      <form className="register-form" onSubmit={handleLogin}>
+        <h2>Iniciar Sesión</h2>
 
         <input
           type="text"
           placeholder="Usuario"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -99,7 +93,7 @@ function Register() {
           required
         />
 
-        <button type="submit">Registrarse</button>
+        <button type="submit">Entrar</button>
       </form>
 
       {notification && (
@@ -116,5 +110,4 @@ function Register() {
   );
 }
 
-
-export default Register;
+export default Login;

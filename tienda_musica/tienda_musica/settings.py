@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tienda_app', #--- Agrega tu aplicación aquí
     'rest_framework', #--- Agrega Django REST Framework conecta con el frontend React
     'users', #--- Agrega la aplicación de usuarios para manejar autenticación y perfiles  
+    'rest_framework_simplejwt', #--- Agrega JWT para autenticación basada en tokens
 
 ]
 
@@ -103,6 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -140,3 +144,8 @@ import os
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}

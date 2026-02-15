@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import {jwtDecode} from "jwt-decode";
 import "./HomePage.css";
 
 function HomePage() {
   const [productos, setProductos] = useState([]);
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/productos/")
@@ -11,12 +13,13 @@ function HomePage() {
       .catch(error => console.error("Error:", error));
   }, []);
 
+
   return (
     <div className="home-wrapper">
-
       {/* HERO - igual al concepto inicial */}
       <div className="container py-5">
-        <div className="text-center p-5 rounded hero-box">
+
+          <div className="text-center p-5 rounded hero-box">
 
           <h1 className="mb-4">Tienda de Música</h1>
 

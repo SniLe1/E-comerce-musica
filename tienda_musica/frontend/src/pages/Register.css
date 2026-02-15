@@ -1,0 +1,137 @@
+/* CONTENEDOR GENERAL */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1c1c1c; /* si tu fondo es oscuro */
+}
+
+/* FORMULARIO */
+.register-form {
+  background-color: #2a2a2a;
+  padding: 2.5rem;
+  border-radius: 10px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+/* TÍTULO */
+.register-form h2 {
+  text-align: center;
+  color: #f5e6c8;
+  font-family: 'Playfair Display', serif;
+}
+
+/* INPUTS */
+.register-form input {
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #1c1c1c;
+  color: #f5e6c8;
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.register-form input:focus {
+  border-color: #d2b48c;
+  box-shadow: 0 0 5px #d2b48c;
+}
+
+/* BOTÓN */
+.register-form button {
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #d2b48c;
+  color: #1c1c1c;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.register-form button:hover {
+  background-color: #f5e6c8;
+}
+
+/* MENSAJE DE REGISTRO */
+.register-message {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #d2b48c;
+}
+
+/* Fondo oscuro */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(6px);
+
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.hide {
+  opacity: 0;
+}
+
+
+.popup {
+  padding: 1.5rem 2.5rem;
+  border-radius: 16px;
+  font-weight: bold;
+  color: white;
+  min-width: 300px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+
+/* Entrada */
+.popup.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Salida */
+.popup.hide {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* 🟢 Éxito */
+.popup.success {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+}
+
+/* 🔴 Error de validación */
+.popup.validation {
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+}
+
+/* 🟠 Error de conexión */
+.popup.connection {
+  background: linear-gradient(135deg, #ff9800, #ef6c00);
+}
+
+
+/* Animación overlay */
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -11,7 +11,7 @@
 
 
 .nav-container {
-  width: 90%;
+  width: 97%;
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
@@ -29,6 +29,7 @@
   padding: 0.5rem 1.2rem;
   border: 2px solid #d2b48c;
   text-transform: uppercase;
+  flex-shrink: 0;   /* 👈 evita que se deforme */
 
   /* efecto grabado */
   text-shadow:
@@ -46,7 +47,6 @@
   margin: 0;
   padding: 0;
 }
-
 
 .nav-links a{
   font-family: 'Playfair Display', serif;
@@ -74,6 +74,46 @@
   color: #f5e6c8;
   cursor: pointer;
 }
+
+/* USUARIO LOGUEADO */
+.nav-user {
+  font-family: 'Playfair Display', serif;
+  color: #d2b48c;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  align-items: center;
+  letter-spacing: 1px;
+  border-left: 1px solid #d2b48c;
+  padding-left: 1rem;
+  white-space: nowrap; /* evita que se parta en 2 líneas */
+}
+
+/* BOTON LOGOUT ESTILO LINK */
+.nav-logout {
+  font-family: 'Playfair Display', serif;
+  background: none;
+  border: none;
+  color: #f5e6c8;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-logout:hover {
+  background-color: rgba(210, 180, 140, 0.1);
+  color: #d2b48c;
+  transition: all 0.2s ease;
+}
+
+.nav-user-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* espacio pequeño y elegante */
+}
+
+
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
