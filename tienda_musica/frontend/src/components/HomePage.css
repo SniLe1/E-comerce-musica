@@ -18,42 +18,34 @@ h1 {
 
 p {
   font-family: "Georgia", serif; /* texto con aire clásico */
-}
-
+} 
 
 /* PALETA VINTAGE TIPO VINILO ANTIGUO */
 :root {
-  --bg-main: #e2d6c6;      /* beige envejecido tipo papel antiguo */
-  --bg-hero: #d3c2ad;      /* beige con toque madera clara */
-  --bg-card: #c2b09a;      /* café claro envejecido (tipo caja de vinilo) */
+  --bg-main: #e2d6c6; /* beige envejecido tipo papel antiguo */
+  --bg-hero: #d3c2ad; /* beige con toque madera clara */
+  --bg-card: #c2b09a; /* café claro envejecido (tipo caja de vinilo) */
   --text-primary: #3a2a1f; /* café oscuro cálido (texto principal) */
-  --text-muted: #5b4636;   /* café apagado vintage */
-  --accent: #7b5a43;       /* acento café tostado (botones/bordes) */
-}
+  --text-muted: #5b4636; /* café apagado vintage */
+  --accent: #7b5a43; /* acento café tostado (botones/bordes) */
+} 
 
 /* TEXTURA SUTIL TIPO PAPEL ANTIGUO */
 .home-wrapper {
   min-height: 100vh;
-  background-color: #d8c8b4; /* beige vintage base */
-
-  /* TEXTURA RETRO REAL (patrón de grano sutil) */
+  background-color: #d8c8b4; /* beige vintage base */ /* TEXTURA RETRO REAL (patrón de grano sutil) */
   background-image:
-    linear-gradient(
-      rgba(255, 255, 255, 0.03),
-      rgba(0, 0, 0, 0.03)
-    ),
+    linear-gradient(rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.03)),
     repeating-radial-gradient(
-        circle at 50% 50%,
-        rgba(0, 0, 0, 0.03) 0px,
-        rgba(0, 0, 0, 0.03) 1px,
-        transparent 2px,
-        transparent 6px
+      circle at 50% 50%,
+      rgba(0, 0, 0, 0.03) 0px,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 2px,
+      transparent 6px
     );
-
-
   background-blend-mode: overlay;
   font-family: "Playfair Display", serif;
-}
+} 
 
 /* Fondo general */
 .home-wrapper {
@@ -62,16 +54,16 @@ p {
   color: var(--text-primary);
 }
 
-/* Hero / bienvenida */
+ /* Hero / bienvenida */
 .hero-box {
   background-color: var(--bg-hero);
   color: var(--text-primary);
-  border: 1px solid rgba(0,0,0,0.05); /* leve borde tipo papel */
+  border: 1px solid rgba(0, 0, 0, 0.05); /* leve borde tipo papel */
 }
 
-/* Tarjetas de productos */
+ /* Tarjetas de productos */
 .product-card {
-  background-color: #f1e3d3;   /* papel envejecido */
+  background-color: #f1e3d3; /* papel envejecido */
   border: 1px solid #c8b6a6;
   padding: 25px;
   border-radius: 6px;
@@ -80,7 +72,7 @@ p {
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
 }
 
@@ -100,13 +92,12 @@ p {
 .product-card img {
   width: 100%;
   height: 320px;
-  object-fit: contain;     /* mantiene proporción */
+  object-fit: contain; /* mantiene proporción */
   background-color: #e6d5c3;
   padding: 15px;
   border: 1px solid #c8b6a6;
   margin-bottom: 20px;
 }
-
 
 .product-card .card-body {
   display: flex;
@@ -119,7 +110,7 @@ p {
 }
 
 .product-card h5 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 1.2rem;
   color: #5c3b1e;
 }
@@ -129,14 +120,14 @@ p {
   margin-bottom: 8px;
 }
 
-/* botón vintage estilo retro */
+ /* botón vintage estilo retro */
 .btn-vintage {
   margin-top: auto;
   padding: 8px 16px;
-  background-color: #c9a66b;   /* dorado apagado */
+  background-color: #c9a66b; /* dorado apagado */
   color: #3e2a18;
   border: 1px solid #8b6b3f;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   letter-spacing: 1px;
   transition: all 0.2s ease;
 }
@@ -145,9 +136,6 @@ p {
   background-color: #b8935a;
   transform: translateY(-2px);
 }
-
-
-
 
 /* Texto secundario */
 .product-muted {
@@ -164,35 +152,34 @@ p {
 .vintage-btn:hover {
   background-color: #6a4b38;
   color: #ffffff;
-}
+} 
 
 /* Sobreescribe el blanco de Bootstrap en las tarjetas */
 .card {
   background-color: var(--bg-card) !important;
 }
 
-
 /* ESTILO POLAROID PARA TARJETAS */
 .card {
   background-color: var(--bg-card) !important;
   border-radius: 6px 6px 8px 8px; /* borde leve tipo foto antigua */
-  padding-bottom: 10px;           /* espacio tipo marco polaroid */
+  padding-bottom: 10px; /* espacio tipo marco polaroid */
   box-shadow:
-    0 4px 8px rgba(0,0,0,0.08),
-    0 8px 16px rgba(0,0,0,0.06);
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 8px 16px rgba(0, 0, 0, 0.06);
 }
 
 /* Pequeño marco interior estilo fotografía */
 .card-body {
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 4px;
 }
 
 .hero-box {
   background-color: var(--bg-hero);
   color: var(--text-primary);
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.03);
 }
 
 @media (max-width: 768px) {
@@ -200,5 +187,3 @@ p {
     height: 250px;
   }
 }
-
-

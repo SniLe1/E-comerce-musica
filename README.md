@@ -380,3 +380,66 @@ Se creo en **Pages** un nuevo archivo llamado **login.js** y **login.css**, usan
 Asi podemos mostrar el usuario logueado en la pagina. Ademas se corrigieron errores de padding del navbar
 
 
+## Domingo 15 de febrero, confirmacion de correo ##
+
+Para hacer una confirmacion de correo de usuario, primero tenemso que cuando se cree un usuario este no este activado, para eso cambiarmos el serializer del user por esto
+
+     def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        
+        user.is_active = False
+        user.save()
+        
+        return user
+
+--> **user.is_active = False** Esta linea de codigo hace que el usuario creado este en estado de inactivo 
+
+Ahora hay que generar un link unico, y que este se envie por correo al usuario para que active su cuenta. Esto lo haremos modificando el archivo de **views.py**
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+
+        activation_link = f"http://localhost:8000/api/users/activate/{uid}/{token}/"
+
+        print("LINK DE ACTIVACIÓN:")
+        print(activation_link)
+
+-->Aqui lo que estamos haciendo es crear el usuario, crear un **ID codificado**, generar un **Token seugro**, despues construir un link unico y para asegurarse que funcione imprimirlo en consola 
+
+Con el siguiente codigo vamos a poder ver si el usuario entro al link para poder confirmar su cuenta: 
+
+User = get_user_model()
+
+def activate_account(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except:
+        return HttpResponse("Link inválido ❌")
+
+    if default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse("Cuenta activada correctamente 🎉")
+    else:
+        return HttpResponse("Token inválido o expirado ❌")
+
+Ahora lo que vamos a hacer es enviar un email real al usuario para que acceda al link con el token y se genere un mesnaje en el registro que diga que se envio un correo
+
+## Catalogo de productos ##
+
+Para esta pagina se crea un nuevo archivo en **pages** llamado **Products.js** para la pagina y **Products.css** para el diseño 
+
+En esta pagina se ve la cantidad de productos que tenemos para los usuarios, y cada vez que se añaden mas a la base de datos, estos aparecen en la pagina de productos
+

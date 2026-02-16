@@ -37,7 +37,7 @@ function Register() {
       if (response.ok) {
         setNotification({
           type: "success",
-          text: "Usuario creado correctamente 🎉",
+          text: "Usuario creado correctamente 🎉, revisa tu correo",
           visible: true
         });
 

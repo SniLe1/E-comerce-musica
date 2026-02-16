@@ -8,7 +8,7 @@ from users.views import CustomTokenObtainPairView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('api/', include('tienda_app.urls')),
+    path('api/productos/', include('tienda_app.urls')),
     path('api/users/', include('users.urls')),
 
     # JWT endpoints

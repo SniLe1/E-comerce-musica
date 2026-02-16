@@ -39,7 +39,7 @@ function Navbar() {
         </div>
         <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
           <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/">Catálogo</Link></li>
+          <li><Link to="/products">Catálogo</Link></li>
           <li><Link to="/">Nosotros</Link></li>
           <li><Link to="/">Contacto</Link></li>
           <li><Link to="/register">Registro</Link></li>
