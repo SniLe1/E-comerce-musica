@@ -443,3 +443,116 @@ Para esta pagina se crea un nuevo archivo en **pages** llamado **Products.js** p
 
 En esta pagina se ve la cantidad de productos que tenemos para los usuarios, y cada vez que se añaden mas a la base de datos, estos aparecen en la pagina de productos
 
+## Miercoles 18 de febrero ## 
+
+Se modifico el modelo de productos, cambiando el atributo de formato volviendolo un choiceopciton, para que el administrador no tenga que escribir cada vez el formato del producto, se hizo con el siguiente codigo:
+
+     formato = models.CharField(
+        max_length=10,
+        choices=FORMATO_CHOICES
+    )
+
+     FORMATO_CHOICES = [
+        ('vinilo', 'Vinilo'),
+        ('cd', 'CD'),
+        ('digital', 'Digital'),
+    ]
+
+Ademas se agrego un nuevo atributo llamado slug que se encarga de crear el nombre del producto pero con **-**, para asi hacer mas facil un link personalizado con para cada producto: 
+
+     slug = models.SlugField(unique=True, blank=True, null=True)
+
+Este se genera automaticamente con esta funcion:
+
+     def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.titulo)
+            slug = base_slug
+            counter = 1
+            while Producto.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+## Migracion API_VIEW ##
+
+Primero se empezo con este codigo el cual no era eficiente para el trabajo que estoy realizando: 
+
+     @api_view(['GET'])
+     def lista_productos(request):
+
+Eso es una Function Based View. 
+
+    |  Funciona bien para:  |      Pero necesito   |
+    |                       |                      |
+    |   APIs pequeñas       |         Filtro       |
+    |   Solo GET            |        Busqueda      |
+    |   Cosas simples       |          Slug        |
+    |                       |        Carrito       |
+    |                       |         Ordenes      |
+
+Se hizo la migracion porque: 
+
+| Antes               | Ahora         |
+| ------------------- | ------------- |
+| Solo GET            | CRUD completo |
+| Manual              | Automático    |
+| Poco escalable      | Escalable     |
+| Más código repetido | Más limpio    |
+
+Con **ModelViewSet** obtienes gratis:
+
+               list()
+               retrieve()
+               create()
+               update()
+               destroy()
+
+🔥 Error #1 — Router duplicó la URL
+
+     {
+  "productos": "http://localhost:8000/api/productos/productos/"
+     }
+
+--> Eso pasó porque el router y tu urls.py estaban creando una ruta duplicada. Solucion:
+
+Dejamos el **urls.py** principal así:
+
+     path('api/', include('tienda_app.urls')),
+
+Y el **router** asi: 
+
+     path('api/', include('tienda_app.urls')),
+
+🔥 Error #2 — basename y queryset
+
+Django lanzó: AssertionError: basename argument not specified
+
+El router necesita saber qué modelo está usando para generar rutas automáticamente.
+
+Solucion --> queryset = Producto.objects.all()
+
+🔥Error #3 — React .map is not a function
+
+Solucion: Proteger el **fetch**
+
+          if (Array.isArray(data)) {
+          setProductos(data);
+          } else if (data.results) {
+          setProductos(data.results);
+          }
+
+
+🔥 Error #4 — Las imágenes no cargaban
+
+El backend estaba devolviendo: http://localhost:8000/media/imagen.jpg
+Y yo estaba haciendo: src={`http://localhost:8000${producto.imagen}`}
+
+Entonces hacia: http://localhost:8000http://localhost:8000/media/...
+
+-->Solucion: src={producto.imagen}
+
+## Filtros ## 
+
+Se agrego un filtro por busqueda y por formato a la izquierda de la pagina.

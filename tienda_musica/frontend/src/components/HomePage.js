@@ -7,9 +7,18 @@ function HomePage() {
   const [username, setUsername] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/productos/")
+    fetch("http://localhost:8000/api/productos/")
       .then(response => response.json())
-      .then(data => setProductos(data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setProductos(data);
+        } else if (data.results) {
+          setProductos(data.results);
+        } else {
+          setProductos([]);
+        }
+      })
+
       .catch(error => console.error("Error:", error));
   }, []);
 
@@ -68,14 +77,14 @@ function HomePage() {
           <div key={prod.id} className="col-12 col-sm-6 col-lg-4 d-flex">
             <div className="product-card w-100">
             <img 
-              src={`http://127.0.0.1:8000${prod.imagen}`} 
+              src={prod.imagen}
               className="card-img-top"
               alt={prod.titulo}
             />
               <div className="card-body">
                 <h5>{prod.titulo}</h5>
                 <p>{prod.artista}</p>
-                <p><strong>Formato:</strong> {prod.formato}</p>
+                <p><strong>Formato:</strong> {prod.formato_display}</p>
                 <p><strong>Precio:</strong> ${prod.precio}</p>
               </div>
               <button className="btn-vintage">

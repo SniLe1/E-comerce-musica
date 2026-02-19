@@ -26,7 +26,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         return user
 
-
     
     def validate_password(self, value):
         if len(value) < 8:
