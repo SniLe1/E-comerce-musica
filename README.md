@@ -556,3 +556,7 @@ Entonces hacia: http://localhost:8000http://localhost:8000/media/...
 ## Filtros ## 
 
 Se agrego un filtro por busqueda y por formato a la izquierda de la pagina.
+
+## Jueves 19 de febrero ## 
+
+Se agrego el footer de la tienda y un carrusel de imagenes en el homepage
