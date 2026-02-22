@@ -31,15 +31,28 @@ function HomePage() {
       .catch(error => console.error("Error:", error));
   }, []);
 
-  useEffect(() => {
-    const carouselElement = document.querySelector('#heroCarousel');
-    if (carouselElement) {
-      new Carousel(carouselElement, {
-        interval: 5000,
-        ride: 'carousel'
-      });
-    }
-  }, []);
+
+useEffect(() => {
+  const carouselElement = document.querySelector('#heroCarousel');
+  if (!carouselElement) return;
+
+  const carousel = new Carousel(carouselElement, {
+    interval: false, // Desactivar auto-slide
+    wrap: true
+  });
+
+  // Siempre ir hacia la derecha (prev)
+  const intervalId = setInterval(() => {
+    carousel.next();
+  }, 5000);
+
+  return () => {
+    clearInterval(intervalId);
+    carousel.dispose();
+  };
+}, []);
+
+
 
 
 
@@ -52,8 +65,7 @@ return (
       {/* Carrusel */}
       <div
         id="heroCarousel"
-        className="carousel carousel-fade slide hero-carousel"
-        data-bs-ride="carousel"
+        className="carousel slide hero-carousel"
       >
         <div className="carousel-inner">
 

@@ -560,3 +560,27 @@ Se agrego un filtro por busqueda y por formato a la izquierda de la pagina.
 ## Jueves 19 de febrero ## 
 
 Se agrego el footer de la tienda y un carrusel de imagenes en el homepage
+
+## Sabado 21 de Febrero ##
+
+Se ajusto el carrusel de imagenes para que sea un slide hacia la izquierda. Se hizo con este codigo: 
+
+useEffect(() => {
+     const carouselElement = document.querySelector('#heroCarousel');
+     if (!carouselElement) return;
+
+     const carousel = new Carousel(carouselElement, {
+     interval: false, // Desactivar auto-slide
+     wrap: true
+     });
+
+     // Siempre ir hacia la derecha (prev)
+     const intervalId = setInterval(() => {
+     carousel.next();
+     }, 5000);
+
+     return () => {
+     clearInterval(intervalId);
+     carousel.dispose();
+     };
+}, []);

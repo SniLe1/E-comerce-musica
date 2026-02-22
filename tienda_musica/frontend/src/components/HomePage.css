@@ -1,24 +1,35 @@
 /* TIPOGRAFÍA RETRO */
 .home-wrapper {
   font-family: "Playfair Display", serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.03)),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(0, 0, 0, 0.03) 0px,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 2px,
+      transparent 6px
+    );
+  background-blend-mode: overlay;
 }
 
 h1 {
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-weight: 700;
 }
 
 h1, h2, h3, h4, h5 {
   letter-spacing: 0.4px;
 }
 
-h1 {
-  font-weight: 700;
+p {
+  font-family: "Georgia", serif;
 }
 
-p {
-  font-family: "Georgia", serif; /* texto con aire clásico */
-} 
+/* ================= HERO ================= */
 
 .hero-section {
   position: relative;
@@ -34,33 +45,16 @@ p {
   height: 100%;
 }
 
+
 .hero-carousel img {
   object-fit: cover;
   filter: brightness(50%) contrast(110%);
-}
-
-.carousel-item img {
   transition: transform 6s ease-in-out;
 }
 
-.carousel-item.active img {
+.hero-carousel .carousel-item.active img {
   transform: scale(1.08);
 }
-
-/* Fade más suave y limpio */
-.carousel.carousel-fade .carousel-item {
-  opacity: 0;
-  transition: opacity 1.2s ease-in-out;
-}
-
-.carousel.carousel-fade .carousel-item.active {
-  opacity: 1;
-}
-
-.carousel.carousel-fade .carousel-item {
-  transform: none !important;
-}
-
 
 /* Texto encima */
 .hero-overlay {
@@ -78,61 +72,17 @@ p {
   color: #fff;
   padding: 20px;
   z-index: 2;
+
+  animation: fadeUp 1.5s ease forwards;
 }
 
 .hero-overlay h1 {
   font-size: 3rem;
   letter-spacing: 2px;
-  text-transform: uppercase;
 }
 
 .hero-overlay p {
   max-width: 600px;
-}
-
-
-/* PALETA VINTAGE TIPO VINILO ANTIGUO */
-:root {
-  --bg-main: #e2d6c6; /* beige envejecido tipo papel antiguo */
-  --bg-hero: #d3c2ad; /* beige con toque madera clara */
-  --bg-card: #c2b09a; /* café claro envejecido (tipo caja de vinilo) */
-  --text-primary: #3a2a1f; /* café oscuro cálido (texto principal) */
-  --text-muted: #5b4636; /* café apagado vintage */
-  --accent: #7b5a43; /* acento café tostado (botones/bordes) */
-} 
-
-/* TEXTURA SUTIL TIPO PAPEL ANTIGUO */
-.home-wrapper {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.03)),
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      rgba(0, 0, 0, 0.03) 0px,
-      rgba(0, 0, 0, 0.03) 1px,
-      transparent 2px,
-      transparent 6px
-    );
-  background-blend-mode: overlay;
-  font-family: "Playfair Display", serif;
-} 
-
-/* Fondo general */
-.home-wrapper {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-}
-
- /* Hero / bienvenida */
-.hero-box {
-  background-color: var(--bg-hero);
-  color: var(--text-primary);
-  border: 1px solid rgba(0, 0, 0, 0.05); /* leve borde tipo papel */
-}
-
-.hero-overlay {
-  animation: fadeUp 1.5s ease forwards;
 }
 
 @keyframes fadeUp {
@@ -146,10 +96,21 @@ p {
   }
 }
 
+/* ================= PALETA ================= */
 
- /* Tarjetas de productos */
+:root {
+  --bg-main: #e2d6c6;
+  --bg-hero: #d3c2ad;
+  --bg-card: #c2b09a;
+  --text-primary: #3a2a1f;
+  --text-muted: #5b4636;
+  --accent: #7b5a43;
+}
+
+/* ================= PRODUCTOS ================= */
+
 .product-card {
-  background-color: #f1e3d3; /* papel envejecido */
+  background-color: #f1e3d3;
   border: 1px solid #c8b6a6;
   padding: 25px;
   border-radius: 6px;
@@ -179,7 +140,7 @@ p {
 .product-card img {
   width: 100%;
   height: 320px;
-  object-fit: contain; /* mantiene proporción */
+  object-fit: contain;
   background-color: #e6d5c3;
   padding: 15px;
   border: 1px solid #c8b6a6;
@@ -197,7 +158,6 @@ p {
 }
 
 .product-card h5 {
-  font-family: "Playfair Display", serif;
   font-size: 1.2rem;
   color: #5c3b1e;
 }
@@ -207,14 +167,13 @@ p {
   margin-bottom: 8px;
 }
 
- /* botón vintage estilo retro */
+/* Botón vintage */
 .btn-vintage {
   margin-top: auto;
   padding: 8px 16px;
-  background-color: #c9a66b; /* dorado apagado */
+  background-color: #c9a66b;
   color: #3e2a18;
   border: 1px solid #8b6b3f;
-  font-family: "Playfair Display", serif;
   letter-spacing: 1px;
   transition: all 0.2s ease;
 }
@@ -224,12 +183,10 @@ p {
   transform: translateY(-2px);
 }
 
-/* Texto secundario */
 .product-muted {
   color: var(--text-muted);
 }
 
-/* Toque vintage en botones (opcional pero recomendado) */
 .vintage-btn {
   background-color: var(--accent);
   color: #f2ece4;
@@ -239,52 +196,36 @@ p {
 .vintage-btn:hover {
   background-color: #6a4b38;
   color: #ffffff;
-} 
-
-/* Sobreescribe el blanco de Bootstrap en las tarjetas */
-.card {
-  background-color: var(--bg-card) !important;
 }
 
-/* ESTILO POLAROID PARA TARJETAS */
+/* Tarjetas estilo polaroid */
 .card {
   background-color: var(--bg-card) !important;
-  border-radius: 6px 6px 8px 8px; /* borde leve tipo foto antigua */
-  padding-bottom: 10px; /* espacio tipo marco polaroid */
+  border-radius: 6px 6px 8px 8px;
+  padding-bottom: 10px;
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.08),
     0 8px 16px rgba(0, 0, 0, 0.06);
 }
 
-/* Pequeño marco interior estilo fotografía */
 .card-body {
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 4px;
 }
 
-.hero-box {
-  background-color: var(--bg-hero);
-  color: var(--text-primary);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.03);
-}
-
+/* NEW badge */
 .new-badge {
   position: absolute;
   top: 12px;
   right: 12px;
-
   background-color: #c9a66b;
   color: #3e2a18;
-
   padding: 6px 10px;
   font-size: 0.7rem;
   font-weight: bold;
   letter-spacing: 1px;
-
   border: 2px solid #8b6b3f;
   transform: rotate(10deg);
-
   box-shadow: 2px 2px 0px rgba(0,0,0,0.15);
 }
 
@@ -293,3 +234,17 @@ p {
     height: 250px;
   }
 }
+
+
+/* Duración suave */
+.hero-carousel {
+  --bs-carousel-transition-duration: 1.2s;
+}
+
+/* ===== RESTAURAR ANIMACIÓN BOOTSTRAP ===== */
+
+.hero-carousel .carousel-item {
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+
