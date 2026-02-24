@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
-import Carousel from "bootstrap/js/dist/carousel";
+import { Carousel } from "bootstrap";
 
 
 function HomePage() {
   const [productos, setProductos] = useState([]);
   /*const [username, setUsername] = useState(null);*/
+  const navigate = useNavigate();
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CL', {
@@ -32,16 +34,16 @@ function HomePage() {
   }, []);
 
 
-useEffect(() => {
-  const carouselElement = document.querySelector('#heroCarousel');
-  if (!carouselElement) return;
+const carouselRef = useRef(null);
 
-  const carousel = new Carousel(carouselElement, {
-    interval: false, // Desactivar auto-slide
+useEffect(() => {
+  if (!carouselRef.current) return;
+
+  const carousel = new Carousel(carouselRef.current, {
+    interval: false,
     wrap: true
   });
 
-  // Siempre ir hacia la derecha (prev)
   const intervalId = setInterval(() => {
     carousel.next();
   }, 5000);
@@ -54,8 +56,6 @@ useEffect(() => {
 
 
 
-
-
 return (
   <div className="home-wrapper">
 
@@ -64,7 +64,7 @@ return (
 
       {/* Carrusel */}
       <div
-        id="heroCarousel"
+        ref={carouselRef}
         className="carousel slide hero-carousel"
       >
         <div className="carousel-inner">
@@ -166,7 +166,9 @@ return (
                   <p><strong>Precio:</strong> {formatPrice(prod.precio)}</p>
                 </div>
 
-                <button className="btn-vintage">
+                <button 
+                className="btn-vintage" 
+                onClick={() => navigate(`/products/${prod.slug}`)}>
                   Ver detalle
                 </button>
               </div>

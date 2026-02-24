@@ -9,9 +9,11 @@ from django.db.models import Q
 from .models import Producto
 from .serializers import ProductoSerializer
 
+
 class ProductoViewSet(viewsets.ModelViewSet):
     serializer_class = ProductoSerializer
     queryset = Producto.objects.all()
+    lookup_field = 'slug'
 
     def get_queryset(self):
         queryset = super().get_queryset()

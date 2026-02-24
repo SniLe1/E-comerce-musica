@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Activate from "./pages/Activate";
 import Products from "./pages/Products";
 import Footer from "./components/Footer";
+import ProductDetail from "./pages/ProductDetail";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/activate/:uid/:token" element={<Activate />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:slug" element={<ProductDetail />} />
           </Routes>
         </main>
 

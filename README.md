@@ -584,3 +584,23 @@ useEffect(() => {
      carousel.dispose();
      };
 }, []);
+
+## Lunes 23 de febrero ## 
+
+Se creo la pagina de cada producto, creando un archivo en pages llamado **ProcutDetail.js** y **PorductDetail.css** y para que en el link se viera el slug se uso el siguiente codigo: 
+
+function ProductDetail() {
+  const { slug } = useParams();
+  const [producto, setProducto] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/productos/${slug}/`)
+      .then(res => res.json())
+      .then(data => setProducto(data))
+      .catch(err => console.error(err));
+  }, [slug]);
+
+  if (!producto) return <p className="text-center mt-5">Cargando producto...</p>
+
+Se añadio css a la pagina de detalle.
+
