@@ -111,7 +111,7 @@ return (
 
         <hr className="my-5 text-light"/>
 
-        <div className="row">
+        <div className="row hero-features">
           <div className="col-md-4">
             <h5>🎧 Digital</h5>
             <p className="product-muted">

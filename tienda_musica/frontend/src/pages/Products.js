@@ -1,5 +1,6 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./Products.css";
+import { Link } from "react-router-dom";
 
 function Products() {
   const [productos, setProductos] = useState([]);
@@ -14,7 +15,7 @@ function Products() {
     }).format(price);
   };
 
-  const fetchProductos = () => {
+  const fetchProductos = useCallback(() => {
     let url = "http://localhost:8000/api/productos/?";
 
     if (formato) {
@@ -42,12 +43,12 @@ function Products() {
         console.error("Error fetching:", error);
         setProductos([]);
       });
-  };
+  }, [formato, search]);
 
 
   useEffect (() => {
     fetchProductos();
-  }, [search, formato]);
+  }, [fetchProductos]);
 
   return (
     <div className="products-wrapper">
@@ -102,8 +103,14 @@ function Products() {
 
           <div className="products-grid">
             {Array.isArray(productos) && productos.map(producto => (
-              <div key={producto.id} className="product-card">
-                <div className="image-wrapper">
+
+              <Link 
+                key={producto.id}
+                to={`/products/${producto.slug}`} 
+                className="product-card-link"
+              >
+                <div className="product-card">
+                  <div className="image-wrapper">
                     <span className="format-badge">
                       {producto.formato}
                     </span>
@@ -111,13 +118,16 @@ function Products() {
                       src={producto.imagen}
                       alt={producto.titulo}
                     />
-                </div>
+                  </div>
                   <div className="product-info">
                     <h3 className="album-title">{producto.titulo}</h3>
                     <p className="album-artist">{producto.artista}</p>
-                    <p className="price">{formatPrice(producto.precio)}</p>
+                    <p className="price">
+                      {formatPrice(producto.precio)}
+                    </p>
                   </div>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

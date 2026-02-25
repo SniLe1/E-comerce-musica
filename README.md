@@ -604,3 +604,9 @@ function ProductDetail() {
 
 Se añadio css a la pagina de detalle.
 
+## Martes 24 de febrero ## 
+
+Se configuro la pagina de catalogo para que esos productos tambien vayan a su detalle
+
+Se corrigio el error en el carrusel en el modo responsive que no sea veian bien las imagenes y el texto no estaba dentro
+

@@ -48,7 +48,8 @@
 }
 
 .product-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
 }
 
 .product-info {
@@ -249,5 +250,19 @@
   .filters-sidebar {
     width: 100%;
   }
+}
+
+/* ============================= */
+/* PRODUCT DETAIL LINK*/  
+
+.product-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 

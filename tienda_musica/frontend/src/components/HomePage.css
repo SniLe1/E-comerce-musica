@@ -1,4 +1,18 @@
-/* TIPOGRAFÍA RETRO */
+/* ================= VARIABLES ================= */
+
+:root {
+  --bg-main: #e2d6c6;
+  --bg-hero: #d3c2ad;
+  --bg-card: #c2b09a;
+  --text-primary: #3a2a1f;
+  --text-muted: #5b4636;
+  --accent: #7b5a43;
+  --accent-light: #c9a66b;
+  --accent-dark: #6a4b38;
+}
+
+/* ================= BASE ================= */
+
 .home-wrapper {
   font-family: "Playfair Display", serif;
   background-color: var(--bg-main);
@@ -17,7 +31,7 @@
 
 h1 {
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   font-weight: 700;
 }
 
@@ -33,78 +47,62 @@ p {
 
 .hero-section {
   position: relative;
-  height: 500px;
+  width: 100%;
+  min-height: 80vh;
+  max-height: 600px;
   overflow: hidden;
 }
 
-/* Carrusel ocupa todo */
+.hero-carousel {
+  height: 100%;
+  --bs-carousel-transition-duration: 1.2s;
+  position: relative;
+  z-index: 1;
+}
+
 .hero-carousel,
 .hero-carousel .carousel-inner,
-.hero-carousel .carousel-item,
+.hero-carousel .carousel-item {
+  height: 100vh;
+  min-height: 500px;
+}
+
+.hero-carousel .carousel-item {
+  min-height: 500px;
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
 .hero-carousel img {
-  height: 100%;
-}
-
-
-.hero-carousel img {
-  object-fit: cover;
-  filter: brightness(50%) contrast(110%);
-  transition: transform 6s ease-in-out;
-}
-
-.hero-carousel .carousel-item.active img {
-  transform: scale(1.08);
-}
-
-/* Texto encima */
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  filter: brightness(55%) contrast(110%);
+}
+
+/* Overlay */
+
+.hero-overlay,
+.carousel-caption-custom {
+  position: absolute;
+  inset: 0;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  color: #fff;
+  text-align: center;
   padding: 20px;
-  z-index: 2;
-
-  animation: fadeUp 1.5s ease forwards;
+  z-index: 3;
+  color: white;
 }
 
 .hero-overlay h1 {
   font-size: 3rem;
-  letter-spacing: 2px;
 }
 
 .hero-overlay p {
   max-width: 600px;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ================= PALETA ================= */
-
-:root {
-  --bg-main: #e2d6c6;
-  --bg-hero: #d3c2ad;
-  --bg-card: #c2b09a;
-  --text-primary: #3a2a1f;
-  --text-muted: #5b4636;
-  --accent: #7b5a43;
 }
 
 /* ================= PRODUCTOS ================= */
@@ -117,7 +115,6 @@ p {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
@@ -132,7 +129,6 @@ p {
   content: "EDICIÓN DISPONIBLE";
   font-size: 0.7rem;
   color: #8b6b3f;
-  display: block;
   margin-bottom: 10px;
   letter-spacing: 2px;
 }
@@ -147,16 +143,6 @@ p {
   margin-bottom: 20px;
 }
 
-.product-card .card-body {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.product-card button {
-  margin-top: auto;
-}
-
 .product-card h5 {
   font-size: 1.2rem;
   color: #5c3b1e;
@@ -167,11 +153,12 @@ p {
   margin-bottom: 8px;
 }
 
-/* Botón vintage */
+/* ================= BOTÓN VINTAGE ================= */
+
 .btn-vintage {
   margin-top: auto;
   padding: 8px 16px;
-  background-color: #c9a66b;
+  background-color: var(--accent-light);
   color: #3e2a18;
   border: 1px solid #8b6b3f;
   letter-spacing: 1px;
@@ -179,46 +166,18 @@ p {
 }
 
 .btn-vintage:hover {
-  background-color: #b8935a;
+  background-color: var(--accent-dark);
+  color: white;
   transform: translateY(-2px);
 }
 
-.product-muted {
-  color: var(--text-muted);
-}
+/* ================= BADGE ================= */
 
-.vintage-btn {
-  background-color: var(--accent);
-  color: #f2ece4;
-  border: none;
-}
-
-.vintage-btn:hover {
-  background-color: #6a4b38;
-  color: #ffffff;
-}
-
-/* Tarjetas estilo polaroid */
-.card {
-  background-color: var(--bg-card) !important;
-  border-radius: 6px 6px 8px 8px;
-  padding-bottom: 10px;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06);
-}
-
-.card-body {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-}
-
-/* NEW badge */
 .new-badge {
   position: absolute;
   top: 12px;
   right: 12px;
-  background-color: #c9a66b;
+  background-color: var(--accent-light);
   color: #3e2a18;
   padding: 6px 10px;
   font-size: 0.7rem;
@@ -229,22 +188,41 @@ p {
   box-shadow: 2px 2px 0px rgba(0,0,0,0.15);
 }
 
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 768px) {
+
   .product-card img {
     height: 250px;
   }
+
+  .hero-section {
+    min-height: 100vh;
+    z-index: 0;
+  }
+
+  .hero-overlay h1 {
+    font-size: 2rem;
+  }
+
+  .hero-overlay p {
+    font-size: 0.95rem;
+  }
+
+  .hero-overlay .row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .carousel-item {
+    height: 90vh;
+  }
+
+  .hero-features {
+    font-size: 0.9rem;
+  }
+
+  .hero-features h5 {
+    font-size: 1rem;
+  }
 }
-
-
-/* Duración suave */
-.hero-carousel {
-  --bs-carousel-transition-duration: 1.2s;
-}
-
-/* ===== RESTAURAR ANIMACIÓN BOOTSTRAP ===== */
-
-.hero-carousel .carousel-item {
-  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
-}
-
-

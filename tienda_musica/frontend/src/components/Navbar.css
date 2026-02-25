@@ -7,6 +7,8 @@
   border-top: 4px double #d2b48c;
   border-bottom: 4px double #d2b48c;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1000;
 }
 
 
@@ -46,6 +48,10 @@
   height: 100%;
   margin: 0;
   padding: 0;
+  z-index: 1100; /* para que esté por encima del fondo */
+  position: absolute;
+  top: 100px;
+  right: 0;
 }
 
 .nav-links a{
