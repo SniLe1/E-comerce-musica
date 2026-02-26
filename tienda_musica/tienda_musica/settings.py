@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework', #--- Agrega Django REST Framework conecta con el frontend React
     'users', #--- Agrega la aplicación de usuarios para manejar autenticación y perfiles  
     'rest_framework_simplejwt', #--- Agrega JWT para autenticación basada en tokens
+    'cart', #--- Agrega la aplicación de carrito para manejar la funcionalidad de compras
+    'orders', #--- Agrega la aplicación de pedidos para manejar el proceso de compra y gestión de pedidos
 
 ]
 

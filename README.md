@@ -610,3 +610,20 @@ Se configuro la pagina de catalogo para que esos productos tambien vayan a su de
 
 Se corrigio el error en el carrusel en el modo responsive que no sea veian bien las imagenes y el texto no estaba dentro
 
+## Miercoles 25 de febrero ##
+
+Se implementa el carrito de compra manejandolo desde el backend porque: 
+
+     Permite persistencia real: el carrito se guarda en la base de datos y no se pierde al recargar o cambiar de dispositivo.
+
+     Se integra con usuarios registrados: cada usuario puede tener su carrito asociado.
+
+     Facilita la transición a checkout con Webpay u otro sistema de pago, porque el backend controla el flujo y la seguridad.
+
+     Evita inconsistencias entre frontend y backend (ejemplo: stock, precios actualizados).
+
+--> Se crearon dos modelos nuevos uno llamado **cart** donde se manejara todo lo que es el carrito de compra y el otro llamado **order** que mas adelante se usara para manejar las ordenes de los usuarios
+
+
+
+
