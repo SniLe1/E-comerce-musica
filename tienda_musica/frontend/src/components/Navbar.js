@@ -1,12 +1,14 @@
-import { useState , useEffect} from "react";
+import { useState , useEffect, useContext} from "react";
 import {jwtDecode} from "jwt-decode";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
+import { CartContext } from "./CartContext";
 
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [username, setUsername] = useState(null);
+  const { cart } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,8 +64,13 @@ function Navbar() {
                 </li>
               </>
             )}          
-   
         </ul>
+        {/* Ícono del carrito */}
+        <div className="cart-icon">
+          <Link to="/cart">
+            🛒 <span className="cart-count">{cart.items?.length || 0}</span>
+          </Link>
+        </div>
       </div>
     </nav>
   );

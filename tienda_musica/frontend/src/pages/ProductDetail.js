@@ -15,7 +15,7 @@ function ProductDetail() {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/productos/${slug}/`)
+        fetch(`http://localhost:8000/api/tienda/productos/${slug}/`)
         .then(res => res.json())
         .then(data => setProducto(data))
         .catch(err => console.error(err));

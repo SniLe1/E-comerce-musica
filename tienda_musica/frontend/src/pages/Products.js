@@ -16,7 +16,7 @@ function Products() {
   };
 
   const fetchProductos = useCallback(() => {
-    let url = "http://localhost:8000/api/productos/?";
+    let url = "http://localhost:8000/api/tienda/productos/?";
 
     if (formato) {
       url += `formato=${formato}&`;

@@ -18,7 +18,7 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/productos/")
+    fetch("http://localhost:8000/api/tienda/productos/")
       .then(response => response.json())
       .then(data => {
         if (Array.isArray(data)) {

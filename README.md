@@ -624,6 +624,24 @@ Se implementa el carrito de compra manejandolo desde el backend porque:
 
 --> Se crearon dos modelos nuevos uno llamado **cart** donde se manejara todo lo que es el carrito de compra y el otro llamado **order** que mas adelante se usara para manejar las ordenes de los usuarios
 
+## model, serializer, view y urls ##
 
+se creo el modelo de carrito de compra que es el siguiente: 
 
+class CarritoItem(models.Model):
+    carrito = models.ForeignKey(
+        Carrito,
+        related_name="items",
+        on_delete=models.CASCADE
+    )
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+
+    def subtotal(self):
+        return self.producto.precio * self.cantidad
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.titulo}"
+
+--> Se creo el serializer: 
 
