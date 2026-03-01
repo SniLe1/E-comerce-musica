@@ -5,8 +5,11 @@ from rest_framework.decorators import action
 from .models import Carrito, CarritoItem
 from .serializers import CarritoSerializer, CarritoItemSerializer
 from tienda_app.models import Producto
+from rest_framework.permissions import IsAuthenticated
 
 class CarritoViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
     def list(self, request):
         carrito, created = Carrito.objects.get_or_create(usuario=request.user)
         serializer = CarritoSerializer(carrito)

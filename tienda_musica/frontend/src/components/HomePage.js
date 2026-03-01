@@ -2,6 +2,7 @@ import React, {useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import { Carousel } from "bootstrap";
+import api from "../axiosConfig"; // Asegúrate de que esta ruta sea correcta
 
 
 function HomePage() {
@@ -18,9 +19,9 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/tienda/productos/")
-      .then(response => response.json())
-      .then(data => {
+    api.get("/api/tienda/productos/")
+      .then(Response => {
+        const data = Response.data;
         if (Array.isArray(data)) {
           setProductos(data);
         } else if (data.results) {
@@ -29,7 +30,6 @@ function HomePage() {
           setProductos([]);
         }
       })
-
       .catch(error => console.error("Error:", error));
   }, []);
 

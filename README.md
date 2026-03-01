@@ -645,3 +645,28 @@ class CarritoItem(models.Model):
 
 --> Se creo el serializer: 
 
+## Domingo 01 de Marzo ##
+
+Se creo la pagina de carrito de compra, donde se veran todos los productos
+
+Para que esta funcione se creo un **axiosConfig.js** en **src** apuntando al backend. En este se configuro un receptor de request  --> Antes de que cada peticion salga revisa si en el **localstorage** existe un **accestoken**. Si este existe se exporta esa instancia como **api**
+
+Por qué es importante:
+
+--> Así no tienes que repetir headers en cada función.
+
+-->Garantiza que todas las llamadas al backend se hagan con el token JWT correcto.
+
+-->El backend recibe el token, valida al usuario y permite acceder a endpoints protegidos (como el carrito).
+
+Se creo el **CartContext.js** aqui se guardo el estado del carrito (Items y total) y se definieron las funciones que tendra 
+
+--> **fetchCart**: obtiene el carrito actual del usuario.
+
+--> **addToCart**: agrega un producto al carrito.
+
+--> **removeFromCart**: elimina un producto del carrito.
+
+--> **updateQuantity**: actualiza la cantidad de un producto en el carrito.
+
+Cada función usa api.get o api.post. Como api ya tiene el interceptor, el token se envía automáticamente.

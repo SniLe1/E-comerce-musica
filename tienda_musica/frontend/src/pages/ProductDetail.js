@@ -1,10 +1,28 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
 import "./ProductDetail.css";
+import { CartContext } from "../components/CartContext";
+
 
 function ProductDetail() {
     const { slug } = useParams();
     const [producto, setProducto] = useState(null);
+    const { addToCart } = useContext(CartContext);
+    const navigate = useNavigate();
+
+    const handleAddToCart = () => {
+        if (producto) {
+            addToCart(producto.id, 1); // Agrega el producto al carrito con cantidad 1
+            alert("Producto añadido al carrito")
+        }
+    };
+
+    const handleBuyNow = () => {
+        if (producto) {
+            addToCart(producto.id, 1); // Agrega el producto al carrito con cantidad 1
+            navigate("/cart"); // Redirige al carrito
+        }
+    };
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-CL', {
@@ -52,11 +70,15 @@ function ProductDetail() {
                 </p>
 
                 <div className="product-detail-button-group">
-                    <button className="product-detail-buy-btn">
+                    <button 
+                    className="product-detail-buy-btn"
+                    onClick={handleBuyNow}>
                     Comprar ahora
                     </button>
 
-                    <button className="product-detail-cart-btn">
+                    <button 
+                    className="product-detail-cart-btn"
+                    onClick={handleAddToCart}>
                     Añadir al carrito
                     </button>
                 </div>
