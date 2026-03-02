@@ -670,3 +670,102 @@ Se creo el **CartContext.js** aqui se guardo el estado del carrito (Items y tota
 --> **updateQuantity**: actualiza la cantidad de un producto en el carrito.
 
 Cada función usa api.get o api.post. Como api ya tiene el interceptor, el token se envía automáticamente.
+
+## Lunes 2 de Marzo ##
+
+-->**Refresh del token**
+
+1. Cuando el usuario inicia sesion, el backend le entrega un **acces token**, este token tiene una fecha de expiracion 
+2. Si el token expira, el backend yo no lo acepta 
+3. Para que el usuario no tenga que iniciar sesion otra vez se usa **refresh token**
+4. Dura mas tiempo y pide un token nuevo automaticamente
+
+--> El sigueinte codigo lo explica
+
+//Interceptor de respuestas: intenta reshelear el token si es necesario
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {  
+        const originalRequest = error.config;
+
+        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const refreshToken = localStorage.getItem('refreshToken');
+                const response = await axios.post('http://localhost:8000/api/token/refresh/', 
+                    { refresh: refreshToken });
+                const newAccessToken = response.data.access;
+                localStorage.setItem('accessToken', newAccessToken);
+
+                // Actualiza el token en el header de la solicitud original
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                return api(originalRequest);
+            } catch (refreshError) {
+                console.error('Error al refrescar el token:', refreshError);
+                // Si el refresh falla, limpia los tokens y redirige al login
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                window.location.href = '/login'; // Redirige al login
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
+--> **Explicaion**
+
+1. Si una peticion devuelve **401 Unauthorized**, el interceptor intenta usar el **refreshToken** para pedir un nuevo **accesToken**
+2. Si lo consigue, guarda el nuevo token en local storage
+3. Si falla, significa que el refresh tambien expiro --> El usuario debe volver a iniciar sesion
+
+--> **Error de imagen en carrito de compra**
+
+Se arreglo un erro que no aparecia la imagen del producto en el carrito de compra. Se arreglo agregando estos codigos: 
+
+--> **cart/serializer.py**
+
+
+class ProductoSerializer(serializers.ModelSerializer):
+    imagen = serializers.ImageField(use_url=True) <-- **Se agrego esta linea**
+    
+    class Meta:
+        model = Producto
+        fields = ['id', 'titulo', 'artista', 'formato', 'precio', 'imagen', 'slug']
+
+1. Lo que se hizo fue agregar en la clase de productos que imagen usara la url base
+
+--> **cart/vews.py**
+
+class CarritoViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
+    def list(self, request):
+        carrito, created = Carrito.objects.get_or_create(usuario=request.user)
+        serializer = CarritoSerializer(carrito, context={'request': request})  <-- Se agrego esto
+        return Response(serializer.data)
+
+1. Se agrego que el serializer usara context de request
+
+--> **Añadir y quitar productos**
+
+Se arreglo la funcion para aumentar o disminuir la cantidad de productos en el carrito de compra con el siguiente codigo:
+
+--> **CartContext**
+
+const updateQuantity = async (productoId, cantidad) => {
+     try {
+          const res = await api.post('/api/cart/carrito/update_quantity/', {
+          producto_id: productoId,
+          cantidad,
+     });
+     setCart(res.data);
+     } catch (error) {
+          console.error('Error al actualizar cantidad:', error);
+     }
+};   
+
+## Martes 03 de Marzo ##
+
+Corregir error de imagen que no se ve cuando ingreso a la pagina y tengo que actualizarla para que sea vea y mejorar el css del carrito.
+
+

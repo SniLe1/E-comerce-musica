@@ -48,7 +48,7 @@ export const CartProvider = ({ children }) => {
 
     const updateQuantity = async (productoId, cantidad) => {
         try {
-            const res = await api.post('/api/cart/carrito/update/', {
+            const res = await api.post('/api/cart/carrito/update_quantity/', {
             producto_id: productoId,
             cantidad,
         });

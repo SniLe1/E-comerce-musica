@@ -12,7 +12,7 @@ class CarritoViewSet(viewsets.ViewSet):
     
     def list(self, request):
         carrito, created = Carrito.objects.get_or_create(usuario=request.user)
-        serializer = CarritoSerializer(carrito)
+        serializer = CarritoSerializer(carrito, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
@@ -44,10 +44,18 @@ class CarritoViewSet(viewsets.ViewSet):
     def update_quantity(self, request):
         producto_id = request.data.get('producto_id')
         cantidad = int(request.data.get('cantidad', 1))
-        carrito = Carrito.objects.get(usuario=request.user)
-        item = CarritoItem.objects.get(carrito=carrito, producto_id=producto_id)
-        item.cantidad = cantidad
-        item.save()
-        serializer = CarritoSerializer(carrito)
-        return Response(serializer.data)
-
+        
+        try:
+            carrito = Carrito.objects.get(usuario=request.user)
+            item = CarritoItem.objects.get(producto_id=producto_id)
+            
+            if cantidad <= 0:
+                item.delete()
+            else:
+                item.cantidad = cantidad
+                item.save()
+            serializer = CarritoSerializer(carrito, context={'request': request})
+            return Response(serializer.data)
+        
+        except (Carrito.DoesNotExist, CarritoItem.DoesNotExist):
+            return Response({'error': 'Carrito o item no encontrado'}, status=status.HTTP_404_NOT_FOUND)

@@ -3,6 +3,8 @@ from .models import Carrito, CarritoItem
 from tienda_app.models import Producto
 
 class ProductoSerializer(serializers.ModelSerializer):
+    imagen = serializers.ImageField(use_url=True)
+    
     class Meta:
         model = Producto
         fields = ['id', 'titulo', 'artista', 'formato', 'precio', 'imagen', 'slug']
