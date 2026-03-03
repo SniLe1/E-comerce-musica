@@ -764,8 +764,84 @@ const updateQuantity = async (productoId, cantidad) => {
      }
 };   
 
+-->**Diagrama de flujo del carrito9**
+
+          Usuario en CartPage
+               │
+               ▼
+          Hace clic en botón (+ / - / Eliminar)
+               │
+               ▼
+          CartContext llama a función correspondiente:
+          - addToCart(productoId, cantidad)
+          - updateQuantity(productoId, cantidad)
+          - removeFromCart(productoId)
+               │
+               ▼
+          Axios envía request al backend con token:
+          - POST /api/cart/carrito/add/
+          - POST /api/cart/carrito/update_quantity/
+          - POST /api/cart/carrito/remove/
+               │
+               ▼
+          CarritoViewSet recibe la petición:
+          - add → busca producto y crea/actualiza CarritoItem
+          - update_quantity → ajusta cantidad o elimina si es 0
+          - remove → elimina CarritoItem
+               │
+               ▼
+          CarritoSerializer serializa el carrito actualizado
+               │
+               ▼
+          Backend responde con JSON del carrito
+               │
+               ▼
+          CartContext actualiza estado `cart` con setCart()
+               │
+               ▼
+          CartPage re-renderiza:
+          - Muestra nueva cantidad
+          - Muestra subtotal actualizado
+          - Muestra total actualizado
+
+
 ## Martes 03 de Marzo ##
 
-Corregir error de imagen que no se ve cuando ingreso a la pagina y tengo que actualizarla para que sea vea y mejorar el css del carrito.
+--> Cambio en la pagian de carrito de compra 
+
+1. Concepto:
+
+En vez de tener una ruta /cart con su propia página, el carrito será un componente global.
+
+Se renderiza como un overlay lateral (un panel que aparece desde la derecha).
+
+Se controla con un estado global (ej. en el CartContext) que indica si el carrito está abierto o cerrado.
+
+El ícono del carrito en el navbar dispara ese estado.
+
+-->**Nuevo Sidebar**
+
+Para esto se eiliminaron los archivos de **cart.js** y **cart.css**, los cuales eran la pagina de carrito de compras, para asi hacer un componente nuevo llamado **CartSidebar.js y .css**. El cual es igual a la pagina de carrito pero esta vez se abre desde el navbar, en el icono de carrito y se abre desde la derecha de la pantall.
+
+-->**Bug de imagenes**
+
+Se arreglo el bug de que cuando se agregaba un producto al carrito, este no mostraba las imagenes de los productos ingresado, y se tenia que actualizar la pagina para que se mostraran de nuevo. Para esto se uso el sigueinte codigo:
+
+-->**CartContex.js**
+
+    const addToCart = async (productoId, cantidad = 1) => {
+        try {
+            await api.post('/api/cart/carrito/add/', {
+            producto_id: productoId,
+            cantidad,
+        });
+        await fetchCart(); // 👈 vuelve a traer el carrito completo con imágenes
+        } catch (error) {
+            console.error('Error al agregar al carrito:', error);
+        }
+    };
+
+Se cambio el **setCart(res.data)** por **await fetchCart();** para que asi se llame a la funcion de fetch y traiga de nuevo las imagenes de los productos.
+
 
 

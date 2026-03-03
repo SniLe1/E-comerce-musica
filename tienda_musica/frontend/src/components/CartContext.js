@@ -24,11 +24,11 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = async (productoId, cantidad = 1) => {
         try {
-            const res = await api.post('/api/cart/carrito/add/', {
+            await api.post('/api/cart/carrito/add/', {
             producto_id: productoId,
             cantidad,
         });
-        setCart(res.data);
+        await fetchCart(); // 👈 vuelve a traer el carrito completo con imágenes
         } catch (error) {
             console.error('Error al agregar al carrito:', error);
         }
@@ -37,10 +37,10 @@ export const CartProvider = ({ children }) => {
 
     const removeFromCart = async (productoId) => {
         try {
-            const res = await api.post('/api/cart/carrito/remove/', {
+            await api.post('/api/cart/carrito/remove/', {
             producto_id: productoId,
         });
-        setCart(res.data);
+        await fetchCart(); // 👈 vuelve a traer el carrito completo con imágenes
         } catch (error) {
             console.error('Error al eliminar del carrito:', error);
         }
@@ -48,11 +48,11 @@ export const CartProvider = ({ children }) => {
 
     const updateQuantity = async (productoId, cantidad) => {
         try {
-            const res = await api.post('/api/cart/carrito/update_quantity/', {
+            await api.post('/api/cart/carrito/update_quantity/', {
             producto_id: productoId,
             cantidad,
         });
-        setCart(res.data);
+        await fetchCart(); // 👈 vuelve a traer el carrito completo con imágenes
         } catch (error) {
             console.error('Error al actualizar cantidad:', error);
         }

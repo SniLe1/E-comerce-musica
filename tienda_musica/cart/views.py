@@ -47,7 +47,7 @@ class CarritoViewSet(viewsets.ViewSet):
         
         try:
             carrito = Carrito.objects.get(usuario=request.user)
-            item = CarritoItem.objects.get(producto_id=producto_id)
+            item = CarritoItem.objects.get(carrito=carrito, producto_id=producto_id)
             
             if cantidad <= 0:
                 item.delete()

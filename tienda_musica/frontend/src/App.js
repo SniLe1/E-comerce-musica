@@ -7,7 +7,6 @@ import Activate from "./pages/Activate";
 import Products from "./pages/Products";
 import Footer from "./components/Footer";
 import ProductDetail from "./pages/ProductDetail";
-import CartPage from "./pages/CartPage";
 import { CartProvider } from "./components/CartContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -25,7 +24,6 @@ function App() {
               <Route path="/activate/:uid/:token" element={<Activate />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:slug" element={<ProductDetail />} />
-              <Route path="/cart" element={<CartPage />} />
             </Routes>
           </main>
           <Footer />
