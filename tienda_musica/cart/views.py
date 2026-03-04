@@ -3,7 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Carrito, CarritoItem
-from .serializers import CarritoSerializer, CarritoItemSerializer
+from .serializers import CarritoSerializer
 from tienda_app.models import Producto
 from rest_framework.permissions import IsAuthenticated
 
@@ -29,7 +29,7 @@ class CarritoViewSet(viewsets.ViewSet):
             item.cantidad = cantidad
         item.save()
 
-        serializer = CarritoSerializer(carrito)
+        serializer = CarritoSerializer(carrito, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['post'])
@@ -37,7 +37,7 @@ class CarritoViewSet(viewsets.ViewSet):
         producto_id = request.data.get('producto_id')
         carrito = Carrito.objects.get(usuario=request.user)
         CarritoItem.objects.filter(carrito=carrito, producto_id=producto_id).delete()
-        serializer = CarritoSerializer(carrito)
+        serializer = CarritoSerializer(carrito, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])

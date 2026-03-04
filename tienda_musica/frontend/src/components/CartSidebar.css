@@ -61,7 +61,25 @@
   align-items: flex-start;
   padding: 15px 0;
   border-bottom: 1px solid #c8b6a6;
+  opacity: 0;
+  transform: translateX(50px);
+  animation: slideIn 0.4s ease forwards;
 }
+
+/* Animacion de entrada del producto */
+.cart-item.animate-in {
+  opacity: 0;
+  transform: translateX(100%);
+  animation: slideInRight 1.5s ease forwards;
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 
 .cart-item img {
   width: 90px;

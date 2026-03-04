@@ -843,5 +843,65 @@ Se arreglo el bug de que cuando se agregaba un producto al carrito, este no most
 
 Se cambio el **setCart(res.data)** por **await fetchCart();** para que asi se llame a la funcion de fetch y traiga de nuevo las imagenes de los productos.
 
+## Miercoles 04 de Marzo ##
 
+--> Notificaion cuando se agrega un prodcuto
+
+Para hacer esto se crearon dos archivos nuevos **Toast.js y css** El cual se encargara de crear una notificacion en la esquina inferior derecha de que se agrego un producto. Se hizo usando este codigo: 
+
+--> **Toast.js**
+
+          function Toast({ message, show }) {
+          return (
+          <div className={`toast ${show ? "show" : ""}`}>
+               <span className="toast-icon">🛒</span>
+               {message}
+          </div>
+          );
+          }
+
+-->**App.js**
+
+     {/* 👇 aquí va el toast */}
+          <Toast message="Producto añadido al carrito" show={toastVisible} />
+
+--> Al agregar producto al carrito, este se abre automaticamente y aparece el producto con una animacion
+
+Para esto se hicieron modificaciones en diferentes archivos. Aqui esta el codigo:
+
+-->1- **App.js**
+
+Agregamos un estado de **isCartOpen** y lo pasamos al **CartSidebar**
+
+               <Route 
+                  path="/products/:slug" 
+                  element={<ProductDetail onOpenCart={() => setIsCartOpen(true)}
+                  onShowToast={showToast}
+                />} 
+
+               <CartSidebar
+                 isOpen={isCartOpen}
+                 onClose={() => setIsCartOpen(false)}
+               />
+
+--> 2 **ProductDetail.js** --> Abrir el carro al agregar
+
+Usa la prop onOpenCart que recibes desde App.js:
+
+     const handleAddToCart = async () => {
+          if (producto) {
+               await addToCart(producto.id, 1) // Agrega el producto al carrito con cantidad 1
+               onOpenCart();
+               onShowToast();
+          }
+     };
+
+--> **Animacion de eliminar un prodcuto**
+
+SOON
+
+
+--> Se actualizo el diseño del navbar
+
+Se modifico el navbar para que el logo este al centro y los links a su alrededor, todavia hay errores en el modo responsive pero se arreglara.
 

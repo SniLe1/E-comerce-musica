@@ -1,10 +1,9 @@
-import { useState , useEffect, useContext} from "react";
-import {jwtDecode} from "jwt-decode";
+import { useState, useEffect, useContext } from "react";
+import { jwtDecode } from "jwt-decode";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "./CartContext";
 import CartSidebar from "./CartSidebar";
-
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +14,6 @@ function Navbar() {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-
     if (token) {
       const decoded = jwtDecode(token);
       setUsername(decoded.username);
@@ -29,51 +27,74 @@ function Navbar() {
     navigate("/");
   };
 
-
   return (
     <>
       <nav className="navbar-vintage">
         <div className="nav-container">
-          <div className="nav-logo">Vinyl Store</div>
+          {/* Links izquierda (solo desktop) */}
+          <ul className="nav-links-left">
+            <li><Link to="/products">Catálogo</Link></li>
+            <li><Link to="/nosotros">Nosotros</Link></li>
+            <li><Link to="/contacto">Contacto</Link></li>
+          </ul>
 
+          {/* Logo centro */}
+          <div className="nav-logo">
+            <Link to="/">Vinyl Store</Link>
+          </div>
+
+          {/* Links derecha (solo desktop) */}
+          <ul className="nav-links-right">
+            {/* Registro solo si NO hay usuario */}
+            {!username && ( 
+              <li><Link to="/register">Registro</Link></li>
+            )}
+            {/* Login o saludo según estado */}
+            {!username ? (
+              <li><Link to="/login">Iniciar sesión</Link></li>
+            ) : (
+              <li className="nav-user-group">
+                <span className="nav-user">¡Hola, {username}! 👋</span>
+                <button className="nav-logout" onClick={handleLogout}>Cerrar sesión</button>
+              </li>
+            )}
+            {/* Carrito */}
+            <li>
+              <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
+                🛒 <span className="cart-count">{cart.items?.length || 0}</span>
+              </div>
+            </li>
+          </ul>
+
+          {/* Hamburguesa (solo móvil) */}
           <div 
             className="menu-toggle"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             ☰
           </div>
-          <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
-            <li><Link to="/">Inicio</Link></li>
-            <li><Link to="/products">Catálogo</Link></li>
-            <li><Link to="/">Nosotros</Link></li>
-            <li><Link to="/">Contacto</Link></li>
-            <li><Link to="/register">Registro</Link></li>
-            {!username ? (
-                <li >
-                  <Link to="/login">
-                    Iniciar sesión
-                  </Link>
-                </li>
-              ) : (
-                <>
-                  <li className="nav-user-group">
-                    <span className="nav-user">
-                      ¡Hola, {username}! 👋
-                    </span>
+        </div>
 
-                    <button className="nav-logout" onClick={handleLogout}>
-                      Cerrar sesión
-                    </button>
-                  </li>
-                </>
-              )}          
+        {/* Menú lateral (solo móvil) */}
+        <div className={`mobile-menu ${menuOpen ? "active" : ""}`}>
+          <ul>
+            <li><Link to="/products" onClick={() => setMenuOpen(false)}>Catálogo</Link></li>
+            <li><Link to="/nosotros" onClick={() => setMenuOpen(false)}>Nosotros</Link></li>
+            <li><Link to="/contacto" onClick={() => setMenuOpen(false)}>Contacto</Link></li>
+            <li><Link to="/register" onClick={() => setMenuOpen(false)}>Registro</Link></li>
+            {!username ? (
+              <li><Link to="/login" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link></li>
+            ) : (
+              <li className="nav-user-group">
+                <span className="nav-user">¡Hola, {username}! 👋</span>
+                <button className="nav-logout" onClick={handleLogout}>Cerrar sesión</button>
+              </li>
+            )}
           </ul>
-          {/* Ícono del carrito */}
-          <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
-            🛒 <span className="cart-count">{cart.items?.length || 0}</span>
-          </div>
         </div>
       </nav>
+
+
       {/* Sidebar del carrito */}
       <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>

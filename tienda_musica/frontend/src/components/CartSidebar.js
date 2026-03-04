@@ -33,7 +33,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 ) : (
                     <>
                         {cart.items.map(item => (
-                            <div key={item.id} className="cart-item">
+                            <div key={item.id} className="cart-item animate-in">
                                 <img src={item.producto.imagen} alt={item.producto.titulo} />
                                 <div className="cart-item-info">
                                     <h4>{item.producto.titulo}</h4>

@@ -1,19 +1,21 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./ProductDetail.css";
+import Toast from "../components/Toast";
 import { CartContext } from "../components/CartContext";
 
 
-function ProductDetail() {
+function ProductDetail( {onOpenCart, onShowToast} ) {
     const { slug } = useParams();
     const [producto, setProducto] = useState(null);
     const { addToCart } = useContext(CartContext);
     const navigate = useNavigate();
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         if (producto) {
-            addToCart(producto.id, 1); // Agrega el producto al carrito con cantidad 1
-            alert("Producto añadido al carrito")
+            await addToCart(producto.id, 1) // Agrega el producto al carrito con cantidad 1
+            onOpenCart();
+            onShowToast();
         }
     };
 
