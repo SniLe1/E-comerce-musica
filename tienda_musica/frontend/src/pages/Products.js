@@ -6,6 +6,7 @@ function Products() {
   const [productos, setProductos] = useState([]);
   const [search, setSearch] = useState("");
   const [formato, setFormato] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(false); // 👈 nuevo estado
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CL', {
@@ -29,8 +30,6 @@ function Products() {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        console.log("DATA:", data);
-
         if (Array.isArray(data)) {
           setProductos(data);
         } else if (data.results) {
@@ -45,17 +44,36 @@ function Products() {
       });
   }, [formato, search]);
 
-
-  useEffect (() => {
+  useEffect(() => {
     fetchProductos();
   }, [fetchProductos]);
+
+  useEffect(() => {
+    if (filtersOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+  }, [filtersOpen]);
+
 
   return (
     <div className="products-wrapper">
       <div className="products-layout">
 
-        {/* SIDEBAR */}
-        <div className="filters-sidebar">
+        {/* Botón de filtros en responsive */}
+        <div 
+          className="filter-toggle"
+          onClick={() => setFiltersOpen(!filtersOpen)}
+        >
+          ⚲ Filtros
+        </div>
+
+        {/* Overlay para cerrar al pinchar afuera */}
+        {filtersOpen && <div className="filter-overlay" onClick={() => setFiltersOpen(false)}></div>}
+
+        {/* Sidebar de filtros */}
+        <div className={`filters-sidebar ${filtersOpen ? "active" : ""}`}>
           <h2>Filtros</h2>
 
           <input
@@ -73,21 +91,18 @@ function Products() {
             >
               Todos
             </button>
-
             <button
               className={`tag ${formato === "vinilo" ? "active" : ""}`}
               onClick={() => setFormato("vinilo")}
             >
               Vinilo
             </button>
-
             <button
               className={`tag ${formato === "cd" ? "active" : ""}`}
               onClick={() => setFormato("cd")}
             >
               CD
             </button>
-
             <button
               className={`tag ${formato === "digital" ? "active" : ""}`}
               onClick={() => setFormato("digital")}
@@ -100,10 +115,8 @@ function Products() {
         {/* PRODUCTOS */}
         <div className="products-content">
           <h1 className="products-title">Catálogo</h1>
-
           <div className="products-grid">
             {Array.isArray(productos) && productos.map(producto => (
-
               <Link 
                 key={producto.id}
                 to={`/products/${producto.slug}`} 
@@ -122,9 +135,7 @@ function Products() {
                   <div className="product-info">
                     <h3 className="album-title">{producto.titulo}</h3>
                     <p className="album-artist">{producto.artista}</p>
-                    <p className="price">
-                      {formatPrice(producto.precio)}
-                    </p>
+                    <p className="price">{formatPrice(producto.precio)}</p>
                   </div>
                 </div>
               </Link>
@@ -134,7 +145,6 @@ function Products() {
 
       </div>
     </div>
-
   );
 }
 

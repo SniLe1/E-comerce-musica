@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from './CartContext';
 import './CartSidebar.css';
 
@@ -11,6 +11,28 @@ const CartSidebar = ({ isOpen, onClose }) => {
             currency: 'CLP',
             minimumFractionDigits: 0,
         }).format(price);
+    };
+
+    const [items, setItems] = useState(cart.items);
+
+    // 🔄 Mantener sincronizado el estado local con el contexto
+    useEffect(() => {
+        setItems(cart.items);
+    }, [cart.items]);
+
+    const handleRemove = (id) => {
+        // 🆕 Cambio: en vez de "removing: true", ahora guardamos un string con el nombre de la animación
+        setItems(prev =>
+            prev.map(item =>
+                item.producto.id === id ? { ...item, removing: "slide-out" } : item
+            )
+        );
+
+        // ⏱ Espera la duración de la animación antes de eliminarlo del contexto
+        setTimeout(() => {
+            removeFromCart(id); // actualiza el contexto global
+            setItems(prev => prev.filter(item => item.producto.id !== id));
+        }, 400); // mismo tiempo que la animación en CSS
     };
 
     return (
@@ -28,12 +50,16 @@ const CartSidebar = ({ isOpen, onClose }) => {
                     <button onClick={onClose}>✖</button>
                 </div>
 
-                {cart.items.length === 0 ? (
+                {items.length === 0 ? (
                     <p>El carrito está vacío.</p>
                 ) : (
                     <>
-                        {cart.items.map(item => (
-                            <div key={item.id} className="cart-item animate-in">
+                        {items.map(item => (
+                            <div 
+                                key={item.producto.id} 
+                                // 🆕 Cambio: usamos item.removing como clase dinámica (puede ser "slide-out" o "removing")
+                                className={`cart-item animate-in ${item.removing ? item.removing : ""}`}
+                            >
                                 <img src={item.producto.imagen} alt={item.producto.titulo} />
                                 <div className="cart-item-info">
                                     <h4>{item.producto.titulo}</h4>
@@ -41,18 +67,18 @@ const CartSidebar = ({ isOpen, onClose }) => {
                                     <p>Formato: {item.producto.formato}</p>
                                     <p>Precio: {formatPrice(item.producto.precio)}</p>
 
-
-                                    {/* Acciones en fila debajo de la info */}
+                                    {/* Acciones */}
                                     <div className="cart-item-actions">
                                         <button onClick={() => updateQuantity(item.producto.id, item.cantidad - 1)}>-</button>
                                         <span>{item.cantidad}</span>
                                         <button onClick={() => updateQuantity(item.producto.id, item.cantidad + 1)}>+</button>
-                                        <button onClick={() => removeFromCart(item.producto.id)}>Eliminar</button>
+                                        {/* 🆕 Cambio: ahora usamos handleRemove en vez de removeFromCart directo */}
+                                        <button onClick={() => handleRemove(item.producto.id)}>Eliminar</button>
                                     </div>
                                 </div>
                             </div>
                         ))}
-                        {/* Boton del check out */}
+                        {/* Botón de checkout */}
                         <div className="checkout-section">
                             <button className='checkout-button'>
                                 Check Out • {formatPrice(cart.total)} CLP

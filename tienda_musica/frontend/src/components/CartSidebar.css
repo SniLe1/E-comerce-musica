@@ -80,6 +80,32 @@
   }
 }
 
+/* Animación de eliminación */
+@keyframes slideOutRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.cart-item.slide-out {
+  animation: slideOutRight 0.4s ease forwards;
+}
+
+
+.cart-item.removing {
+  animation: removeItem 0.4s ease forwards;
+}
+
+
 
 .cart-item img {
   width: 90px;

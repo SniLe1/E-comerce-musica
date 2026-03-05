@@ -898,10 +898,18 @@ Usa la prop onOpenCart que recibes desde App.js:
 
 --> **Animacion de eliminar un prodcuto**
 
-SOON
+Se añadio una anumacion de elimacion de prodcuto que va hacia la derecha 
 
 
 --> Se actualizo el diseño del navbar
 
-Se modifico el navbar para que el logo este al centro y los links a su alrededor, todavia hay errores en el modo responsive pero se arreglara.
+Se modifico el navbar para que el logo este al centro y los links a su alrededor, ademas se arreglo el modo responsive del navbar.
+
+--> **Responsive catalogo**
+
+Se arreglo el modo responsive del catalogo de producos cambiando el filtro haciendolo como un menu desplegable.
+
+## Jueves 05 de Marzo ##
+
+
 
