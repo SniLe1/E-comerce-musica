@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.conf import settings
 
 class Producto(models.Model):
 
@@ -37,3 +38,13 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+class ProductoClick(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    fecha = models.DateTimeField(auto_now_add=True)
+    ip = models.GenericIPAddressField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"Click en {self.producto.titulo} ({self.fecha})"
+

@@ -911,5 +911,28 @@ Se arreglo el modo responsive del catalogo de producos cambiando el filtro hacie
 
 ## Jueves 05 de Marzo ##
 
+-->**ProductoClick**
+
+Se va a crear una nueva classe en la app de prodcuto para poder llevar la cuenta de cuantos clicks resive cada prodcuto, clicks por usuario y tendecias en el tiempo, para asi hacer analisis avanzado. para eso se usara el siguiente codigo:
+
+
+class ProductClick(models.Model):
+     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+     fecha = models.DateTimeField(auto_now_add=True)
+     ip = models.GenericIPAddressField(null=True, blank=True)
+
+
+-->**Views.py**
+
+    @action(detail=True, methods=['post'])
+    def click(self, request, pk=None):
+        producto = self.get_object()
+        ProductoClick.objects.create(
+            producto=producto,
+            usuario=request.user if request.user.is_authenticated else None,
+            ip=request.META.get('REMOTE_ADDR')
+        )
+        return Response({"status": "ok"})
 
 

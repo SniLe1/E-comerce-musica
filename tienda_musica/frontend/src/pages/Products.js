@@ -121,6 +121,11 @@ function Products() {
                 key={producto.id}
                 to={`/products/${producto.slug}`} 
                 className="product-card-link"
+                onClick={() => {
+                  fetch(`http://localhost:8000/api/tienda/productos/${producto.id}/click/`, {
+                    method: "POST"
+                  });
+                }}
               >
                 <div className="product-card">
                   <div className="image-wrapper">
