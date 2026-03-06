@@ -208,6 +208,37 @@
   z-index: 1100;
 }
 
+/* ADMIN ICON */
+.admin-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+}
+
+/* Quitar subrayado y fondo */
+.admin-link {
+  text-decoration: none;   /* elimina subrayado azul */
+  color: inherit;          /* hereda color del padre */
+}
+
+.admin-symbol {
+  font-size: 22px;
+  color: #2c3e50;          /* gris oscuro elegante */
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* Hover con transparencia */
+.admin-symbol:hover {
+  background: rgba(0, 0, 0, 0.05); /* fondo gris muy suave y transparente */
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .nav-links-left, .nav-links-right {

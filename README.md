@@ -936,3 +936,55 @@ class ProductClick(models.Model):
         return Response({"status": "ok"})
 
 
+## Viernes 06 de Marzo ##
+
+--> **Navbar admin**
+
+Se creo en el navbar una funcion para que cuando el usuario del admin se logee, el icono del carrito de compra se cambie por un engranaje que redirijira a la pagina del administrador, donde estara un **CRUD**. Para eso se utilizo el siguiente codigo:
+
+-->**Login.js** Aqui se hizo la diferenciasion de usuarios, si es admin o no
+
+        // 👑 Decodificar token y guardar si es admin
+        const decoded = jwtDecode(data.access);
+        localStorage.setItem("isAdmin", decoded.is_staff); 
+
+-->**Navbar.js** Aqui se modifico el handlelogout para que cuando el usuario cierre su sesion, la pagina se actualize 
+
+          const handleLogout = () => {
+               localStorage.removeItem("accessToken");
+               localStorage.removeItem("refreshToken");
+               localStorage.removeItem("isAdmin"); // 👈 importante
+               setUsername(null);
+               setIsAdmin(false)
+               navigate("/");
+               window.location.reload();
+          };
+
+--> Aqui se creo el codigo del icono dinamico
+
+            {isAdmin ? (
+              <div className="admin-icon">
+                <Link to="/admin" className="admin-link">
+                  <span className="admin-symbol">⚙️</span>
+                </Link>
+              </div>
+            ) : (
+
+--> **Pagina del admin**
+
+Se creo la pagina del admin, y para hacerla que solo el admin pueda ingresa a ella se crearon validaciones en **app.js**
+
+     // 👇 Aquí defines el wrapper de ruta privada
+     function PrivateAdminRoute({ children }) {
+     const isAdmin = localStorage.getItem("isAdmin") === "true";
+     return isAdmin ? children : <HomePage />;
+}
+
+            <Route
+              path="/admin"
+              element={
+                <PrivateAdminRoute>
+                  <AdminPage />
+                </PrivateAdminRoute>
+              }
+            />

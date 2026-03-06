@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "./CartContext";
@@ -11,20 +11,25 @@ function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cart } = useContext(CartContext);
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       const decoded = jwtDecode(token);
       setUsername(decoded.username);
+      setIsAdmin(decoded.is_staff || decoded.is_superuser); // 👈 guardamos rol admin
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("isAdmin"); // 👈 importante
     setUsername(null);
+    setIsAdmin(false)
     navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -71,12 +76,19 @@ function Navbar() {
                 </li>
               )}
             </ul>
-            {/* Carrito */}
-            <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
-              🛒 <span className="cart-count">{cart.items?.length || 0}</span>
-            </div>
+            {/* Icono dinamico */}
+            {isAdmin ? (
+              <div className="admin-icon">
+                <Link to="/admin" className="admin-link">
+                  <span className="admin-symbol">⚙️</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
+                🛒 <span className="cart-count">{cart.items?.length || 0}</span>
+              </div>
+            )}
           </div>
-
         </div>
 
         {/* Overlay para cerrar al pinchar afuera */}
@@ -103,8 +115,10 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Sidebar del carrito */}
-      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      {/* Sidebar del carrito solo si no es admin */}
+      {!isAdmin && (
+        <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      )}
     </>
   );
 }

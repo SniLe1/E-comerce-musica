@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
+import { jwtDecode } from "jwt-decode";
+
+
 
 function Login() {
 
@@ -40,6 +43,11 @@ function Login() {
         // 🔐 Guardar tokens
         localStorage.setItem("accessToken", data.access);
         localStorage.setItem("refreshToken", data.refresh);
+
+        // 👑 Decodificar token y guardar si es admin
+        const decoded = jwtDecode(data.access);
+        localStorage.setItem("isAdmin", decoded.is_staff); 
+
 
         setNotification({
           type: "success",
