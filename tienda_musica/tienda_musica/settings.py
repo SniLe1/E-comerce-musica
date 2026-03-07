@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt', #--- Agrega JWT para autenticación basada en tokens
     'cart', #--- Agrega la aplicación de carrito para manejar la funcionalidad de compras
     'orders', #--- Agrega la aplicación de pedidos para manejar el proceso de compra y gestión de pedidos
-
+    'home_crud'
 ]
 
 MIDDLEWARE = [
