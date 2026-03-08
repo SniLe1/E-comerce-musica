@@ -41,7 +41,7 @@ function HomePage() {
 
   // Obtener configuración del Home
   useEffect(() => {
-    fetch("http://localhost:8000/api/home/admin/home/")
+    fetch("http://localhost:8000/api/home/public/home/")
       .then((response) => response.json())
       .then((data) => setConfig(data))
       .catch((error) => console.error("Error al cargar configuración del Home:", error));

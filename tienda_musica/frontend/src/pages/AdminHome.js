@@ -53,12 +53,13 @@ function AdminHome() {
     };
 
     const handleSave = async () => {
-        const payload = {
-        carouselImages,
-        title,
-        description,
-        features,
-        };
+    const payload = {
+    carousel_images: carouselImages,
+    title,
+    description,
+    features,
+    };
+
 
         try {
         const response = await fetch("http://localhost:8000/api/home/admin/home/", {
