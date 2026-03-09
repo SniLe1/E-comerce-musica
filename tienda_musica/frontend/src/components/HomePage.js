@@ -79,7 +79,7 @@ function HomePage() {
           <div className="carousel-inner">
             {config.carousel_images.map((img, i) => (
               <div key={i} className={`carousel-item ${i === 0 ? "active" : ""}`}>
-                <img src={img} className="d-block w-100" alt={`Imagen ${i + 1}`} />
+                <img src={img} className="carousel-img" alt={`Imagen ${i + 1}`} />
               </div>
             ))}
           </div>

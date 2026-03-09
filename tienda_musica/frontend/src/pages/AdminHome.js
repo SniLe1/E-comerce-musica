@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./AdminHome.css";
 
 function AdminHome() {
-    const [carouselImages, setCarouselImages] = useState([
-        "/media/vinilo1.jpg",
-        "/media/vinilo2.jpg",
-        "/media/vinilo3.jpg"
-    ]);
+    const [carouselImages, setCarouselImages] = useState([]);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [features, setFeatures] = useState([]);
 
-    const [title, setTitle] = useState("Tienda de Música");
-    const [description, setDescription] = useState("Compra música en formato físico y digital.\nVinilos, CDs y descargas en alta calidad.");
-    const [features, setFeatures] = useState([
-        { icon: "🎧", title: "Digital", text: "Descarga inmediata en MP3 y FLAC." },
-        { icon: "💿", title: "Físico", text: "Vinilos y CDs con envío a todo el país." },
-        { icon: "⭐", title: "Calidad", text: "Música original y sin compresión." }
-    ]);
+    // Función para recargar configuración desde el backend
+    const reloadConfig = () => {
+        fetch("http://localhost:8000/api/home/admin/home/", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            setCarouselImages(data.carousel_images || []);
+            setTitle(data.title || "");
+            setDescription(data.description || "");
+            setFeatures(data.features || []);
+        })
+        .catch((err) => console.error("Error recargando configuración:", err));
+    };
 
-    // Eliminar imagen
-    const handleDeleteImage = (index) => {
+    // Cargar configuración inicial
+    useEffect(() => {
+        reloadConfig();
+    }, []);
+
+    // Eliminar imagen y persistir
+    const handleDeleteImage = async (index) => {
         const newImages = carouselImages.filter((_, i) => i !== index);
         setCarouselImages(newImages);
+        await handleSave(newImages);
+        reloadConfig(); // refresca desde backend
     };
+
 
     // Agregar imagen como archivo
     const handleAddImage = async (e) => {
@@ -32,18 +48,22 @@ function AdminHome() {
         formData.append("image", file);
 
         try {
-        const response = await fetch("http://localhost:8000/api/home/admin/home/upload/", {
+        const response = await fetch(
+            "http://localhost:8000/api/home/admin/home/upload/",
+            {
             method: "POST",
             headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
             body: formData,
-        });
+            }
+        );
 
         if (response.ok) {
             const data = await response.json();
-            // El backend debería devolver la URL de la imagen subida
-            setCarouselImages([...carouselImages, data.image_url]);
+            const newImages = [...carouselImages, data.image_url];
+            setCarouselImages(newImages);
+            await handleSave(newImages);
         } else {
             alert("Error al subir la imagen ❌");
         }
@@ -52,27 +72,31 @@ function AdminHome() {
         }
     };
 
-    const handleSave = async () => {
-    const payload = {
-    carousel_images: carouselImages,
-    title,
-    description,
-    features,
-    };
-
+    // Guardar cambios en backend
+    const handleSave = async (images = carouselImages) => {
+        const payload = {
+        carousel_images: images,
+        title,
+        description,
+        features,
+        };
 
         try {
-        const response = await fetch("http://localhost:8000/api/home/admin/home/", {
+        const response = await fetch(
+            "http://localhost:8000/api/home/admin/home/",
+            {
             method: "PUT",
             headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
             body: JSON.stringify(payload),
-        });
+            }
+        );
 
         if (response.ok) {
             alert("Cambios guardados correctamente ✅");
+            reloadConfig(); // refresca el estado con lo que guardó el backend
         } else {
             alert("Error al guardar los cambios ❌");
         }
@@ -118,11 +142,18 @@ function AdminHome() {
             <h2>Texto Principal</h2>
             <div className="form-group">
                 <label>Título</label>
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                />
             </div>
             <div className="form-group">
                 <label>Descripción</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+                <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                />
             </div>
             </section>
 
@@ -132,28 +163,42 @@ function AdminHome() {
             {features.map((f, i) => (
                 <div key={i} className="form-group">
                 <label>Icono</label>
-                <input type="text" value={f.icon} onChange={(e) => {
+                <input
+                    type="text"
+                    value={f.icon}
+                    onChange={(e) => {
                     const newFeatures = [...features];
                     newFeatures[i].icon = e.target.value;
                     setFeatures(newFeatures);
-                }} />
+                    }}
+                />
                 <label>Título</label>
-                <input type="text" value={f.title} onChange={(e) => {
+                <input
+                    type="text"
+                    value={f.title}
+                    onChange={(e) => {
                     const newFeatures = [...features];
                     newFeatures[i].title = e.target.value;
                     setFeatures(newFeatures);
-                }} />
+                    }}
+                />
                 <label>Texto</label>
-                <input type="text" value={f.text} onChange={(e) => {
+                <input
+                    type="text"
+                    value={f.text}
+                    onChange={(e) => {
                     const newFeatures = [...features];
                     newFeatures[i].text = e.target.value;
                     setFeatures(newFeatures);
-                }} />
+                    }}
+                />
                 </div>
             ))}
             </section>
 
-            <button className="btn-save" onClick={handleSave}>Guardar cambios</button>
+            <button className="btn-save" onClick={() => handleSave()}>
+            Guardar cambios
+            </button>
         </main>
         </div>
     );
