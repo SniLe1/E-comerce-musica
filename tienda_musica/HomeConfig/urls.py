@@ -3,10 +3,10 @@ from .views import *
 
 urlpatterns = [
 
-    path("home/", HomeConfigView.as_view()),
+    path("config/", HomeConfigView.as_view()),
 
-    path("home/images/", CarouselImagesView.as_view()),
+    path("images/", CarouselImagesView.as_view()),
 
-    path("home/images/<int:pk>/", CarouselImageDeleteView.as_view()),
+    path("images/<int:pk>/", CarouselImageDeleteView.as_view()),
 
 ]

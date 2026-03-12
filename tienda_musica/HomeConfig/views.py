@@ -8,13 +8,13 @@ from .serializers import HomeConfigSerializer, CarouselImageSerializer
 
 class HomeConfigView(APIView):
     def get(self, request):
-        config, created = HomeConfig.objects.get_or_create(id=1)
+        config, _ = HomeConfig.objects.get_or_create(id=1)
         serializer = HomeConfigSerializer(config)
         
         return Response(serializer.data)
     
     def put(self, request):
-        config = HomeConfig.objects.get(id=1)
+        config = HomeConfig.objects.get_or_create(id=1)
         serializer = HomeConfigSerializer(config, data=request.data)
         
         if serializer.is_valid():
@@ -23,10 +23,14 @@ class HomeConfigView(APIView):
         
         return Response(serializer.errors, status=400)
     
-class CarouselImageView(APIView):
+class CarouselImagesView(APIView):
     def get(self, request):
         images = CarouselImage.objects.all()
-        serializer = CarouselImageSerializer(images, many=True)
+        serializer = CarouselImageSerializer(
+            images,
+            many=True,
+            context={"request": request}
+        )
         return Response(serializer.data)
     
     def post(self, request):
@@ -34,7 +38,7 @@ class CarouselImageView(APIView):
         
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=201)
         
         return Response(serializer.errors, status=400)
     
