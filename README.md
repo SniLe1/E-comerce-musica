@@ -988,3 +988,28 @@ Se creo la pagina del admin, y para hacerla que solo el admin pueda ingresa a el
                 </PrivateAdminRoute>
               }
             />
+
+--> **Estructura del crud**
+
+     React (Admin Panel)
+          ↓
+     API Django REST
+          ↓
+     Base de datos
+
+
+     home_crud/
+ ├── models.py
+ ├── serializers.py
+ ├── views.py
+ ├── urls.py
+
+ --> **View.py**
+
+     | Endpoint                      | Acción         |
+     | ----------------------------- | -------------- |
+     | GET `/api/home/`              | obtener config |
+     | PUT `/api/home/`              | actualizar     |
+     | GET `/api/home/images/`       | ver carrusel   |
+     | POST `/api/home/images/`      | subir imagen   |
+     | DELETE `/api/home/images/:id` | borrar         |
