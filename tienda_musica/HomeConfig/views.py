@@ -8,13 +8,13 @@ from .serializers import HomeConfigSerializer, CarouselImageSerializer
 
 class HomeConfigView(APIView):
     def get(self, request):
-        config, _ = HomeConfig.objects.get_or_create(id=1)
+        config, created = HomeConfig.objects.get_or_create(id=1)
         serializer = HomeConfigSerializer(config)
         
         return Response(serializer.data)
     
     def put(self, request):
-        config = HomeConfig.objects.get_or_create(id=1)
+        config, created = HomeConfig.objects.get_or_create(id=1)
         serializer = HomeConfigSerializer(config, data=request.data)
         
         if serializer.is_valid():
