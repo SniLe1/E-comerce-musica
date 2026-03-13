@@ -6,8 +6,7 @@ import { Carousel } from "bootstrap";
 function HomePage() {
 
   const [productos, setProductos] = useState([]);
-  const [config, setConfig] = useState(null);
-  const [images, setImages] = useState([]);
+  const [homeData, setHomeData] = useState(null);
 
   const navigate = useNavigate();
   const carouselRef = useRef(null);
@@ -44,13 +43,9 @@ function HomePage() {
   // CARGAR CONFIG HOME
   useEffect(() => {
 
-    fetch("http://localhost:8000/api/home/config/")
+    fetch("http://localhost:8000/api/home/")
       .then(res => res.json())
-      .then(data => setConfig(data));
-
-    fetch("http://localhost:8000/api/home/images/")
-      .then(res => res.json())
-      .then(data => setImages(data));
+      .then(data => setHomeData(data));
 
   }, []);
 
@@ -60,7 +55,7 @@ function HomePage() {
 
     if (!carouselRef.current) return;
 
-    if (images.length === 0) return;
+    if (!homeData?.carousel?.length) return;
 
     const carousel = new Carousel(carouselRef.current, {
       interval: 5000,
@@ -70,10 +65,10 @@ function HomePage() {
 
     return () => carousel.dispose();
 
-  }, [images]);
+  }, [homeData]);
 
 
-  if (!config) {
+  if (!homeData) {
     return <p>Cargando...</p>;
   }
 
@@ -88,7 +83,7 @@ function HomePage() {
           className="carousel slide hero-carousel"
         >
           <div className="carousel-inner">
-            {images.map((img, i) => (
+            {homeData.carousel.map((img, i) => (
               <div
                 key={img.id}
                 className={`carousel-item ${i === 0 ? "active" : ""}`}
@@ -105,9 +100,9 @@ function HomePage() {
 
         {/* TEXTO ENCIMA */}
         <div className="hero-overlay text-center">
-          <h1 className="mb-4">{config.title}</h1>
+          <h1 className="mb-4">{homeData.hero?.title}</h1>
           <p className="lead mb-4">
-            {config.description}
+            {homeData.hero?.description}
           </p>
           <button
             className="btn vintage-btn btn-lg"
@@ -118,7 +113,7 @@ function HomePage() {
 
           <hr className="my-5 text-light"/>
           <div className="row hero-features">
-            {config.features?.map((f, i) => (
+            {homeData.features?.map((f, i) => (
               <div key={i} className="col-md-4">
                 <h5>{f.icon} {f.title}</h5>
                 <p className="product-muted">

@@ -1,136 +1,152 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import "./AdminPage.css";
 
 function AdminHomePage() {
-    const [config, setConfig] = useState({
+
+    const [hero, setHero] = useState({
         title: "",
         description: "",
-        features: [],
+        button_text: ""
     });
 
-    const [images, setImages] = useState([]);
+    const [features, setFeatures] = useState([]);
+    const [carousel, setCarousel] = useState([]);
+    const [newImage, setNewImage] = useState(null);
 
-
-    // CARGAR DATOS
+    // CARGAR DATA DEL HOME
     useEffect(() => {
-        fetch("http://localhost:8000/api/home/config/")
-        .then((res) => res.json())
-        .then((data) => setConfig(data));
 
-        fetch("http://localhost:8000/api/home/images/")
-        .then((res) => res.json())
-        .then((data) => setImages(data));
+        fetch("http://localhost:8000/api/home/")
+        .then(res => res.json())
+        .then(data => {
+
+            setHero(data.hero || {});
+            setFeatures(data.features || []);
+            setCarousel(data.carousel || []);
+        });
     }, []);
 
 
-    // GUARDAR CONFIG
-    const saveConfig = () => {
-        fetch("http://localhost:8000/api/home/config/", {
+    // GUARDAR HERO
+    const saveHero = async () => {
+
+        await fetch("http://localhost:8000/api/home/hero/", {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify(config),
+        body: JSON.stringify(hero)
         });
 
-        alert("Configuración guardada");
+        alert("Hero actualizado");
     };
 
 
     // SUBIR IMAGEN
-    const uploadImage = (e) => {
-        const file = e.target.files[0];
+    const uploadImage = async () => {
+
+        if (!newImage) return;
 
         const formData = new FormData();
+        formData.append("image", newImage);
 
-        formData.append("image", file);
-
-        fetch("http://localhost:8000/api/home/images/", {
+        await fetch("http://localhost:8000/api/home/carousel/", {
         method: "POST",
-        body: formData,
-        })
-        .then((res) => res.json())
-        .then((data) => setImages([...images, data]));
+        body: formData
+        });
+
+        window.location.reload();
     };
 
 
     // ELIMINAR IMAGEN
-    const deleteImage = (id) => {
-        fetch(`http://localhost:8000/api/home/images/${id}/`, {
-        method: "DELETE",
+    const deleteImage = async (id) => {
+
+        await fetch(`http://localhost:8000/api/home/carousel/delete/${id}/`, {
+        method: "DELETE"
         });
 
-        setImages(images.filter((img) => img.id !== id));
+        setCarousel(carousel.filter(img => img.id !== id));
+
     };
 
+
     return (
+
         <div className="admin-container">
-        {/* Sidebar */}
+
         <aside className="admin-sidebar">
-            <div>
             <h2>Panel Admin</h2>
-
             <ul>
-                <li>
-                    <Link to="/admin/home">Modificar Home</Link>
-                </li>
-                <li>
-                    <Link to="/admin/products">Catálogo de Productos</Link>
-                </li>
-                <li>
-                    <Link to="/admin/navbar">Links del Navbar</Link>
-                </li>
+            <li>Modificar Home</li>
             </ul>
-            </div>
-
-            <div className="admin-back">
-                <Link to="/">⬅ Volver a la tienda</Link>
-            </div>
         </aside>
 
-        {/* Contenido */}
         <main className="admin-main">
+
             <h1>Editar Home</h1>
 
-            <h3>Título</h3>
+            {/* HERO */}
+            <h3>Hero Section</h3>
 
             <input
-            value={config.title}
-            onChange={(e) => setConfig({ ...config, title: e.target.value })}
-            />
-
-            <h3>Descripción</h3>
-
-            <textarea
-            value={config.description}
+            type="text"
+            placeholder="Título"
+            value={hero.title}
             onChange={(e) =>
-                setConfig({ ...config, description: e.target.value })
+                setHero({ ...hero, title: e.target.value })
             }
             />
 
-            <br />
-            <br />
+            <textarea
+            placeholder="Descripción"
+            value={hero.description}
+            onChange={(e) =>
+                setHero({ ...hero, description: e.target.value })
+            }
+            />
 
-            <button onClick={saveConfig}>Guardar cambios</button>
+            <input
+            type="text"
+            placeholder="Texto botón"
+            value={hero.button_text}
+            onChange={(e) =>
+                setHero({ ...hero, button_text: e.target.value })
+            }
+            />
 
-            <hr />
+            <button onClick={saveHero}>
+            Guardar Hero
+            </button>
 
-            <h2>Imágenes del Carrusel</h2>
+            {/* CARRUSEL */}
+            <h3 style={{marginTop:"40px"}}>Carrusel</h3>
 
-            <input type="file" onChange={uploadImage} />
+            <input
+            type="file"
+            onChange={(e)=>setNewImage(e.target.files[0])}
+            />
 
-            <br />
-            <br />
+            <button onClick={uploadImage}>
+            Subir imagen
+            </button>
 
-            <div style={{ display: "flex", gap: "20px" }}>
-            {images.map((img) => (
+
+            <div style={{display:"flex",gap:"20px",marginTop:"20px"}}>
+
+            {carousel.map(img => (
+
                 <div key={img.id}>
-                <img src={img.image_url} width="200" />
 
-                <br />
+                <img
+                    src={img.image_url}
+                    style={{width:"150px"}}
+                />
 
-                <button onClick={() => deleteImage(img.id)}>Eliminar</button>
+                <button
+                    onClick={()=>deleteImage(img.id)}>
+                    Eliminar
+                </button>
                 </div>
             ))}
             </div>
