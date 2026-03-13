@@ -43,21 +43,31 @@ function AdminHomePage() {
 
 
     // SUBIR IMAGEN
-    const uploadImage = async () => {
+const uploadImage = async () => {
 
-        if (!newImage) return;
+    if (!newImage) {
+        alert("Selecciona una imagen primero");
+        return;
+    }
 
-        const formData = new FormData();
-        formData.append("image", newImage);
+    const formData = new FormData();
+    formData.append("image", newImage);
 
-        await fetch("http://localhost:8000/api/home/carousel/", {
+    const res = await fetch("http://localhost:8000/api/home/carousel/", {
         method: "POST",
         body: formData
-        });
+    });
 
+    const data = await res.json();
+
+    console.log(data);
+
+    if (res.ok) {
         window.location.reload();
-    };
-
+    } else {
+        alert("Error subiendo imagen");
+    }
+};
 
     // ELIMINAR IMAGEN
     const deleteImage = async (id) => {
@@ -76,10 +86,19 @@ function AdminHomePage() {
         <div className="admin-container">
 
         <aside className="admin-sidebar">
+
             <h2>Panel Admin</h2>
+
             <ul>
-            <li>Modificar Home</li>
+                <li><a href="/admin/home">Modificar Home</a></li>
+                <li><a href="/admin/products">Catálogo de Productos</a></li>
+                <li><a href="/admin/navbar">Links del Navbar</a></li>
             </ul>
+
+            <div className="admin-back">
+                <a href="/">⬅ Volver a la tienda</a>
+            </div>
+
         </aside>
 
         <main className="admin-main">

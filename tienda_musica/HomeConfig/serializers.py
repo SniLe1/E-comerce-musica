@@ -11,7 +11,7 @@ class HeroSerializer(serializers.ModelSerializer):
 class FeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feature
-        fields = ["icon", "title", "text", "order"]
+        fields = ["id", "icon", "title", "text", "order"]
 
 
 class CarouselImageSerializer(serializers.ModelSerializer):
@@ -19,10 +19,14 @@ class CarouselImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CarouselImage
-        fields = ["id", "image_url"]
+        fields = ["id", "image_url", "image"]
 
     def get_image_url(self, obj):
+        if not obj.image:
+            return None
+
         request = self.context.get("request")
+
         if request:
             return request.build_absolute_uri(obj.image.url)
 

@@ -83,7 +83,7 @@ function HomePage() {
           className="carousel slide hero-carousel"
         >
           <div className="carousel-inner">
-            {homeData.carousel.map((img, i) => (
+            {homeData.carousel.filter(img => img.image_url).map((img, i) => (
               <div
                 key={img.id}
                 className={`carousel-item ${i === 0 ? "active" : ""}`}
@@ -108,7 +108,7 @@ function HomePage() {
             className="btn vintage-btn btn-lg"
             onClick={() => navigate("/products")}
           >
-            Ver catálogo
+            {homeData.hero?.button_text || "Ver catálogo"}
           </button>
 
           <hr className="my-5 text-light"/>

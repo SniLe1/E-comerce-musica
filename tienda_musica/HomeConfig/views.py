@@ -16,13 +16,26 @@ class CarouselImagesView(APIView):
         )
         return Response(serializer.data)
     
+    
     def post(self, request):
-        serializer = CarouselImageSerializer(data=request.data)
-        
+
+        print("FILES:", request.FILES)
+
+        if "image" not in request.FILES:
+            return Response(
+                {"error": "No image uploaded"},
+                status=400
+            )
+
+        serializer = CarouselImageSerializer(
+            data=request.data,
+            context={"request": request}   # 👈 IMPORTANTE
+        )
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
-        
+
         return Response(serializer.errors, status=400)
     
 class CarouselImageDeleteView(APIView):
@@ -61,9 +74,32 @@ class HomePageView(APIView):
         return Response(data)
     
 class HeroUpdateView(APIView):
+
     def put(self, request):
 
-        hero = HeroSection.objects.first()
+        # buscar sección hero
+        section = HomeSection.objects.filter(type="hero").first()
+
+        # si no existe la creamos
+        if not section:
+            section = HomeSection.objects.create(
+                type="hero",
+                order=1,
+                is_active=True
+            )
+
+        # buscar hero asociado
+        hero = HeroSection.objects.filter(section=section).first()
+
+        # si no existe lo creamos
+        if not hero:
+            hero = HeroSection.objects.create(
+                section=section,
+                title="",
+                description="",
+                button_text=""
+            )
+            
         serializer = HeroSerializer(
             hero,
             data=request.data,
@@ -76,5 +112,50 @@ class HeroUpdateView(APIView):
 
         return Response(serializer.errors, status=400)
 
+
+class FeaturesView(APIView):
+
+    # LISTAR FEATURES
+    def get(self, request):
+
+        section, _ = HomeSection.objects.get_or_create(type="features")
+        features = Feature.objects.filter(section=section).order_by("order")
+        serializer = FeatureSerializer(features, many=True)
+        return Response(serializer.data)
+
+
+    # CREAR FEATURE
+    def post(self, request):
+
+        section, _ = HomeSection.objects.get_or_create(type="features")
+        serializer = FeatureSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(section=section)
+            return Response(serializer.data, status=201)
+
+        return Response(serializer.errors, status=400)
+
+
+class FeatureDetailView(APIView):
+    
+    # EDITAR
+    def put(self, request, pk):
+        feature = Feature.objects.get(id=pk)
+        serializer = FeatureSerializer(feature, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=400)
+
+
+    # BORRAR
+    def delete(self, request, pk):
+        feature = Feature.objects.get(id=pk)
+        feature.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
     
