@@ -10,7 +10,7 @@ import ProductDetail from "./pages/ProductDetail";
 import CartSidebar from "./components/CartSidebar";
 import Toast from "./components/Toast";
 import AdminPage from "./pages/AdminPage";
-import AdminHome from "./pages/AdminHome";
+import AdminHomePage from "./pages/AdminHomePage";
 import { CartProvider } from "./components/CartContext";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
@@ -60,12 +60,12 @@ function App() {
                 </PrivateAdminRoute>
               }
             />
-            
+
             <Route
               path="/admin/home"
               element={
                 <PrivateAdminRoute>
-                  <AdminHome />
+                  <AdminHomePage />
                 </PrivateAdminRoute>
               }
             />

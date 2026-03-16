@@ -21,8 +21,8 @@ urlpatterns = [
     # Carrito endpoints
     path('api/cart/', include('cart.urls')),
     
-    # Crud home endpoints
-    path("api/home/", include("home_crud.urls")),  # 👈 incluye las rutas de la app home
+    #CRUD endpoints
+    path('api/home/', include('HomeConfig.urls')),
     
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

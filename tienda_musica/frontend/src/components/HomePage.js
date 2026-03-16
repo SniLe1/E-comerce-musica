@@ -4,13 +4,9 @@ import "./HomePage.css";
 import { Carousel } from "bootstrap";
 
 function HomePage() {
+
   const [productos, setProductos] = useState([]);
-  const [config, setConfig] = useState({
-    carousel_images: [],
-    title: "",
-    description: "",
-    features: []
-  });
+  const [homeData, setHomeData] = useState(null);
 
   const navigate = useNavigate();
   const carouselRef = useRef(null);
@@ -23,63 +19,80 @@ function HomePage() {
     }).format(price);
   };
 
-  // Obtener productos
+  // ================================
+  // CARGAR PRODUCTOS
+  // ================================
+
   useEffect(() => {
+
     fetch("http://localhost:8000/api/tienda/productos/")
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
+
         if (Array.isArray(data)) {
           setProductos(data);
         } else if (data.results) {
           setProductos(data.results);
-        } else {
-          setProductos([]);
         }
-      })
-      .catch((error) => console.error("Error:", error));
+
+      });
+
   }, []);
 
-  // Obtener configuración del Home
+
+  // CARGAR CONFIG HOME
   useEffect(() => {
-    fetch("http://localhost:8000/api/home/public/home/")
-      .then((response) => response.json())
-      .then((data) => setConfig(data))
-      .catch((error) => console.error("Error al cargar configuración del Home:", error));
+
+    fetch("http://localhost:8000/api/home/")
+      .then(res => res.json())
+      .then(data => setHomeData(data));
+
   }, []);
 
-  // Inicializar carrusel
+
+  // INICIALIZAR CARRUSEL
   useEffect(() => {
+
     if (!carouselRef.current) return;
 
+    if (!homeData?.carousel?.length) return;
+
     const carousel = new Carousel(carouselRef.current, {
-      interval: false,
-      wrap: true,
+      interval: 5000,
+      ride: "carousel",
+      wrap: true
     });
 
-    const intervalId = setInterval(() => {
-      carousel.next();
-    }, 5000);
+    return () => carousel.dispose();
 
-    return () => {
-      clearInterval(intervalId);
-      carousel.dispose();
-    };
-  }, [config]); // 👈 se reinicia cuando cambia la config
+  }, [homeData]);
 
-  if (!config) {
-    return <p>Cargando Home...</p>;
+
+  if (!homeData) {
+    return <p>Cargando...</p>;
   }
+
 
   return (
     <div className="home-wrapper">
-      {/* HERO CON CARRUSEL */}
+      {/* HERO */}
       <div className="hero-section">
-        {/* Carrusel */}
-        <div ref={carouselRef} className="carousel slide hero-carousel">
+        {/* CARRUSEL */}
+        <div
+          ref={carouselRef}
+          className="carousel slide hero-carousel"
+        >
           <div className="carousel-inner">
-            {config.carousel_images.map((img, i) => (
-              <div key={i} className={`carousel-item ${i === 0 ? "active" : ""}`}>
-                <img src={img} className="carousel-img" alt={`Imagen ${i + 1}`} />
+            {homeData.carousel.filter(img => img.image_url).map((img, i) => (
+              <div
+                key={img.id}
+                className={`carousel-item ${i === 0 ? "active" : ""}`}
+              >
+                <img
+                  src={img.image_url}
+                  className="d-block w-100"
+                  alt="carousel"
+                />
               </div>
             ))}
           </div>
@@ -87,39 +100,50 @@ function HomePage() {
 
         {/* TEXTO ENCIMA */}
         <div className="hero-overlay text-center">
-          <h1 className="mb-4">{config.title}</h1>
-          <p className="lead mb-4">{config.description}</p>
-          <button className="btn vintage-btn btn-lg">Ver catálogo</button>
-          <hr className="my-5 text-light" />
+          <h1 className="mb-4">{homeData.hero?.title}</h1>
+          <p className="lead mb-4">
+            {homeData.hero?.description}
+          </p>
+          <button
+            className="btn vintage-btn btn-lg"
+            onClick={() => navigate("/products")}
+          >
+            {homeData.hero?.button_text || "Ver catálogo"}
+          </button>
 
+          <hr className="my-5 text-light"/>
           <div className="row hero-features">
-            {config.features.map((f, i) => (
+            {homeData.features?.map((f, i) => (
               <div key={i} className="col-md-4">
                 <h5>{f.icon} {f.title}</h5>
-                <p className="product-muted">{f.text}</p>
+                <p className="product-muted">
+                  {f.text}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* PRODUCTOS RECIÉN LLEGADOS */}
+
+      {/* PRODUCTOS RECIENTES */}
       <div className="container pb-5 mt-5">
         <h2 className="mb-4 text-center product-muted">
           Los últimos discos que llegaron al estante.
         </h2>
-
         <div className="row g-4">
           {productos
             .sort((a, b) => b.id - a.id)
             .slice(0, 3)
-            .map((prod) => (
+            .map(prod => (
               <div key={prod.id} className="col-12 col-sm-6 col-lg-4 d-flex">
                 <div className="product-card w-100">
                   <div className="new-badge">NEW</div>
-
-                  <img src={prod.imagen} className="card-img-top" alt={prod.titulo} />
-
+                  <img
+                    src={prod.imagen}
+                    className="card-img-top"
+                    alt={prod.titulo}
+                  />
                   <div className="card-body">
                     <h5>{prod.titulo}</h5>
                     <p>{prod.artista}</p>
