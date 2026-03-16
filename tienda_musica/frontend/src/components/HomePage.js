@@ -69,7 +69,7 @@ function HomePage() {
 
 
   if (!homeData) {
-    return <p>Cargando...</p>;
+    return <p>Cargando..</p>;
   }
 
 
