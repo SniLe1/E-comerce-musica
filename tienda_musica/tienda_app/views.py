@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, action
 from .models import Producto
 from .serializers import ProductoSerializer
 from django.db.models import Q
-
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import viewsets
 from django.db.models import Q
 from .models import Producto, ProductoClick
@@ -15,6 +15,7 @@ from django.http import JsonResponse
 class ProductoViewSet(viewsets.ModelViewSet):
     serializer_class = ProductoSerializer
     queryset = Producto.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
     lookup_field = 'pk'
 
     def get_queryset(self):
