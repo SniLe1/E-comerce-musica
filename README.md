@@ -1013,3 +1013,24 @@ Se creo la pagina del admin, y para hacerla que solo el admin pueda ingresa a el
      | GET `/api/home/images/`       | ver carrusel   |
      | POST `/api/home/images/`      | subir imagen   |
      | DELETE `/api/home/images/:id` | borrar         |
+
+
+
+
+## Lunes 25 de Marzo ##
+
+Se hizo la pagina del crud para editar prodcutos y se arreglo el bug del modal que no aparecia
+
+-->**Bug modal**
+
+Este bug consistia de que tenia un **form estilo modal** para editar el prodcuto, pero este no aparecia pero si cargaban los datos, yo tenia el css del modal asi:
+
+                    <div className="modal-overlay" onClick={() => setEditingProduct(null)}>
+                        <div className="modal" onClick={(e) => e.stopPropagation()}>
+
+
+ Pero no se veia nada dentro de la **clase modal**, pero si dento de la clase **modal overlay**
+
+ Para corregir este error se tubo que cambiar el nombre de la clase a **pico** para que funcionara
+
+ La clase modal aparentemente tiene atributos propios que no dejaban que se mostrara en el form                    
