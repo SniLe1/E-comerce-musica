@@ -86,14 +86,13 @@ function AdminProducts() {
 
     const formData = new FormData();
 
-        Object.keys(editingProduct).forEach(key => {
-            formData.append("titulo", editingProduct.titulo);
-            formData.append("artista", editingProduct.artista);
-            formData.append("descripcion", editingProduct.descripcion);
-            formData.append("formato", editingProduct.formato);
-            formData.append("precio", editingProduct.precio);
-            formData.append("stock", editingProduct.stock);
-        });
+        formData.append("titulo", editingProduct.titulo);
+        formData.append("artista", editingProduct.artista);
+        formData.append("descripcion", editingProduct.descripcion);
+        formData.append("formato", editingProduct.formato);
+        formData.append("precio", editingProduct.precio);
+        formData.append("stock", editingProduct.stock);
+
 
         if (editImage) {
             formData.append("imagen", editImage);
@@ -212,9 +211,7 @@ function AdminProducts() {
 
                             <div className="product-actions">
 
-                                <button onClick={() => setEditingProduct(p)}>
-                                    Editar
-                                </button>
+                                <button onClick={() => setEditingProduct({...p})}>Editar</button>
 
                                 <button onClick={() => deleteProduct(p.id)}>
                                     Eliminar
@@ -228,79 +225,80 @@ function AdminProducts() {
 
                 </div>
 
-                {editingProduct && (
+                {editingProduct !== null && (
+                    
+                    <div className="pico-overlay" onClick={() => setEditingProduct(null)}>
 
-                    <div className="modal-overlay" onClick={() => setEditingProduct(null)}>
 
-                        <div className="modal" onClick={() => setEditingProduct(null)}>
+                        <div className="pico" onClick={(e) => e.stopPropagation()}>
 
-                        <h3>Editar Producto</h3>
+                            <h3>Editar Producto</h3>
 
-                        <input
-                            value={editingProduct.titulo}
-                            onChange={(e) =>
-                            setEditingProduct({...editingProduct, titulo: e.target.value})
-                            }
-                        />
+                            <input
+                                value={editingProduct.titulo || ""}
+                                onChange={(e) =>
+                                    setEditingProduct({...editingProduct, titulo: e.target.value})
+                                }
+                            />
 
-                        <input
-                            value={editingProduct.artista}
-                            onChange={(e) =>
-                            setEditingProduct({...editingProduct, artista: e.target.value})
-                            }
-                        />
+                            <input
+                                value={editingProduct.artista || ""}
+                                onChange={(e) =>
+                                    setEditingProduct({...editingProduct, artista: e.target.value})
+                                }
+                            />
 
-                        <textarea
-                            value={editingProduct.descripcion}
-                            onChange={(e) =>
-                            setEditingProduct({...editingProduct, descripcion: e.target.value})
-                            }
-                        />
+                            <textarea
+                                value={editingProduct.descripcion || ""}
+                                onChange={(e) =>
+                                    setEditingProduct({...editingProduct, descripcion: e.target.value})
+                                }
+                            />
 
-                        <select
-                            value={editingProduct.formato}
-                            onChange={(e) =>
-                            setEditingProduct({...editingProduct, formato: e.target.value})
-                            }
-                        >
-                            <option value="vinilo">Vinilo</option>
-                            <option value="cd">CD</option>
-                            <option value="digital">Digital</option>
-                        </select>
+                            <select
+                                value={editingProduct.formato || "vinilo"}
+                                onChange={(e) =>
+                                    setEditingProduct({...editingProduct, formato: e.target.value})
+                                }
+                            >
+                                <option value="vinilo">Vinilo</option>
+                                <option value="cd">CD</option>
+                                <option value="digital">Digital</option>
+                            </select>
 
-                        <input
-                            type="number"
-                            value={editingProduct.precio}
-                            onChange={(e) =>
-                            setEditingProduct({...editingProduct, precio: e.target.value})
-                            }
-                        />
+                            <input
+                                type="number"
+                                value={editingProduct.precio || ""}
+                                onChange={(e) =>
+                                    setEditingProduct({...editingProduct, precio: e.target.value})
+                                }
+                            />
 
-                        <input
-                            type="number"
-                            value={editingProduct.stock}
-                            onChange={(e) =>
-                            setEditingProduct({...editingProduct, stock: e.target.value})
-                            }
-                        />
+                            <input
+                                type="number"
+                                value={editingProduct.stock || ""}
+                                onChange={(e) =>
+                                    setEditingProduct({...editingProduct, stock: e.target.value})
+                                }
+                            />
 
-                        <input
-                            type="file"
-                            onChange={(e) => setEditImage(e.target.files[0])}
-                        />
+                            <input
+                                type="file"
+                                onChange={(e) => setEditImage(e.target.files[0])}
+                            />
 
-                        <button onClick={updateProduct}>
-                            Guardar cambios
-                        </button>
+                            <button onClick={updateProduct}>
+                                Guardar cambios
+                            </button>
 
-                        <button onClick={() => setEditingProduct(null)}>
-                            Cancelar
-                        </button>
+                            <button onClick={() => setEditingProduct(null)}>
+                                Cancelar
+                            </button>
 
                         </div>
 
                     </div>
-                    )}
+                )}
 
             </main>
         </div>
