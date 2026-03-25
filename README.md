@@ -23,7 +23,8 @@ Sistema web de comercio electrónico para la venta de música en formato **digit
 - **PostgreSQL**
 - **Git & GitHub**
 - **React & Bootstrap**
-- (Opcional a futuro) HTML, CSS
+- **Js y CSS**
+- **Node.js**
 
 ---
 
@@ -1034,3 +1035,9 @@ Este bug consistia de que tenia un **form estilo modal** para editar el prodcuto
  Para corregir este error se tubo que cambiar el nombre de la clase a **pico** para que funcionara
 
  La clase modal aparentemente tiene atributos propios que no dejaban que se mostrara en el form                    
+
+ ## Miercoles 23 de Marzo ## 
+
+ -->**Error al editar producto**
+
+ 

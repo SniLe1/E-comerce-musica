@@ -19,6 +19,27 @@ function AdminProducts() {
     const [image, setImage] = useState(null);
 
     // =============================
+    // ENotificacion
+    // =============================
+
+    const [notification, setNotification] = useState(null);
+
+    const showNotification = (message, type = "success") => {
+        setNotification({ message, type, visible: true });
+
+        // inicia salida
+        setTimeout(() => {
+            setNotification((prev) => ({ ...prev, visible: false }));
+        }, 2500);
+        
+        // elimina del DOM
+        setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+    };
+
+
+    // =============================
     // CARGAR PRODUCTOS
     // =============================
     useEffect(() => {
@@ -60,10 +81,11 @@ function AdminProducts() {
                 precio: "",
                 stock: ""
             });
+            showNotification("Producto creado con éxito");
 
             setImage(null);
         } else {
-            alert("Error creando producto");
+            showNotification("Error al crear producto", "error");
             console.log(data);
         }
     };
@@ -90,8 +112,8 @@ function AdminProducts() {
         formData.append("artista", editingProduct.artista);
         formData.append("descripcion", editingProduct.descripcion);
         formData.append("formato", editingProduct.formato);
-        formData.append("precio", editingProduct.precio);
-        formData.append("stock", editingProduct.stock);
+        formData.append("precio", Number(editingProduct.precio));
+        formData.append("stock", Number(editingProduct.stock));
 
 
         if (editImage) {
@@ -101,7 +123,7 @@ function AdminProducts() {
         const res = await fetch(
             `http://localhost:8000/api/tienda/productos/${editingProduct.id}/`,
             {
-            method: "PUT",
+            method: "PATCH",
             body: formData
             }
         );
@@ -110,18 +132,29 @@ function AdminProducts() {
 
         if (res.ok) {
             setProductos(
-            productos.map(p => p.id === data.id ? data : p)
+                productos.map(p => p.id === data.id ? data : p)
             );
             setEditingProduct(null);
             setEditImage(null);
+
+            setTimeout(() => {
+                showNotification("Producto editado con éxito");
+            }, 100); // pequeño delay
+            
         } else {
             console.log(data);
-            alert("Error al actualizar");
+            showNotification("Error al editar producto", "error");
         }
     };
 
     return (
         <div className="admin-products-container">
+
+            {notification && (
+                <div className={`toast ${notification.type} ${notification.visible ? "show" : "hide"}`}>
+                    {notification.message}
+                </div>
+            )}
 
             {/* SIDEBAR */}
             <aside className="admin-products-sidebar">
@@ -234,58 +267,79 @@ function AdminProducts() {
 
                             <h3>Editar Producto</h3>
 
-                            <input
-                                value={editingProduct.titulo || ""}
-                                onChange={(e) =>
-                                    setEditingProduct({...editingProduct, titulo: e.target.value})
-                                }
-                            />
+                            <div className="form-row">
+                                <label>Título</label>
+                                <input 
+                                    value={editingProduct.titulo || ""}
+                                    onChange={(e) =>
+                                        setEditingProduct({...editingProduct, titulo: e.target.value})
+                                    }
+                                />
+                            </div>
 
-                            <input
-                                value={editingProduct.artista || ""}
-                                onChange={(e) =>
-                                    setEditingProduct({...editingProduct, artista: e.target.value})
-                                }
-                            />
+                            <div className="form-row">
+                                <label>Artista</label>
+                                <input
+                                    value={editingProduct.artista || ""}
+                                    onChange={(e) =>
+                                        setEditingProduct({...editingProduct, artista: e.target.value})
+                                    }
+                                />
+                            </div>
 
-                            <textarea
-                                value={editingProduct.descripcion || ""}
-                                onChange={(e) =>
-                                    setEditingProduct({...editingProduct, descripcion: e.target.value})
-                                }
-                            />
+                            <div className="form-row">
+                                <label>Descripción</label>
+                                <textarea
+                                    value={editingProduct.descripcion || ""}
+                                    onChange={(e) =>
+                                        setEditingProduct({...editingProduct, descripcion: e.target.value})
+                                    }
+                                />
+                            </div>
 
-                            <select
-                                value={editingProduct.formato || "vinilo"}
-                                onChange={(e) =>
-                                    setEditingProduct({...editingProduct, formato: e.target.value})
-                                }
-                            >
-                                <option value="vinilo">Vinilo</option>
-                                <option value="cd">CD</option>
-                                <option value="digital">Digital</option>
-                            </select>
+                            <div className="form-row">
+                                <label>Formato</label>
+                                <select
+                                    value={editingProduct.formato || "vinilo"}
+                                    onChange={(e) =>
+                                        setEditingProduct({...editingProduct, formato: e.target.value})
+                                    }
+                                >
+                                    <option value="vinilo">Vinilo</option>
+                                    <option value="cd">CD</option>
+                                    <option value="digital">Digital</option>
+                                </select>
+                            </div>
 
-                            <input
-                                type="number"
-                                value={editingProduct.precio || ""}
-                                onChange={(e) =>
-                                    setEditingProduct({...editingProduct, precio: e.target.value})
-                                }
-                            />
+                            <div className="form-row">
+                                <label>Precio</label>
+                                <input
+                                    type="number"
+                                    value={editingProduct.precio || ""}
+                                    onChange={(e) =>
+                                        setEditingProduct({...editingProduct, precio: e.target.value})
+                                    }
+                                />
+                            </div>
 
-                            <input
-                                type="number"
-                                value={editingProduct.stock || ""}
-                                onChange={(e) =>
-                                    setEditingProduct({...editingProduct, stock: e.target.value})
-                                }
-                            />
+                            <div className="form-row">
+                                <label>Stock</label>
+                                <input
+                                    type="number"
+                                    value={editingProduct.stock || ""}
+                                    onChange={(e) =>
+                                        setEditingProduct({...editingProduct, stock: e.target.value})
+                                    }
+                                />
+                            </div>
 
-                            <input
-                                type="file"
-                                onChange={(e) => setEditImage(e.target.files[0])}
-                            />
+                            <div className="form-row">
+                                <label>Imagen</label>
+                                <input
+                                    type="file"
+                                    onChange={(e) => setEditImage(e.target.files[0])}
+                                />
+                            </div>
 
                             <button onClick={updateProduct}>
                                 Guardar cambios
