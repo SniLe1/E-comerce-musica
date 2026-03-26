@@ -1036,7 +1036,7 @@ Este bug consistia de que tenia un **form estilo modal** para editar el prodcuto
 
  La clase modal aparentemente tiene atributos propios que no dejaban que se mostrara en el form                    
 
- ## Miercoles 23 de Marzo ## 
+ ## Miercoles 25 de Marzo ## 
 
  -->**Error al editar producto**
 
@@ -1080,4 +1080,7 @@ Se añadio un toast de notificacion para cuando se añada o edite un producto ex
 Se añadieron las mismas notificaicones al admin de home
 
 
- 
+## Jueves 26 de Marzo ## 
+
+
+-->**Correccion al editar producto(Slug)**
