@@ -268,7 +268,7 @@ function AdminHomePage() {
 
                                     <div key={img.id}>
 
-                                        <img src={img.image_url} />
+                                        <img src={img.image_url} alt=""/>
 
                                         <button
                                             className="adminhome-btn adminhome-btn-delete"
