@@ -24,16 +24,20 @@ function AdminProducts() {
 
     const [notification, setNotification] = useState(null);
 
+    let timeout1;
+    let timeout2;
+
     const showNotification = (message, type = "success") => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+
         setNotification({ message, type, visible: true });
 
-        // inicia salida
-        setTimeout(() => {
-            setNotification((prev) => ({ ...prev, visible: false }));
+        timeout1 = setTimeout(() => {
+            setNotification({ message, type, visible: false });
         }, 2500);
-        
-        // elimina del DOM
-        setTimeout(() => {
+
+        timeout2 = setTimeout(() => {
             setNotification(null);
         }, 3000);
     };
@@ -148,215 +152,217 @@ function AdminProducts() {
     };
 
     return (
-        <div className="admin-products-container">
-
+        <>
             {notification && (
-                <div className={`toast ${notification.type} ${notification.visible ? "show" : "hide"}`}>
+                <div className={`toast_pro ${notification.type} ${notification.visible ? "show" : "hide"}`}>
                     {notification.message}
                 </div>
             )}
 
-            {/* SIDEBAR */}
-            <aside className="admin-products-sidebar">
-                <h2>Panel Admin</h2>
-                <ul>
-                    <li><a href="/admin/home">Modificar Home</a></li>
-                    <li><a href="/admin/products">Catálogo de Productos</a></li>
-                    <li><a href="/admin/navbar">Links del Navbar</a></li>
-                </ul>
+            <div className="admin-products-container">
+                {/* SIDEBAR */}
+                <aside className="admin-products-sidebar">
+                    <h2>Panel Admin</h2>
+                    <ul>
+                        <li><a href="/admin/home">Modificar Home</a></li>
+                        <li><a href="/admin/products">Catálogo de Productos</a></li>
+                        <li><a href="/admin/navbar">Links del Navbar</a></li>
+                    </ul>
 
-                <div className="admin-products-back">
-                    <a href="/">⬅ Volver a la tienda</a>
-                </div>
-            </aside>
+                    <div className="admin-products-back">
+                        <a href="/">⬅ Volver a la tienda</a>
+                    </div>
+                </aside>
 
-            {/* MAIN */}
-            <main className="admin-products-main">
+                {/* MAIN */}
+                <main className="admin-products-main">
 
-                <h1>Administrar Productos</h1>
+                    <h1>Administrar Productos</h1>
 
-                {/* ================= CREAR ================= */}
-                <div className="create-product-card">
-                    <h3>Crear Producto</h3>
+                    {/* ================= CREAR ================= */}
+                    <div className="create-product-card">
+                        <h3>Crear Producto</h3>
 
-                    <input
-                        placeholder="Título"
-                        value={newProduct.titulo}
-                        onChange={e => setNewProduct({...newProduct, titulo: e.target.value})}
-                    />
+                        <input
+                            placeholder="Título"
+                            value={newProduct.titulo}
+                            onChange={e => setNewProduct({...newProduct, titulo: e.target.value})}
+                        />
 
-                    <input
-                        placeholder="Artista"
-                        value={newProduct.artista}
-                        onChange={e => setNewProduct({...newProduct, artista: e.target.value})}
-                    />
+                        <input
+                            placeholder="Artista"
+                            value={newProduct.artista}
+                            onChange={e => setNewProduct({...newProduct, artista: e.target.value})}
+                        />
 
-                    <textarea
-                        placeholder="Descripción"
-                        value={newProduct.descripcion}
-                        onChange={e => setNewProduct({...newProduct, descripcion: e.target.value})}
-                    />
+                        <textarea
+                            placeholder="Descripción"
+                            value={newProduct.descripcion}
+                            onChange={e => setNewProduct({...newProduct, descripcion: e.target.value})}
+                        />
 
-                    <select
-                        value={newProduct.formato}
-                        onChange={e => setNewProduct({...newProduct, formato: e.target.value})}
-                    >
-                        <option value="vinilo">Vinilo</option>
-                        <option value="cd">CD</option>
-                        <option value="digital">Digital</option>
-                    </select>
+                        <select
+                            value={newProduct.formato}
+                            onChange={e => setNewProduct({...newProduct, formato: e.target.value})}
+                        >
+                            <option value="vinilo">Vinilo</option>
+                            <option value="cd">CD</option>
+                            <option value="digital">Digital</option>
+                        </select>
 
-                    <input
-                        placeholder="Precio"
-                        type="number"
-                        value={newProduct.precio}
-                        onChange={e => setNewProduct({...newProduct, precio: e.target.value})}
-                    />
+                        <input
+                            placeholder="Precio"
+                            type="number"
+                            value={newProduct.precio}
+                            onChange={e => setNewProduct({...newProduct, precio: e.target.value})}
+                        />
 
-                    <input
-                        placeholder="Stock"
-                        type="number"
-                        value={newProduct.stock}
-                        onChange={e => setNewProduct({...newProduct, stock: e.target.value})}
-                    />
+                        <input
+                            placeholder="Stock"
+                            type="number"
+                            value={newProduct.stock}
+                            onChange={e => setNewProduct({...newProduct, stock: e.target.value})}
+                        />
 
-                    <input
-                        type="file"
-                        onChange={(e) => setImage(e.target.files[0])}
-                    />
+                        <input
+                            type="file"
+                            onChange={(e) => setImage(e.target.files[0])}
+                        />
 
-                    <button onClick={createProduct}>
-                        Crear Producto
-                    </button>
-                </div>
+                        <button onClick={createProduct}>
+                            Crear Producto
+                        </button>
+                    </div>
 
-                {/* ================= LISTA ================= */}
-                <div className="products-grid-admin">
+                    {/* ================= LISTA ================= */}
+                    <div className="products-grid-admin">
 
-                    {productos.map(p => (
+                        {productos.map(p => (
 
-                        <div key={p.id} className="product-card-admin">
+                            <div key={p.id} className="product-card-admin">
 
-                            <img src={p.imagen} alt="" />
+                                <img src={p.imagen} alt="" />
 
-                            <h4>{p.titulo}</h4>
-                            <p>{p.artista}</p>
+                                <h4>{p.titulo}</h4>
+                                <p>{p.artista}</p>
 
-                            <div className="product-actions">
+                                <div className="product-actions">
 
-                                <button onClick={() => setEditingProduct({...p})}>Editar</button>
+                                    <button onClick={() => setEditingProduct({...p})}>Editar</button>
 
-                                <button onClick={() => deleteProduct(p.id)}>
-                                    Eliminar
+                                    <button onClick={() => deleteProduct(p.id)}>
+                                        Eliminar
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                    {editingProduct !== null && (
+                        
+                        <div className="pico-overlay" onClick={() => setEditingProduct(null)}>
+
+
+                            <div className="pico" onClick={(e) => e.stopPropagation()}>
+
+                                <h3>Editar Producto</h3>
+
+                                <div className="form-row">
+                                    <label>Título</label>
+                                    <input 
+                                        value={editingProduct.titulo || ""}
+                                        onChange={(e) =>
+                                            setEditingProduct({...editingProduct, titulo: e.target.value})
+                                        }
+                                    />
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Artista</label>
+                                    <input
+                                        value={editingProduct.artista || ""}
+                                        onChange={(e) =>
+                                            setEditingProduct({...editingProduct, artista: e.target.value})
+                                        }
+                                    />
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Descripción</label>
+                                    <textarea
+                                        value={editingProduct.descripcion || ""}
+                                        onChange={(e) =>
+                                            setEditingProduct({...editingProduct, descripcion: e.target.value})
+                                        }
+                                    />
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Formato</label>
+                                    <select
+                                        value={editingProduct.formato || "vinilo"}
+                                        onChange={(e) =>
+                                            setEditingProduct({...editingProduct, formato: e.target.value})
+                                        }
+                                    >
+                                        <option value="vinilo">Vinilo</option>
+                                        <option value="cd">CD</option>
+                                        <option value="digital">Digital</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Precio</label>
+                                    <input
+                                        type="number"
+                                        value={editingProduct.precio || ""}
+                                        onChange={(e) =>
+                                            setEditingProduct({...editingProduct, precio: e.target.value})
+                                        }
+                                    />
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Stock</label>
+                                    <input
+                                        type="number"
+                                        value={editingProduct.stock || ""}
+                                        onChange={(e) =>
+                                            setEditingProduct({...editingProduct, stock: e.target.value})
+                                        }
+                                    />
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Imagen</label>
+                                    <input
+                                        type="file"
+                                        onChange={(e) => setEditImage(e.target.files[0])}
+                                    />
+                                </div>
+
+                                <button onClick={updateProduct}>
+                                    Guardar cambios
+                                </button>
+
+                                <button onClick={() => setEditingProduct(null)}>
+                                    Cancelar
                                 </button>
 
                             </div>
 
                         </div>
+                    )}
 
-                    ))}
-
-                </div>
-
-                {editingProduct !== null && (
-                    
-                    <div className="pico-overlay" onClick={() => setEditingProduct(null)}>
-
-
-                        <div className="pico" onClick={(e) => e.stopPropagation()}>
-
-                            <h3>Editar Producto</h3>
-
-                            <div className="form-row">
-                                <label>Título</label>
-                                <input 
-                                    value={editingProduct.titulo || ""}
-                                    onChange={(e) =>
-                                        setEditingProduct({...editingProduct, titulo: e.target.value})
-                                    }
-                                />
-                            </div>
-
-                            <div className="form-row">
-                                <label>Artista</label>
-                                <input
-                                    value={editingProduct.artista || ""}
-                                    onChange={(e) =>
-                                        setEditingProduct({...editingProduct, artista: e.target.value})
-                                    }
-                                />
-                            </div>
-
-                            <div className="form-row">
-                                <label>Descripción</label>
-                                <textarea
-                                    value={editingProduct.descripcion || ""}
-                                    onChange={(e) =>
-                                        setEditingProduct({...editingProduct, descripcion: e.target.value})
-                                    }
-                                />
-                            </div>
-
-                            <div className="form-row">
-                                <label>Formato</label>
-                                <select
-                                    value={editingProduct.formato || "vinilo"}
-                                    onChange={(e) =>
-                                        setEditingProduct({...editingProduct, formato: e.target.value})
-                                    }
-                                >
-                                    <option value="vinilo">Vinilo</option>
-                                    <option value="cd">CD</option>
-                                    <option value="digital">Digital</option>
-                                </select>
-                            </div>
-
-                            <div className="form-row">
-                                <label>Precio</label>
-                                <input
-                                    type="number"
-                                    value={editingProduct.precio || ""}
-                                    onChange={(e) =>
-                                        setEditingProduct({...editingProduct, precio: e.target.value})
-                                    }
-                                />
-                            </div>
-
-                            <div className="form-row">
-                                <label>Stock</label>
-                                <input
-                                    type="number"
-                                    value={editingProduct.stock || ""}
-                                    onChange={(e) =>
-                                        setEditingProduct({...editingProduct, stock: e.target.value})
-                                    }
-                                />
-                            </div>
-
-                            <div className="form-row">
-                                <label>Imagen</label>
-                                <input
-                                    type="file"
-                                    onChange={(e) => setEditImage(e.target.files[0])}
-                                />
-                            </div>
-
-                            <button onClick={updateProduct}>
-                                Guardar cambios
-                            </button>
-
-                            <button onClick={() => setEditingProduct(null)}>
-                                Cancelar
-                            </button>
-
-                        </div>
-
-                    </div>
-                )}
-
-            </main>
-        </div>
+                </main>
+            </div>
+        </>
     );
+    
 }
 
 export default AdminProducts;
