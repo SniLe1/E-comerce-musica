@@ -1040,4 +1040,44 @@ Este bug consistia de que tenia un **form estilo modal** para editar el prodcuto
 
  -->**Error al editar producto**
 
+ Se corrigio el error al no poder editar productos, se cambio el metodo de **POST** a **PATCH**
+
+
+         const res = await fetch(
+            `http://localhost:8000/api/tienda/productos/${editingProduct.id}/`,
+            {
+            method: "PATCH", <-- Metodo que se cambio
+            body: formData
+            }
+        );
+
+-->**Notificacion en admin productos**
+
+Se añadio un toast de notificacion para cuando se añada o edite un producto exitosamente o fallidamente
+
+    const [notification, setNotification] = useState(null);
+
+    let timeout1;
+    let timeout2;
+
+    const showNotification = (message, type = "success") => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+
+        setNotification({ message, type, visible: true });
+
+        timeout1 = setTimeout(() => {
+            setNotification({ message, type, visible: false });
+        }, 2500);
+
+        timeout2 = setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+    };
+
+-->**Notificacion en admin home**
+
+Se añadieron las mismas notificaicones al admin de home
+
+
  

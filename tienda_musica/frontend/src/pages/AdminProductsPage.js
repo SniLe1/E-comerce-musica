@@ -235,6 +235,11 @@ function AdminProducts() {
                     </div>
 
                     {/* ================= LISTA ================= */}
+
+                    <h2 className="adminpro-subtitle">
+                        Productos
+                    </h2>
+
                     <div className="products-grid-admin">
 
                         {productos.map(p => (

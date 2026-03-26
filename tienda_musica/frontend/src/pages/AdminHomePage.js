@@ -19,6 +19,29 @@ function AdminHomePage() {
     const [carousel, setCarousel] = useState([]);
     const [newImage, setNewImage] = useState(null);
 
+
+    // NOTIFICACION
+
+    const [notification, setNotification] = useState(null);
+
+    let timeout1;
+    let timeout2;
+
+    const showNotification = (message, type = "success") => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+
+        setNotification({ message, type, visible: true });
+
+        timeout1 = setTimeout(() => {
+            setNotification({ message, type, visible: false });
+        }, 2500);
+
+        timeout2 = setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+    };
+
     // CARGAR DATA
     useEffect(() => {
 
@@ -43,7 +66,7 @@ function AdminHomePage() {
             body: JSON.stringify(hero)
         });
 
-        alert("Hero actualizado");
+        showNotification("Hero actualizado");
     };
 
 
@@ -65,6 +88,8 @@ function AdminHomePage() {
             title: "",
             text: ""
         });
+
+        showNotification("Feature agregada");
     };
 
     const deleteFeature = async (id) => {
@@ -74,8 +99,10 @@ function AdminHomePage() {
         });
 
         setFeatures(features.filter(f => f.id !== id));
+        showNotification("Feature eliminada");
     };
 
+    // Editar feature
     const updateFeature = async (feature) => {
 
         const res = await fetch(
@@ -84,9 +111,9 @@ function AdminHomePage() {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(feature)
-            }
-        );
+            });
 
+        showNotification("Feature editada");
         const data = await res.json();
 
         setFeatures(
@@ -99,7 +126,7 @@ function AdminHomePage() {
     const uploadImage = async () => {
 
         if (!newImage) {
-            alert("Selecciona una imagen");
+            showNotification("Selecciona una imagen", "error");
             return;
         }
 
@@ -112,6 +139,7 @@ function AdminHomePage() {
         });
 
         if (res.ok) window.location.reload();
+        showNotification("Imagen nueva actualizada");
     };
 
     const deleteImage = async (id) => {
@@ -121,247 +149,255 @@ function AdminHomePage() {
         });
 
         setCarousel(carousel.filter(img => img.id !== id));
+        showNotification("Imagen eliminada");
     };
 
     return (
-
-        <div className="adminhome-container">
-
-            {/* SIDEBAR */}
-
-            <aside className="adminhome-sidebar">
-
-                <h2>Panel Admin</h2>
-
-                <ul>
-                    <li><a href="/admin/home">Modificar Home</a></li>
-                    <li><a href="/admin/products">Catálogo de Productos</a></li>
-                    <li><a href="/admin/navbar">Links del Navbar</a></li>
-                </ul>
-
-                <div className="admin-back">
-                    <a href="/">⬅ Volver a la tienda</a>
+        <>
+            {notification && (
+                <div className={`toast_home ${notification.type} ${notification.visible ? "show" : "hide"}`}>
+                    {notification.message}
                 </div>
+            )}
 
-            </aside>
+            <div className="adminhome-container">
 
+                {/* SIDEBAR */}
 
-            {/* MAIN */}
+                <aside className="adminhome-sidebar">
 
-            <main className="adminhome-main">
+                    <h2>Panel Admin</h2>
 
-                <h1 className="adminhome-title">
-                    Editor del Home
-                </h1>
+                    <ul>
+                        <li><a href="/admin/home">Modificar Home</a></li>
+                        <li><a href="/admin/products">Catálogo de Productos</a></li>
+                        <li><a href="/admin/navbar">Links del Navbar</a></li>
+                    </ul>
 
-
-                {/* HERO */}
-
-                <div className="adminhome-section">
-
-                    <h2 className="adminhome-subtitle">
-                        Hero Section
-                    </h2>
-
-                    <div className="adminhome-card">
-
-                        <input
-                            className="adminhome-input"
-                            placeholder="Título"
-                            value={hero.title}
-                            onChange={(e) =>
-                                setHero({...hero, title: e.target.value})
-                            }
-                        />
-
-                        <textarea
-                            className="adminhome-textarea"
-                            placeholder="Descripción"
-                            value={hero.description}
-                            onChange={(e) =>
-                                setHero({...hero, description: e.target.value})
-                            }
-                        />
-
-                        <input
-                            className="adminhome-input"
-                            placeholder="Texto botón"
-                            value={hero.button_text}
-                            onChange={(e) =>
-                                setHero({...hero, button_text: e.target.value})
-                            }
-                        />
-
-                        <button
-                            className="adminhome-btn"
-                            onClick={saveHero}
-                        >
-                            Guardar Hero
-                        </button>
-
+                    <div className="admin-back">
+                        <a href="/">⬅ Volver a la tienda</a>
                     </div>
 
-                </div>
+                </aside>
 
 
-                {/* CARRUSEL */}
+                {/* MAIN */}
 
-                <div className="adminhome-section">
+                <main className="adminhome-main">
 
-                    <h2 className="adminhome-subtitle">
-                        Carrusel
-                    </h2>
-
-                    <div className="adminhome-card">
-
-                        <input
-                            type="file"
-                            className="adminhome-input"
-                            onChange={(e)=>setNewImage(e.target.files[0])}
-                        />
-
-                        <button
-                            className="adminhome-btn"
-                            onClick={uploadImage}
-                        >
-                            Subir imagen
-                        </button>
-
-                        <div className="carousel-admin-grid">
-
-                            {carousel.map(img => (
-
-                                <div key={img.id}>
-
-                                    <img src={img.image_url} />
-
-                                    <button
-                                        className="adminhome-btn adminhome-btn-delete"
-                                        onClick={()=>deleteImage(img.id)}
-                                    >
-                                        Eliminar
-                                    </button>
-
-                                </div>
-
-                            ))}
-
-                        </div>
-
-                    </div>
-
-                </div>
+                    <h1 className="adminhome-title">
+                        Editor del Home
+                    </h1>
 
 
-                {/* FEATURES */}
+                    {/* HERO */}
 
-                <div className="adminhome-section">
+                    <div className="adminhome-section">
 
-                    <h2 className="adminhome-subtitle">
-                        Features
-                    </h2>
+                        <h2 className="adminhome-subtitle">
+                            Hero Section
+                        </h2>
 
-                    <div className="adminhome-card">
-
-                        {features.map(f => (
-
-                        <div key={f.id} className="feature-row">
-
-                            <span>{f.icon}</span>
+                        <div className="adminhome-card">
 
                             <input
-                                value={f.title}
-                                onChange={(e) => {
+                                className="adminhome-input"
+                                placeholder="Título"
+                                value={hero.title}
+                                onChange={(e) =>
+                                    setHero({...hero, title: e.target.value})
+                                }
+                            />
 
-                                    const updated = {...f, title: e.target.value}
-
-                                    setFeatures(
-                                        features.map(x =>
-                                            x.id === f.id ? updated : x
-                                        )
-                                    )
-
-                                }}
+                            <textarea
+                                className="adminhome-textarea"
+                                placeholder="Descripción"
+                                value={hero.description}
+                                onChange={(e) =>
+                                    setHero({...hero, description: e.target.value})
+                                }
                             />
 
                             <input
-                                value={f.text}
-                                onChange={(e) => {
-
-                                    const updated = {...f, text: e.target.value}
-
-                                    setFeatures(
-                                        features.map(x =>
-                                            x.id === f.id ? updated : x
-                                        )
-                                    )
-
-                                }}
+                                className="adminhome-input"
+                                placeholder="Texto botón"
+                                value={hero.button_text}
+                                onChange={(e) =>
+                                    setHero({...hero, button_text: e.target.value})
+                                }
                             />
 
                             <button
                                 className="adminhome-btn"
-                                onClick={() => updateFeature(f)}
+                                onClick={saveHero}
                             >
-                                Editar
-                            </button>
-
-                            <button
-                                className="adminhome-btn adminhome-btn-delete"
-                                onClick={() => deleteFeature(f.id)}
-                            >
-                                Borrar
+                                Guardar Hero
                             </button>
 
                         </div>
 
-                        ))}
+                    </div>
 
-                        <h3 className="adminhome-subtitle">
-                            Agregar Feature
-                        </h3>
 
-                        <input
-                            className="adminhome-input"
-                            placeholder="Icono"
-                            value={newFeature.icon}
-                            onChange={(e)=>
-                                setNewFeature({...newFeature, icon:e.target.value})
-                            }
-                        />
+                    {/* CARRUSEL */}
 
-                        <input
-                            className="adminhome-input"
-                            placeholder="Título"
-                            value={newFeature.title}
-                            onChange={(e)=>
-                                setNewFeature({...newFeature, title:e.target.value})
-                            }
-                        />
+                    <div className="adminhome-section">
 
-                        <input
-                            className="adminhome-input"
-                            placeholder="Texto"
-                            value={newFeature.text}
-                            onChange={(e)=>
-                                setNewFeature({...newFeature, text:e.target.value})
-                            }
-                        />
+                        <h2 className="adminhome-subtitle">
+                            Carrusel
+                        </h2>
 
-                        <button
-                            className="adminhome-btn"
-                            onClick={addFeature}
-                        >
-                            + Agregar Feature
-                        </button>
+                        <div className="adminhome-card">
+
+                            <input
+                                type="file"
+                                className="adminhome-input"
+                                onChange={(e)=>setNewImage(e.target.files[0])}
+                            />
+
+                            <button
+                                className="adminhome-btn"
+                                onClick={uploadImage}
+                            >
+                                Subir imagen
+                            </button>
+
+                            <div className="carousel-admin-grid">
+
+                                {carousel.map(img => (
+
+                                    <div key={img.id}>
+
+                                        <img src={img.image_url} />
+
+                                        <button
+                                            className="adminhome-btn adminhome-btn-delete"
+                                            onClick={()=>deleteImage(img.id)}
+                                        >
+                                            Eliminar
+                                        </button>
+
+                                    </div>
+
+                                ))}
+
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
 
-            </main>
+                    {/* FEATURES */}
 
-        </div>
+                    <div className="adminhome-section">
+
+                        <h2 className="adminhome-subtitle">
+                            Features
+                        </h2>
+
+                        <div className="adminhome-card">
+
+                            {features.map(f => (
+
+                            <div key={f.id} className="feature-row">
+
+                                <span>{f.icon}</span>
+
+                                <input
+                                    value={f.title}
+                                    onChange={(e) => {
+
+                                        const updated = {...f, title: e.target.value}
+
+                                        setFeatures(
+                                            features.map(x =>
+                                                x.id === f.id ? updated : x
+                                            )
+                                        )
+
+                                    }}
+                                />
+
+                                <input
+                                    value={f.text}
+                                    onChange={(e) => {
+
+                                        const updated = {...f, text: e.target.value}
+
+                                        setFeatures(
+                                            features.map(x =>
+                                                x.id === f.id ? updated : x
+                                            )
+                                        )
+
+                                    }}
+                                />
+
+                                <button
+                                    className="adminhome-btn"
+                                    onClick={() => updateFeature(f)}
+                                >
+                                    Editar
+                                </button>
+
+                                <button
+                                    className="adminhome-btn adminhome-btn-delete"
+                                    onClick={() => deleteFeature(f.id)}
+                                >
+                                    Borrar
+                                </button>
+
+                            </div>
+
+                            ))}
+
+                            <h3 className="adminhome-subtitle">
+                                Agregar Feature
+                            </h3>
+
+                            <input
+                                className="adminhome-input"
+                                placeholder="Icono"
+                                value={newFeature.icon}
+                                onChange={(e)=>
+                                    setNewFeature({...newFeature, icon:e.target.value})
+                                }
+                            />
+
+                            <input
+                                className="adminhome-input"
+                                placeholder="Título"
+                                value={newFeature.title}
+                                onChange={(e)=>
+                                    setNewFeature({...newFeature, title:e.target.value})
+                                }
+                            />
+
+                            <input
+                                className="adminhome-input"
+                                placeholder="Texto"
+                                value={newFeature.text}
+                                onChange={(e)=>
+                                    setNewFeature({...newFeature, text:e.target.value})
+                                }
+                            />
+
+                            <button
+                                className="adminhome-btn"
+                                onClick={addFeature}
+                            >
+                                + Agregar Feature
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </main>
+
+            </div>
+        </>
 
     );
 }
