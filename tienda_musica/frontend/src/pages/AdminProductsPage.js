@@ -103,6 +103,7 @@ function AdminProducts() {
         });
 
         setProductos(productos.filter(p => p.id !== id));
+        showNotification("Se ha eliminado el producto");
     };
 
     // =============================

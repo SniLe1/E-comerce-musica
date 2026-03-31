@@ -28,6 +28,17 @@ Sistema web de comercio electrónico para la venta de música en formato **digit
 
 ---
 
+
+## 🛠️ Instalaciones
+
+- **python -m pip install django-cors-headers**
+- **pip install djangorestframework**
+- **pip install djangorestframework-simplejwt**
+- **pip install psycopg2**
+- **python -m pip install Pillow**
+
+---
+
 ## 📁 Estructura del proyecto (resumen)
 
 
