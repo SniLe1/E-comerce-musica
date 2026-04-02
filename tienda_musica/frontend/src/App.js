@@ -12,6 +12,7 @@ import Toast from "./components/Toast";
 import AdminPage from "./pages/AdminPage";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminProductsPage from "./pages/AdminProductsPage";
+import AboutPage from "./pages/AboutPage";
 import { CartProvider } from "./components/CartContext";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
@@ -53,6 +54,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/activate/:uid/:token" element={<Activate />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route
               path="/admin"
               element={
