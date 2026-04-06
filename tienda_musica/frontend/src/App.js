@@ -13,6 +13,7 @@ import AdminPage from "./pages/AdminPage";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import { CartProvider } from "./components/CartContext";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
@@ -55,6 +56,7 @@ function App() {
             <Route path="/activate/:uid/:token" element={<Activate />} />
             <Route path="/products" element={<Products />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route
               path="/admin"
               element={

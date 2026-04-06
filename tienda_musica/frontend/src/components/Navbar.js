@@ -48,7 +48,7 @@ function Navbar() {
             <ul className="nav-links-left">
               <li><Link to="/products">Catálogo</Link></li>
               <li><Link to="/about">Nosotros</Link></li>
-              <li><Link to="/contacto">Contacto</Link></li>
+              <li><Link to="/contact">Contacto</Link></li>
             </ul>
           </div>
 
