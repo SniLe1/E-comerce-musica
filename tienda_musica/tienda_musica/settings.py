@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cart', #--- Agrega la aplicación de carrito para manejar la funcionalidad de compras
     'orders', #--- Agrega la aplicación de pedidos para manejar el proceso de compra y gestión de pedidos
     'HomeConfig',
+    'contacto', #--- Agrega la aplicación de contacto para manejar los mensajes de los usuarios
 ]
 
 MIDDLEWARE = [
