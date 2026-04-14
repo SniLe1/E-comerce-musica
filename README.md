@@ -1095,3 +1095,80 @@ Se añadieron las mismas notificaicones al admin de home
 
 
 -->**Correccion al editar producto(Slug)**
+
+Cuando se editaba el titulo del producto, el slug que se genera no se edita tambien, para corregir esto se hizo el siguiente codigo en **serializer.py**
+
+     def update(self, instance, validated_data):
+        instance.titulo = validated_data.get('titulo', instance.titulo)
+        
+        #Actualiza slug si el título ha cambiado
+        instance.slug = slugify(instance.titulo)
+        
+        instance.artista = validated_data.get("artista", instance.artista)
+        instance.descripcion = validated_data.get("descripcion", instance.descripcion)
+        instance.formato = validated_data.get("formato", instance.formato)
+        instance.precio = validated_data.get("precio", instance.precio)
+        instance.stock = validated_data.get("stock", instance.stock)
+        
+        instance.save()
+        return instance
+
+Al usar **method: "PATCH"** django hacia esto automaticamente: 
+
+     def update(self, instance, validated_data):
+          # actualiza SOLO lo que viene en la request
+
+Esto cambiaba el titulo pero no el slug, ya que django no sabe que cuando se edita el titulo tambien el slug. Al agregar **instance.slug = slugify(instance.titulo)**
+le estamos diciendo a django "Cada vez que actualices el tutlo, actualiza tambien el slug".
+
+
+## Martes 14 de Abril ## 
+
+Se hizo la pagina de **Nosotros** y la de **Contactos**
+
+En la pagian de contactos se realizo una funcion para enviar preguntas al correo de la empresa, para eso se realizo el siguuiente codigo:
+
+
+-->**Modelo**
+
+     class Contacto(models.Model):
+          nombre = models.CharField(max_length=100)
+          email = models.EmailField()
+          mensaje = models.TextField()
+
+          leido = models.BooleanField(default=False)
+          respondido = models.BooleanField(default=False)
+
+          creado_en = models.DateTimeField(auto_now_add=True)
+
+-->**POST**
+
+     @api_view(["POST"])
+          def enviar_contacto(request):
+          nombre = request.data.get("nombre")
+          email = request.data.get("email")
+          mensaje = request.data.get("mensaje")
+
+          if not nombre or not email or not mensaje:
+               return Response({"error": "Faltan datos"}, status=400)
+
+          # 🔥 Guardar en DB
+          Contacto.objects.create(
+               nombre=nombre,
+               email=email,
+               mensaje=mensaje
+          )
+
+          # 📩 Enviar correo
+          send_mail(
+               subject=f"Nuevo mensaje de {nombre}",
+               message=mensaje,
+               from_email=email,
+               recipient_list=["gonzaandres1251@gmail.com"],
+          )
+
+          return Response({"success": "Mensaje enviado"})
+
+Para la siguiente version se va mejorar como se ve el mensaje en el correo y en el admin se podran ver los mensajes de los usuarios y responderlos.
+
+
