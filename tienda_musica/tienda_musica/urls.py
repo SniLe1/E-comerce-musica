@@ -24,7 +24,7 @@ urlpatterns = [
     #CRUD endpoints
     path('api/home/', include('HomeConfig.urls')),
     
-    path('api/contacto', include('contacto.urls'))
+    path('api/contacto/', include('contacto.urls'))
     
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

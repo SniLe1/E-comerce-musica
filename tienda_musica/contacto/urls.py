@@ -1,7 +1,8 @@
+from django.db import router
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import ContactoViewSet
+from .views import ContactoViewSet, enviar_contacto
 
-router = DefaultRouter()
-router.register(r'contacto', ContactoViewSet)
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('', enviar_contacto, name='enviar_contacto'),
+]
