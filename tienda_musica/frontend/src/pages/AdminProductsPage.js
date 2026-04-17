@@ -167,7 +167,7 @@ function AdminProducts() {
                     <ul>
                         <li><a href="/admin/home">Modificar Home</a></li>
                         <li><a href="/admin/products">Catálogo de Productos</a></li>
-                        <li><a href="/admin/navbar">Links del Navbar</a></li>
+                        <li><a href="/admin/contact">Mensajes</a></li>
                     </ul>
 
                     <div className="admin-products-back">

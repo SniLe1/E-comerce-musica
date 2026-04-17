@@ -1,0 +1,289 @@
+/* ================= BASE ================= */
+
+.admin-messages-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0a3d4f;
+  font-family: Arial, sans-serif;
+}
+
+/* ================= SIDEBAR ================= */
+
+.admin-messages-sidebar {
+  width: 250px;
+  background-color: #062c38;
+  color: #ecf0f1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.admin-messages-sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  border-bottom: 1px solid #1abc9c;
+  padding-bottom: 10px;
+}
+
+.admin-messages-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-messages-sidebar li {
+  margin: 15px 0;
+}
+
+.admin-messages-sidebar a {
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.admin-messages-sidebar a:hover {
+  color: #1abc9c;
+}
+
+.admin-messages-back {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #1abc9c;
+}
+
+.admin-messages-back a {
+  color: #1abc9c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ================= MAIN ================= */
+
+.admin-messages-main {
+  flex: 1;
+  padding: 40px;
+  color: #ecf0f1;
+}
+
+/* ================= LISTA ================= */
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ================= CARD MENSAJE ================= */
+
+.message-card {
+  background-color: #062c38;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #1abc9c;
+  transition: transform 0.2s ease;
+}
+
+.message-card:hover {
+  transform: translateY(-3px);
+}
+
+/* HEADER */
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.message-header h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.message-header span {
+  font-size: 13px;
+  color: #bdc3c7;
+}
+
+/* EMAIL */
+
+.message-email {
+  font-size: 14px;
+  color: #1abc9c;
+  margin-bottom: 10px;
+}
+
+/* MENSAJE */
+
+.message-text {
+  font-size: 14px;
+  color: #ecf0f1;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* ESTADOS */
+
+.message-status {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.badge.leido {
+  background-color: #3498db;
+}
+
+.badge.no-leido {
+  background-color: #7f8c8d;
+}
+
+.badge.respondido {
+  background-color: #2ecc71;
+}
+
+/* ================= ACTIONS ================= */
+
+.message-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.message-actions button {
+  flex: 1;
+  padding: 6px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.message-actions button:first-child {
+  background-color: #1abc9c;
+  color: white;
+}
+
+.message-actions button:last-child {
+  background-color: #e67e22;
+  color: white;
+}
+
+/* ================= MODAL ================= */
+
+.pico-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.pico {
+  background: #062c38;
+  color: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 400px;
+  border: 1px solid #1abc9c;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ================= FORM ================= */
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-row label {
+  font-weight: bold;
+}
+
+.form-row textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* ================= NOTIFICACION ================= */
+
+.toast_pro {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+
+  display: inline-flex !important;
+  width: fit-content !important;
+  max-width: 300px !important;
+
+  padding: 12px 18px;
+  border-radius: 8px;
+
+  color: white;
+  font-weight: bold;
+
+  z-index: 999999;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background: #2ecc71;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* estados */
+.toast_pro.show {
+  animation: slideFadeIn 0.3s ease forwards;
+}
+
+.toast_pro.hide {
+  animation: slideFadeOut 0.3s ease forwards;
+}
+
+/* colores */
+.toast_pro.success {
+  background-color: #2ecc71;
+}
+
+.toast_pro.error {
+  background-color: #e74c3c;
+}
+
+/* animación */
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}

@@ -14,6 +14,7 @@ import AdminHomePage from "./pages/AdminHomePage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import AdminContact from "./admin/AdminContact";
 import { CartProvider } from "./components/CartContext";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
@@ -93,6 +94,15 @@ function App() {
                 />
               }
             />
+            <Route
+              path="/admin/contact"
+              element={
+                <PrivateAdminRoute>
+                  <AdminContact />
+                </PrivateAdminRoute>
+              }
+            />
+
           </Routes>
         </main>
 

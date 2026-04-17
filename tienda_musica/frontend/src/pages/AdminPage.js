@@ -10,7 +10,7 @@ function AdminPage() {
             <ul>
                 <li><Link to="/admin/home">Modificar Home</Link></li>
                 <li><Link to="/admin/products">Catálogo de Productos</Link></li>
-                <li><Link to="/admin/navbar">Links del Navbar</Link></li>
+                <li><Link to="/admin/contact">Mensajes</Link></li>
             </ul>
             {/* Botón volver */}
             <div className="admin-back">

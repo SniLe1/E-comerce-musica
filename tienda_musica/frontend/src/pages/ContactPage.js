@@ -25,7 +25,7 @@ function ContactPage() {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/contacto/", {
+      const res = await fetch("http://localhost:8000/api/contacto/enviar/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

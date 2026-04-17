@@ -1172,3 +1172,6 @@ En la pagian de contactos se realizo una funcion para enviar preguntas al correo
 Para la siguiente version se va mejorar como se ve el mensaje en el correo y en el admin se podran ver los mensajes de los usuarios y responderlos.
 
 
+## Viernes 17 de Abril ## 
+
+Se creo la pagina de **AdminContact** donde se podra revisar los mensajes de los usuarios y responderlos, ademas de creear una carpeta de admin donde se dejaran todas las paginas de administrador para hacerlo todo mas ordenado.
