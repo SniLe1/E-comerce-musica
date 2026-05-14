@@ -45,18 +45,6 @@
   color: #1abc9c;
 }
 
-.admin-products-back {
-  margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px solid #1abc9c;
-}
-
-.admin-products-back a {
-  color: #1abc9c;
-  text-decoration: none;
-  font-weight: bold;
-}
-
 /* ================= MAIN ================= */
 
 .admin-products-main {
@@ -72,7 +60,7 @@
   padding-bottom: 15px;
 }
 
-/* ================= INBOX ================= */
+/* ================= FILTER BAR ================= */
 
 .filter-bar {
   display: flex;
@@ -115,192 +103,309 @@
   color: #fff;
 }
 
-.filter-date {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
+/* ================= GRID LAYOUT ================= */
+
+.adminpro-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 30px;
+  align-items: start;
 }
 
-.filter-date label {
-  font-size: 13px;
-  color: #95a5a6;
+/* ================= LISTA DE PRODUCTOS ================= */
+
+.adminpro-list-section {
+  min-width: 0;
+}
+
+.adminpro-subtitle {
+  font-size: 18px;
+  color: #1abc9c;
+  margin-bottom: 15px;
   font-weight: 600;
 }
 
-.filter-date input[type="date"] {
-  padding: 8px 12px;
+.products-grid-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+/* ================= CARD PRODUCTO ================= */
+
+.product-card-admin {
+  background: #062c38;
+  border: 1px solid rgba(26, 188, 156, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-admin:hover {
+  border-color: rgba(26, 188, 156, 0.4);
+  transform: translateY(-2px);
+}
+
+.product-card-img-wrap {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.product-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-card-body {
+  padding: 12px 14px;
+  flex: 1;
+}
+
+.product-card-body h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ecf0f1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.product-card-body p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+.product-formato {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: rgba(26, 188, 156, 0.15);
+  color: #1abc9c;
+  margin-right: 6px;
+}
+
+.product-precio {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ecf0f1;
+}
+
+/* ================= ACCIONES ================= */
+
+.product-actions {
+  display: flex;
+  gap: 6px;
+  padding: 0 14px 12px;
+}
+
+.product-actions button {
+  flex: 1;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.adminpro-btn-edit {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: #fff;
+}
+
+.adminpro-btn-edit:hover {
+  background: linear-gradient(135deg, #16a085, #138e76);
+}
+
+.adminpro-btn-delete {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.adminpro-btn-delete:hover {
+  background: rgba(231, 76, 60, 0.3);
+}
+
+/* ================= PANEL CREAR ================= */
+
+.adminpro-create-section {
+  position: sticky;
+  top: 40px;
+}
+
+.adminpro-create-card {
+  background: #062c38;
+  border: 1px solid rgba(26, 188, 156, 0.2);
+  border-radius: 10px;
+  padding: 22px;
+  transition: border-color 0.2s ease;
+}
+
+.adminpro-create-card:hover {
+  border-color: rgba(26, 188, 156, 0.4);
+}
+
+.adminpro-create-card h3 {
+  margin: 0 0 15px;
+  font-size: 18px;
+  color: #1abc9c;
+  font-weight: 600;
+}
+
+/* ================= INPUTS ================= */
+
+.adminpro-input {
+  width: 100%;
+  padding: 9px 11px;
+  margin-bottom: 10px;
   background: rgba(6, 44, 56, 0.8);
   border: 1px solid rgba(26, 188, 156, 0.3);
-  border-radius: 8px;
+  border-radius: 7px;
   color: #ecf0f1;
   font-size: 13px;
   font-family: inherit;
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
-.filter-date input[type="date"]:focus {
+.adminpro-input:focus {
   border-color: #1abc9c;
 }
 
-.filter-date input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.7);
-  cursor: pointer;
+.adminpro-input::placeholder {
+  color: #7f8c8d;
 }
 
-.clear-date-btn {
-  position: absolute;
-  right: 8px;
-  background: none;
+.adminpro-input option {
+  background: #062c38;
+  color: #ecf0f1;
+}
+
+/* ================= TEXTAREA ================= */
+
+.adminpro-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 9px 11px;
+  margin-bottom: 10px;
+  background: rgba(6, 44, 56, 0.8);
+  border: 1px solid rgba(26, 188, 156, 0.3);
+  border-radius: 7px;
+  color: #ecf0f1;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.adminpro-textarea:focus {
+  border-color: #1abc9c;
+}
+
+.adminpro-textarea::placeholder {
+  color: #7f8c8d;
+}
+
+/* ================= FILE INPUT ================= */
+
+.adminpro-input-file {
+  width: 100%;
+  padding: 7px;
+  margin-bottom: 10px;
+  color: #7f8c8d;
+  font-size: 12px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.adminpro-input-file::file-selector-button {
+  padding: 5px 12px;
   border: none;
-  color: #e74c3c;
-  font-size: 20px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
   cursor: pointer;
-  padding: 0 4px;
-  line-height: 1;
+  margin-right: 10px;
+  transition: opacity 0.2s;
 }
 
-.clear-date-btn:hover {
-  color: #c0392b;
+.adminpro-input-file::file-selector-button:hover {
+  opacity: 0.85;
 }
 
-.messages-inbox {
-  display: flex;
-  flex-direction: column;
+/* ================= INLINE GROUP ================= */
+
+.adminpro-inline-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-/* ================= CARD MENSAJE ================= */
+/* ================= BOTON CREAR ================= */
 
-.message-card {
-  background: #062c38;
-  border: 1px solid rgba(26, 188, 156, 0.2);
-  border-radius: 10px;
-  padding: 18px 20px;
+.adminpro-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
-}
-
-.message-card:hover {
-  background: #0a3d4f;
-  border-color: rgba(26, 188, 156, 0.4);
-  transform: translateX(4px);
-}
-
-.message-card.unread {
-  background: rgba(26, 188, 156, 0.08);
-  border-left: 3px solid #1abc9c;
-}
-
-.message-card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.message-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
   background: linear-gradient(135deg, #1abc9c, #16a085);
   color: #fff;
-  display: flex;
+  margin-top: 4px;
+}
+
+.adminpro-btn:hover {
+  background: linear-gradient(135deg, #16a085, #138e76);
+}
+
+/* ================= FORM ROW (MODAL) ================= */
+
+.form-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
   align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 16px;
-  flex-shrink: 0;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.message-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.message-info h4 {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: #ecf0f1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.message-email-preview {
+.form-row label {
   font-size: 13px;
-  color: #7f8c8d;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.message-meta {
-  flex-shrink: 0;
-}
-
-.message-date {
-  font-size: 12px;
-  color: #95a5a6;
-}
-
-.message-preview {
-  margin: 0;
-  font-size: 14px;
-  color: #bdc3c7;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.message-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-}
-
-.message-badges {
-  display: flex;
-  gap: 8px;
-}
-
-.badge {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: #1abc9c;
+  text-align: left;
 }
 
-.badge-new {
-  background: rgba(52, 152, 219, 0.2);
-  color: #3498db;
-  border: 1px solid rgba(52, 152, 219, 0.3);
+.form-row .adminpro-input,
+.form-row .adminpro-textarea,
+.form-row .adminpro-input-file {
+  margin-bottom: 0;
 }
 
-.badge-responded {
-  background: rgba(46, 204, 113, 0.2);
-  color: #2ecc71;
-  border: 1px solid rgba(46, 204, 113, 0.3);
-}
-
-.unread-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #1abc9c;
-  box-shadow: 0 0 8px rgba(26, 188, 156, 0.6);
-}
-
-/* ================= MODAL ================= */
+/* ================= MODAL (REUSANDO ESTILOS DE AdminContact) ================= */
 
 .message-modal-overlay {
   position: fixed;
@@ -327,7 +432,7 @@
   border: 1px solid rgba(26, 188, 156, 0.3);
   border-radius: 16px;
   width: 90%;
-  max-width: 550px;
+  max-width: 520px;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
@@ -355,30 +460,11 @@
   position: relative;
 }
 
-.message-modal-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1abc9c, #16a085);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
 .message-modal-info h3 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
   color: #ecf0f1;
-}
-
-.message-modal-info span {
-  font-size: 14px;
-  color: #7f8c8d;
 }
 
 .modal-close-btn {
@@ -425,81 +511,16 @@
   background: #1abc9c;
 }
 
-.message-modal-date {
-  margin: 0;
-  padding: 12px 25px;
-  font-size: 13px;
-  color: #7f8c8d;
-  background: rgba(26, 188, 156, 0.05);
-  border-bottom: 1px solid rgba(26, 188, 156, 0.1);
-}
-
 .message-modal-body {
-  padding: 25px;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #ecf0f1;
+  padding: 22px 25px;
   overflow-y: auto;
   flex: 1;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.message-modal-reply {
-  padding: 0 25px 20px;
-  border-top: 1px solid rgba(26, 188, 156, 0.15);
-  padding-top: 20px;
-}
-
-.message-modal-reply label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #1abc9c;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.reply-textarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 12px;
-  background: rgba(6, 44, 56, 0.8);
-  border: 1px solid rgba(26, 188, 156, 0.3);
-  border-radius: 8px;
-  color: #ecf0f1;
-  font-size: 14px;
-  font-family: inherit;
-  line-height: 1.5;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-}
-
-.reply-textarea:focus {
-  border-color: #1abc9c;
-}
-
-.reply-textarea::placeholder {
-  color: #7f8c8d;
-}
-
-.already-responded {
-  flex: 1;
-  text-align: center;
-  font-size: 13px;
-  color: #2ecc71;
-  padding: 10px;
-  background: rgba(46, 204, 113, 0.1);
-  border-radius: 8px;
 }
 
 .message-modal-actions {
   display: flex;
   gap: 10px;
-  padding: 20px 25px;
+  padding: 18px 25px;
   border-top: 1px solid rgba(26, 188, 156, 0.15);
 }
 
@@ -519,22 +540,8 @@
   color: #fff;
 }
 
-.btn-send-reply:hover:not(:disabled) {
+.btn-send-reply:hover {
   background: linear-gradient(135deg, #16a085, #138e76);
-}
-
-.btn-send-reply:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-mark-read {
-  background: #3498db;
-  color: #fff;
-}
-
-.btn-mark-read:hover {
-  background: #2980b9;
 }
 
 .btn-modal-close {
@@ -544,17 +551,6 @@
 
 .btn-modal-close:hover {
   background: rgba(149, 165, 166, 0.3);
-}
-
-.btn-delete {
-  background: rgba(231, 76, 60, 0.2);
-  color: #e74c3c;
-  border: 1px solid rgba(231, 76, 60, 0.3) !important;
-  max-width: 100px;
-}
-
-.btn-delete:hover {
-  background: rgba(231, 76, 60, 0.3) !important;
 }
 
 /* ================= NOTIFICACION ================= */
@@ -610,5 +606,17 @@
   to {
     opacity: 0;
     transform: translateY(-20px);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+  .adminpro-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .adminpro-create-section {
+    position: static;
   }
 }

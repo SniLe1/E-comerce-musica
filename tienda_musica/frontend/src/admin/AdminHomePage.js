@@ -155,7 +155,7 @@ function AdminHomePage() {
     return (
         <>
             {notification && (
-                <div className={`toast_home ${notification.type} ${notification.visible ? "show" : "hide"}`}>
+                <div className={`custom-toast ${notification.type} ${notification.visible ? "show" : "hide"}`}>
                     {notification.message}
                 </div>
             )}
@@ -171,10 +171,10 @@ function AdminHomePage() {
                     <ul>
                         <li><a href="/admin/home">Modificar Home</a></li>
                         <li><a href="/admin/products">Catálogo de Productos</a></li>
-                        <li><a href="/admin/navbar">Links del Navbar</a></li>
+                        <li><a href="/admin/contact">Mensajes</a></li>
                     </ul>
 
-                    <div className="admin-back">
+                    <div className="adminhome-back">
                         <a href="/">⬅ Volver a la tienda</a>
                     </div>
 
@@ -189,97 +189,100 @@ function AdminHomePage() {
                         Editor del Home
                     </h1>
 
+                    <div className="adminhome-grid-2">
 
-                    {/* HERO */}
+                        {/* HERO */}
 
-                    <div className="adminhome-section">
+                        <div className="adminhome-section">
 
-                        <h2 className="adminhome-subtitle">
-                            Hero Section
-                        </h2>
+                            <h2 className="adminhome-subtitle">
+                                Hero Section
+                            </h2>
 
-                        <div className="adminhome-card">
+                            <div className="adminhome-card">
 
-                            <input
-                                className="adminhome-input"
-                                placeholder="Título"
-                                value={hero.title}
-                                onChange={(e) =>
-                                    setHero({...hero, title: e.target.value})
-                                }
-                            />
+                                <input
+                                    className="adminhome-input"
+                                    placeholder="Título"
+                                    value={hero.title}
+                                    onChange={(e) =>
+                                        setHero({...hero, title: e.target.value})
+                                    }
+                                />
 
-                            <textarea
-                                className="adminhome-textarea"
-                                placeholder="Descripción"
-                                value={hero.description}
-                                onChange={(e) =>
-                                    setHero({...hero, description: e.target.value})
-                                }
-                            />
+                                <textarea
+                                    className="adminhome-textarea"
+                                    placeholder="Descripción"
+                                    value={hero.description}
+                                    onChange={(e) =>
+                                        setHero({...hero, description: e.target.value})
+                                    }
+                                />
 
-                            <input
-                                className="adminhome-input"
-                                placeholder="Texto botón"
-                                value={hero.button_text}
-                                onChange={(e) =>
-                                    setHero({...hero, button_text: e.target.value})
-                                }
-                            />
+                                <input
+                                    className="adminhome-input"
+                                    placeholder="Texto botón"
+                                    value={hero.button_text}
+                                    onChange={(e) =>
+                                        setHero({...hero, button_text: e.target.value})
+                                    }
+                                />
 
-                            <button
-                                className="adminhome-btn"
-                                onClick={saveHero}
-                            >
-                                Guardar Hero
-                            </button>
+                                <button
+                                    className="adminhome-btn"
+                                    onClick={saveHero}
+                                >
+                                    Guardar Hero
+                                </button>
+
+                            </div>
 
                         </div>
 
-                    </div>
 
+                        {/* CARRUSEL */}
 
-                    {/* CARRUSEL */}
+                        <div className="adminhome-section">
 
-                    <div className="adminhome-section">
+                            <h2 className="adminhome-subtitle">
+                                Carrusel
+                            </h2>
 
-                        <h2 className="adminhome-subtitle">
-                            Carrusel
-                        </h2>
+                            <div className="adminhome-card">
 
-                        <div className="adminhome-card">
+                                <input
+                                    type="file"
+                                    className="adminhome-input"
+                                    onChange={(e)=>setNewImage(e.target.files[0])}
+                                />
 
-                            <input
-                                type="file"
-                                className="adminhome-input"
-                                onChange={(e)=>setNewImage(e.target.files[0])}
-                            />
+                                <button
+                                    className="adminhome-btn"
+                                    onClick={uploadImage}
+                                >
+                                    Subir imagen
+                                </button>
 
-                            <button
-                                className="adminhome-btn"
-                                onClick={uploadImage}
-                            >
-                                Subir imagen
-                            </button>
+                                <div className="carousel-admin-grid">
 
-                            <div className="carousel-admin-grid">
+                                    {carousel.map(img => (
 
-                                {carousel.map(img => (
+                                        <div key={img.id} className="carousel-admin-item">
 
-                                    <div key={img.id}>
+                                            <img src={img.image_url} alt=""/>
 
-                                        <img src={img.image_url} alt=""/>
+                                            <button
+                                                className="adminhome-btn adminhome-btn-delete"
+                                                onClick={()=>deleteImage(img.id)}
+                                            >
+                                                Eliminar
+                                            </button>
 
-                                        <button
-                                            className="adminhome-btn adminhome-btn-delete"
-                                            onClick={()=>deleteImage(img.id)}
-                                        >
-                                            Eliminar
-                                        </button>
+                                        </div>
 
-                                    </div>
+                                    ))}
 
-                                ))}
+                                </div>
 
                             </div>
 
@@ -302,9 +305,10 @@ function AdminHomePage() {
 
                             <div key={f.id} className="feature-row">
 
-                                <span>{f.icon}</span>
+                                <span className="feature-icon">{f.icon}</span>
 
                                 <input
+                                    className="feature-input"
                                     value={f.title}
                                     onChange={(e) => {
 
@@ -320,6 +324,7 @@ function AdminHomePage() {
                                 />
 
                                 <input
+                                    className="feature-input"
                                     value={f.text}
                                     onChange={(e) => {
 
@@ -335,7 +340,7 @@ function AdminHomePage() {
                                 />
 
                                 <button
-                                    className="adminhome-btn"
+                                    className="adminhome-btn feature-edit-btn"
                                     onClick={() => updateFeature(f)}
                                 >
                                     Editar
@@ -351,6 +356,8 @@ function AdminHomePage() {
                             </div>
 
                             ))}
+
+                            <div className="feature-divider"></div>
 
                             <h3 className="adminhome-subtitle">
                                 Agregar Feature

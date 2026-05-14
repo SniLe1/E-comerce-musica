@@ -36,6 +36,30 @@ Sistema web de comercio electrónico para la venta de música en formato **digit
 - **pip install djangorestframework-simplejwt**
 - **pip install psycopg2**
 - **python -m pip install Pillow**
+- **pip install python-dotenv**
+
+---
+
+## 🔐 Variables de entorno (seguridad)
+
+Este proyecto usa `python-dotenv` para manejar credenciales sensibles.
+
+1. **Crear archivo `.env`** dentro de `tienda_musica/`:
+   ```
+   tienda_musica/
+   └── .env
+   ```
+
+2. **Agregar las siguientes variables**:
+   ```env
+   DJANGO_SECRET_KEY=<tu-clave-secreta>
+   DB_PASSWORD=<tu-contraseña-postgresql>
+   EMAIL_HOST_PASSWORD=<tu-contraseña-gmail>
+   ```
+
+3. **Nunca subir `.env` al repositorio** (ya está en `.gitignore`)
+
+> 💡 Existe un archivo `.env.example` en `tienda_musica/` como plantilla. Cópialo a `.env` y rellena los valores reales.
 
 ---
 
@@ -175,9 +199,9 @@ Se arreglo el problema de que no se veian los productos
 cuando de error de node-module se escribe la siguiente linea de comando para que se reinstale el archivo 
 
 Remove-Item -Recurse -Force node_modules
-Remove-Item package-lock.json
-npm install
-npm start
+Remove-Item pnpm-lock.yaml
+corepack pnpm install
+corepack pnpm start
 
 ## Jueves 12 de febrero: Corregir home page y agregar navbar ##
 
@@ -1175,3 +1199,60 @@ Para la siguiente version se va mejorar como se ve el mensaje en el correo y en 
 ## Viernes 17 de Abril ## 
 
 Se creo la pagina de **AdminContact** donde se podra revisar los mensajes de los usuarios y responderlos, ademas de creear una carpeta de admin donde se dejaran todas las paginas de administrador para hacerlo todo mas ordenado.
+
+## Miércoles 6 de Mayo ##
+
+### 🔐 Variables de entorno (.env)
+Se eliminaron las credenciales hardcoded de `settings.py` (SECRET_KEY, DB_PASSWORD, EMAIL_HOST_PASSWORD) y se migraron a variables de entorno usando `python-dotenv`.
+- Se creó el archivo `.env` con las credenciales reales (ignorado por git).
+- Se creó `.env.example` como plantilla para otros desarrolladores.
+- Se añadió `.gitignore` en `tienda_musica/` para asegurar que `.env` nunca se commitee.
+
+### 🎨 Rediseño de tarjetas de mensajes (AdminContact)
+Se mejoró la interfaz de mensajes de contacto con un estilo tipo bandeja de entrada moderna:
+- Avatar circular con la inicial del nombre del remitente.
+- Vista previa del mensaje truncada a 2 líneas.
+- Fecha de envío en formato localizado.
+- Indicador visual para mensajes no leídos (borde verde + punto luminoso).
+- Badges elegantes para "Nuevo" y "Respondido".
+- Modal rediseñado con animaciones, blur de fondo y botón de cerrar estilizado.
+- Corrección de conflictos con clases CSS de Bootstrap (`.btn-close`).
+
+### 📧 Respuesta a mensajes desde el panel admin
+Se habilitó la funcionalidad de responder mensajes directamente desde el modal de AdminContact:
+- **Backend**: Corregido el endpoint `responder_contacto` (faltaba el decorador `@api_view`), ahora envía emails con formato HTML profesional al cliente.
+- **Frontend**: Añadido un **textarea** en el modal para escribir la respuesta. Al enviar, hace POST a `/api/contacto/responder/<id>/`, marca el mensaje como respondido y cierra el modal.
+- **UX**: Si el mensaje ya fue respondido, el textarea se oculta y se muestra "Ya respondido". El botón cambia a "Enviando..." mientras se procesa.
+- **Validación**: No permite enviar respuestas vacías y maneja errores con notificaciones toast.
+
+## Jueves 14 de Mayo ##
+
+### 🗑️ Eliminación de mensajes desde el modal
+Se añadió un botón **"Eliminar"** (rojo) en el modal de cada mensaje que permite borrar mensajes de contacto permanentemente:
+- **Backend**: usa el método `DELETE` del `ModelViewSet` ya existente en `/api/contacto/<id>/`
+- **Frontend**: pide confirmación con `window.confirm()` antes de borrar, remueve el mensaje del estado y cierra el modal automáticamente.
+- **UX**: notificación toast de éxito o error, botón con estilo rojo transparente que oscurece al hover.
+
+### 🔍 Filtros en AdminContact
+Se añadió una barra de filtros sobre la bandeja de entrada de mensajes:
+- **Orden**: botones "Más recientes" (por defecto) y "Más antiguos" que ordenan por fecha sin recargar.
+- **Fecha específica**: input `date` que filtra mensajes de un día concreto; incluye botón "×" para limpiar el filtro.
+- **Todo client-side**: usa `useMemo` para filtrar/ordenar sobre los datos ya cargados, sin llamadas extra al backend.
+
+### 🎨 Mejora visual de AdminHomePage
+Se rediseñó el editor del Home para que coincida visualmente con el estilo de AdminContact:
+- **Movido** de `pages/AdminHomePage.js` a `admin/AdminHomePage.js` para unificar todas las páginas de administración.
+- **CSS reescrito** con el mismo lenguaje visual: inputs con fondo oscuro y borde teal, cards con bordes y hover, botones con gradient, títulos con borde inferior decorativo.
+- **Toast unificado** usando la misma clase `custom-toast` que AdminContact.
+- **Nuevo layout**: Hero y Carrusel en grid de 2 columnas lado a lado, Features abajo a ancho completo.
+
+### 🎨 Mejora visual de AdminProductsPage
+Se rediseñó el catálogo de productos del panel admin:
+- **Movido** de `pages/AdminProductsPage.js` a `admin/AdminProductsPage.js`.
+- **Nuevo layout**: grid de 2 columnas — productos a la izquierda (grilla responsive), formulario de creación a la derecha (panel fijo sticky).
+- **Modal de edición**: reemplazado el modal antiguo por el mismo estilo que AdminContact (overlay con blur, animación slideUp, inputs oscuros con borde teal, botones gradient).
+- **CSS reescrito** con el mismo lenguaje visual: cards con bordes y hover, inputs/selects oscuros, botones con gradient, toast unificado `custom-toast`.
+- **Responsive**: en pantallas estrechas el layout se apila verticalmente.
+- **Filtro de orden**: barra con botones "Más recientes" / "Más antiguos" que ordena los productos por ID (nuevo = ID más alto) usando `useMemo` client-side, sin llamadas al backend.
+
+

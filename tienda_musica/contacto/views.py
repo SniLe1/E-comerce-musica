@@ -36,18 +36,42 @@ def enviar_contacto(request):
 
     return Response({"success": "Mensaje enviado"})
 
+@api_view(["POST"])
 def responder_contacto(request, pk):
-    mensaje = Contacto.objects.get(pk=pk)
+    try:
+        mensaje = Contacto.objects.get(pk=pk)
+    except Contacto.DoesNotExist:
+        return Response({"error": "Mensaje no encontrado"}, status=404)
+
     respuesta = request.data.get("respuesta")
-    
+
+    if not respuesta or not respuesta.strip():
+        return Response({"error": "La respuesta no puede estar vacía"}, status=400)
+
+    email_html = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
+        <h2 style="color: #1abc9c;">Respuesta a tu mensaje</h2>
+        <p>Hola <strong>{mensaje.nombre}</strong>,</p>
+        <p>Gracias por contactarnos. Aquí tienes nuestra respuesta:</p>
+        <div style="background: #f4f4f4; padding: 15px; border-radius: 8px; border-left: 4px solid #1abc9c; margin: 15px 0;">
+            {respuesta.replace(chr(10), '<br>')}
+        </div>
+        <p>Saludos,<br><strong>Tienda de Música</strong></p>
+    </body>
+    </html>
+    """
+
     send_mail(
-        subject=f"Respuesta a tu mensaje: {mensaje.nombre}",
+        subject=f"Respuesta a tu mensaje - Tienda de Música",
         message=respuesta,
         from_email="gonzaandres1251@gmail.com",
         recipient_list=[mensaje.email],
+        html_message=email_html,
+        fail_silently=False,
     )
-    
+
     mensaje.respondido = True
     mensaje.save()
 
-    return Response({"success": "Respuesta enviada"})
+    return Response({"success": "Respuesta enviada correctamente"})

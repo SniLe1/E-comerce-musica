@@ -28,6 +28,9 @@
       "react-app/jest"
     ]
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["core-js", "core-js-pure"]
+  },
   "browserslist": {
     "production": [
       ">0.2%",

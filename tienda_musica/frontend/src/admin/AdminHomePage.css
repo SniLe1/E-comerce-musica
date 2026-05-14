@@ -1,0 +1,360 @@
+/* ================= BASE ================= */
+
+.adminhome-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0a3d4f;
+  font-family: Arial, sans-serif;
+}
+
+/* ================= SIDEBAR ================= */
+
+.adminhome-sidebar {
+  width: 250px;
+  background-color: #062c38;
+  color: #ecf0f1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.adminhome-sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  border-bottom: 1px solid #1abc9c;
+  padding-bottom: 10px;
+}
+
+.adminhome-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.adminhome-sidebar li {
+  margin: 15px 0;
+}
+
+.adminhome-sidebar a {
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.adminhome-sidebar a:hover {
+  color: #1abc9c;
+}
+
+.adminhome-back {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #1abc9c;
+}
+
+.adminhome-back a {
+  color: #1abc9c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ================= MAIN ================= */
+
+.adminhome-main {
+  flex: 1;
+  padding: 40px;
+  color: #ecf0f1;
+}
+
+.adminhome-title {
+  margin-bottom: 30px;
+  font-size: 28px;
+  border-bottom: 2px solid rgba(26, 188, 156, 0.3);
+  padding-bottom: 15px;
+}
+
+/* ================= SECCIONES ================= */
+
+.adminhome-section {
+  margin-bottom: 40px;
+}
+
+.adminhome-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.adminhome-grid-2 .adminhome-section {
+  margin-bottom: 0;
+}
+
+.adminhome-subtitle {
+  font-size: 18px;
+  color: #1abc9c;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* ================= CARD ================= */
+
+.adminhome-card {
+  background: #062c38;
+  border: 1px solid rgba(26, 188, 156, 0.2);
+  border-radius: 10px;
+  padding: 25px;
+  transition: all 0.2s ease;
+}
+
+.adminhome-card:hover {
+  border-color: rgba(26, 188, 156, 0.4);
+}
+
+/* ================= INPUTS ================= */
+
+.adminhome-input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  background: rgba(6, 44, 56, 0.8);
+  border: 1px solid rgba(26, 188, 156, 0.3);
+  border-radius: 8px;
+  color: #ecf0f1;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.adminhome-input:focus {
+  border-color: #1abc9c;
+}
+
+.adminhome-input::placeholder {
+  color: #7f8c8d;
+}
+
+.adminhome-input[type="file"] {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.adminhome-input[type="file"]::file-selector-button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: opacity 0.2s;
+}
+
+.adminhome-input[type="file"]::file-selector-button:hover {
+  opacity: 0.85;
+}
+
+/* ================= TEXTAREA ================= */
+
+.adminhome-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: rgba(6, 44, 56, 0.8);
+  border: 1px solid rgba(26, 188, 156, 0.3);
+  border-radius: 8px;
+  color: #ecf0f1;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.adminhome-textarea:focus {
+  border-color: #1abc9c;
+}
+
+.adminhome-textarea::placeholder {
+  color: #7f8c8d;
+}
+
+/* ================= BOTONES ================= */
+
+.adminhome-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: #fff;
+  margin-right: 10px;
+}
+
+.adminhome-btn:hover {
+  background: linear-gradient(135deg, #16a085, #138e76);
+}
+
+.adminhome-btn-delete {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.adminhome-btn-delete:hover {
+  background: rgba(231, 76, 60, 0.3);
+}
+
+/* ================= FEATURES ================= */
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: rgba(6, 44, 56, 0.5);
+  border: 1px solid rgba(26, 188, 156, 0.15);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.feature-row:hover {
+  border-color: rgba(26, 188, 156, 0.3);
+}
+
+.feature-icon {
+  font-size: 20px;
+  min-width: 30px;
+  text-align: center;
+  color: #1abc9c;
+}
+
+.feature-input {
+  flex: 1;
+  padding: 8px 10px;
+  background: rgba(6, 44, 56, 0.8);
+  border: 1px solid rgba(26, 188, 156, 0.3);
+  border-radius: 6px;
+  color: #ecf0f1;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.feature-input:focus {
+  border-color: #1abc9c;
+}
+
+.feature-edit-btn {
+  padding: 7px 14px;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.feature-divider {
+  height: 1px;
+  background: rgba(26, 188, 156, 0.2);
+  margin: 20px 0;
+}
+
+/* ================= CARRUSEL ================= */
+
+.carousel-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.adminhome-grid-2 .carousel-admin-grid {
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+}
+
+.carousel-admin-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.carousel-admin-item img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(26, 188, 156, 0.2);
+}
+
+.carousel-admin-item .adminhome-btn-delete {
+  padding: 6px 12px;
+  font-size: 12px;
+  margin-right: 0;
+}
+
+/* ================= NOTIFICACION ================= */
+
+.custom-toast {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  display: inline-flex !important;
+  width: fit-content !important;
+  max-width: 300px !important;
+  padding: 12px 18px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 999999;
+  pointer-events: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.custom-toast.show {
+  animation: slideFadeIn 0.3s ease forwards;
+}
+
+.custom-toast.hide {
+  animation: slideFadeOut 0.3s ease forwards;
+}
+
+.custom-toast.success {
+  background-color: #2ecc71;
+}
+
+.custom-toast.error {
+  background-color: #e74c3c;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
